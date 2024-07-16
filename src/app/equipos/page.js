@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Tarjeta from "@/components/tarjetas/contenedor";
+import TarjetaContenedor from "@/components/tarjetas/contenedor";
 import TarjetaEquipo from "@/components/tarjetas/equipo";
 import SkeletonEquipo from "@/components/skeletons/equipo";
 import { auth } from "@/auth";
@@ -18,8 +18,7 @@ async function Page() {
 
 
     return (
-        <Tarjeta>
-
+        <TarjetaContenedor>
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl">Equipos</h1>
                 <Link
@@ -40,7 +39,7 @@ async function Page() {
                     ))}
             </div>
 
-        </Tarjeta>
+        </TarjetaContenedor>
     );
 }
 

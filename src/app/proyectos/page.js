@@ -1,13 +1,15 @@
+
+import TarjetaProyecto from "@/components/tarjetas/proyecto";
+import SkeletonProyecto from "@/components/skeletons/proyecto"
+import TarjetaContenedor from "@/components/tarjetas/contenedor";
+import Link from "next/link";
+import { Suspense } from "react";
+import { auth } from "@/auth";
 import {
   getProyectosPorId,
   getProyectos,
 } from "@/lib/actions-proyecto";
-import TarjetaProyecto from "@/components/tarjetas/proyecto";
-import TarjetaContenedor from "@/components/tarjetas/contenedor";
-import Link from "next/link";
-import { auth } from "@/auth";
-import { Suspense } from "react";
-import SkeletonProyecto from "@/components/skeletons/proyecto"
+
 
 export const dynamic = "force-dynamic";
 
