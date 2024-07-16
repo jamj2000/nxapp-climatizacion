@@ -40,7 +40,7 @@ function Logo() {
               src="/cli-logo.svg"
               alt="FloWeather Logo"
             />
-            <span className="sm:hidden self-center text-2xl font-semibold whitespace-nowrap text-gray-900 dark:text-gray-100/80">
+            <span className="hidden sm:block self-center text-2xl font-semibold whitespace-nowrap text-gray-900 dark:text-gray-100/80">
               FloWeather
             </span>
           </Link>
