@@ -12,6 +12,8 @@ async function TarjetaProyecto({ proyecto }) {
     nombre = await getNameUser(proyecto.userId);
   }
 
+  // await new Promise( (resolve) => { setTimeout( resolve, 4000) })
+
   return (
     <div className="w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link href={`/proyectos/manage/${proyecto?.id}`}>

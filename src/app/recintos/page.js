@@ -1,10 +1,10 @@
 import Tarjeta from "@/components/tarjetas/contenedor";
-import { getProyectosConInfo } from "@/lib/actions-proyecto";
 import TarjetaRecinto from "@/components/tarjetas/recinto";
-import { auth } from "@/auth";
+import SkeletonRecinto from "@/components/skeletons/recinto"
 import Link from "next/link";
-
-
+import { Suspense } from "react";
+import { auth } from "@/auth";
+import { getProyectosConInfo } from "@/lib/actions-proyecto";
 
 export const dynamic = "force-dynamic";
 
@@ -31,7 +31,9 @@ async function Page() {
         {recintos
           .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
           .map((recinto) => (
-            <TarjetaRecinto key={recinto.id} recinto={recinto} />
+            <Suspense key={recinto.id} fallback={<SkeletonRecinto />}>
+              <TarjetaRecinto  recinto={recinto} />
+            </Suspense>
           ))}
       </div>
 

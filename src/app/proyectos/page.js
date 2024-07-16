@@ -6,6 +6,8 @@ import TarjetaProyecto from "@/components/tarjetas/proyecto";
 import TarjetaContenedor from "@/components/tarjetas/contenedor";
 import Link from "next/link";
 import { auth } from "@/auth";
+import { Suspense } from "react";
+import SkeletonProyecto from "@/components/skeletons/proyecto"
 
 export const dynamic = "force-dynamic";
 
@@ -44,7 +46,9 @@ async function page() {
       </div>
       <div className="flex flex-wrap gap-5 sm:gap-10 items-center justify-center">
         {proyectos.map((proyecto) => (
-          <TarjetaProyecto key={proyecto.id} proyecto={proyecto} />
+          <Suspense key={proyecto.id} fallback={<SkeletonProyecto />}>
+            <TarjetaProyecto proyecto={proyecto} />
+          </Suspense>
         ))}
       </div>
     </TarjetaContenedor>

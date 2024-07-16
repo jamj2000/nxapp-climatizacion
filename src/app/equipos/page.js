@@ -1,9 +1,10 @@
-import Tarjeta from "@/components/tarjetas/contenedor";
-import { getProyectosConInfo } from "@/lib/actions-proyecto";
-import TarjetaEquipo from "@/components/tarjetas/equipo";
-import { auth } from "@/auth";
 import Link from "next/link";
-
+import Tarjeta from "@/components/tarjetas/contenedor";
+import TarjetaEquipo from "@/components/tarjetas/equipo";
+import SkeletonEquipo from "@/components/skeletons/equipo";
+import { auth } from "@/auth";
+import { Suspense } from "react";
+import { getProyectosConInfo } from "@/lib/actions-proyecto";
 
 
 export const dynamic = "force-dynamic";
@@ -33,7 +34,9 @@ async function Page() {
                 {equipos
                     .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
                     .map((equipo) => (
-                        <TarjetaEquipo key={equipo.id} equipo={equipo} />
+                        <Suspense key={equipo.id} fallback={<SkeletonEquipo />}>
+                            <TarjetaEquipo equipo={equipo} />
+                        </Suspense>
                     ))}
             </div>
 

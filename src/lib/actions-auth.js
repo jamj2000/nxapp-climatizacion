@@ -54,7 +54,6 @@ export async function login(formData) {
 
   if (user && matchPassword) {
     // && user.emailVerified
-    // globalThis.callbackUrl ||
 
     await signIn("credentials", { email, password, redirectTo: globalThis.callbackUrl});
     // return { success: "Inicio de sesión correcto" }
