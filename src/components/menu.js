@@ -4,16 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 
-export default function Menu({ sesion }) {
+
+export default function Menu() {
 
   const pathname = usePathname()
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
+  const toggleMenu = () => setMenuOpen(!menuOpen)
+ 
 
   return (
     <div>
@@ -58,11 +57,13 @@ export default function Menu({ sesion }) {
         </button>
       </div>
       <div
+        onClick={toggleMenu}       
         className={`${menuOpen ? "" : "hidden"
           } z-10 absolute right-0 w-screen lg:relative lg:block lg:w-auto`}
         id="navbar-default"
       >
-        <ul className="w-full md:absolute md:top-[50] lg:static font-medium flex flex-col p-4 lg:p-0 mt-4 border border-gray-100 rounded-sm bg-sky-400 lg:flex-row lg:space-x-8  lg:mt-0 lg:border-0 dark:bg-gray-800 dark:border-gray-700">
+        <ul
+          className="w-full md:absolute md:top-[50] lg:static font-medium flex flex-col p-4 lg:p-0 mt-4 border border-gray-100 rounded-sm bg-sky-400 lg:flex-row lg:space-x-8  lg:mt-0 lg:border-0 dark:bg-gray-800 dark:border-gray-700">
 
           <li>
             <Link
@@ -99,7 +100,6 @@ export default function Menu({ sesion }) {
               Equipos
             </Link>
           </li>
-
 
           <li>
             <Link
