@@ -6,11 +6,9 @@ import { usePathname } from "next/navigation";
 
 
 export default function Menu() {
-
   const pathname = usePathname()
 
   const [menuOpen, setMenuOpen] = useState(false);
-
   const toggleMenu = () => setMenuOpen(!menuOpen)
  
 

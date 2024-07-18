@@ -9,9 +9,9 @@ export default async function Nav() {
 
   return (
     <header className="flex justify-between px-10 w-screen bg-sky-400 dark:bg-gray-900 items-center font-bold p-2 sticky top-0 z-50 border-b-[3px] border-blue-400/90 dark:border-sky-600">
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-2 lg:gap-10">
         <div className="lg:order-last">
-          <Menu sesion={sesion} />
+          <Menu />
         </div>
         <div>
           <Logo />
@@ -28,9 +28,9 @@ export default async function Nav() {
 
 function Logo() {
   return (
-    <nav className="bg-sky-400 border-gray-200 dark:bg-transparent -mx-[10%]">
+    <nav className="bg-sky-400 border-gray-200 dark:bg-transparent">
       <div className="max-w-screen-xl flex flex-wrap items-center mx-auto">
-        <div className="">
+        <div>
           <Link
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -52,31 +52,29 @@ function Logo() {
 
 
 function Login({ sesion }) {
-  if (sesion == null) {
-    return (
-      <Link href="/auth/login">
-        <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl 	">
-          <img
-            src={"/logo-login.png"}
-            className="w-6"
-            alt="FloWeather Logo"
-          />
-          Login
-        </button>
-      </Link>
-    )
-  } else {
-    return (
+
+  return (
+    sesion ? (
       <Link href="/auth/logout">
         <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl ">
           <img
             src={sesion.user?.image ? sesion?.user.image : "/user.svg"}
             className="w-6 rounded-[50%]"
             alt="FloWeather Logo"
-          />
-          Logout
+          /> Logout
         </button>
       </Link>
-    );
-  }
+    ) : (
+      <Link href="/auth/login">
+        <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl 	">
+          <img
+            src={"/logo-login.png"}
+            className="w-6"
+            alt="FloWeather Logo"
+          /> Login
+        </button>
+      </Link>
+    )
+  )
+
 }

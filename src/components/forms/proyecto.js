@@ -223,7 +223,7 @@ export function FormProyecto({
             </div>
           </div>
 
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 x  l:grid-cols-4">
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
                 <div className="flex justify-between items-center">
@@ -884,7 +884,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                p_sat_agua_ext_ver:
+                Saturación del agua:
 
                 <input
                   readOnly
@@ -900,7 +900,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                hum_absol_ext_ver:
+                Humedad absoluta:
 
                 <input
                   readOnly
@@ -915,7 +915,7 @@ export function FormProyecto({
             </div>
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_ext_ver_sens:
+                Entalpia sens:
 
                 <input
                   readOnly
@@ -932,7 +932,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_ext_ver_lat:
+                Entalpia lat:
 
                 <input
                   readOnly
@@ -949,7 +949,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                volum_espe_ext_ver:
+                Volumen específico:
 
                 <input
                   readOnly
@@ -974,7 +974,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                p_sat_agua_int_ver:
+                Saturación del agua:
 
                 <input
                   readOnly
@@ -990,7 +990,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                hum_absol_int_ver:
+                Humedad absoluta:
 
                 <input
                   readOnly
@@ -1005,7 +1005,7 @@ export function FormProyecto({
             </div>
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_int_ver_sens:
+                Entalpia sens:
 
                 <input
                   readOnly
@@ -1022,7 +1022,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_int_ver_lat:
+                Entalpia lat:
 
                 <input
                   readOnly
@@ -1039,7 +1039,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                volum_espe_int_ver:
+                Volumen específico:
 
                 <input
                   readOnly
@@ -1064,7 +1064,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                p_sat_agua_ext_inv:
+                Saturación del agua:
 
                 <input
                   readOnly
@@ -1080,7 +1080,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                hum_absol_ext_inv:
+                Humedad absoluta:
 
                 <input
                   readOnly
@@ -1095,7 +1095,7 @@ export function FormProyecto({
             </div>
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_ext_inv_sens:
+                Entalpia sens:
 
                 <input
                   readOnly
@@ -1112,7 +1112,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_ext_inv_lat:
+                Entalpia lat:
 
                 <input
                   readOnly
@@ -1129,7 +1129,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                volum_espe_ext_inv:
+                Volumen específico:
 
                 <input
                   readOnly
@@ -1154,7 +1154,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                p_sat_agua_int_inv:
+                Saturación del agua:
 
                 <input
                   readOnly
@@ -1170,7 +1170,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                hum_absol_int_inv:
+                Humedad absoluta:
 
                 <input
                   readOnly
@@ -1185,7 +1185,7 @@ export function FormProyecto({
             </div>
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_int_inv_sens:
+                Entalpia sens:
 
                 <input
                   readOnly
@@ -1202,7 +1202,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                entalpia_int_inv_lat:
+                Entalpia lat:
 
                 <input
                   readOnly
@@ -1219,7 +1219,7 @@ export function FormProyecto({
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
-                volum_espe_int_inv:
+                Volumen específico:
 
                 <input
                   readOnly
