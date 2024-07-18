@@ -39,7 +39,7 @@ export default function FormRecinto({
           <Boton texto={texto} />
           <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
             {disabled
-              ? <span className="font-bold">{proyectos.find(p => p.id == recinto?.proyectoId).nombre} </span>
+              ? <span className="font-bold">{proyectos.find(p => p.id == recinto?.proyectoId)?.nombre  ?? proyectos[0].nombre } </span>
               : <select
                 name="proyectoId"
                 className="border-2 border-gray-300 rounded p-2"

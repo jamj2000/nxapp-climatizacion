@@ -34,7 +34,7 @@ export default function FormEquipo({ action, texto, equipo, proyectos, disabled 
         <Boton texto={texto} />
         <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
           {disabled
-            ? <span className="font-bold">{proyectos.find(p => p.id == equipo?.proyectoId).nombre} </span>
+            ? <span className="font-bold">{proyectos.find(p => p.id == equipo?.proyectoId)?.nombre ?? proyectos[0].nombre } </span>
             : <select
               name="proyectoId"
               // disabled={disabled} Esto interfiere al devolver el valor

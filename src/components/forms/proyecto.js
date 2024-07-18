@@ -190,7 +190,7 @@ export function FormProyecto({
                   className="border-2 border-gray-300 rounded p-2 w-full"
                   type="date"
                   name="fecha"
-                  defaultValue={proyecto?.fecha?.toISOString().split("T")[0]}
+                  defaultValue={proyecto?.fecha?.toISOString().split("T")[0] ?? new Date().toISOString().split("T")[0]}
                 />
               </label>
             </div>

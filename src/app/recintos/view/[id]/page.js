@@ -1,54 +1,22 @@
-
-import { getProyectosPorId } from "@/lib/actions-proyecto";
-import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { CRUD } from "@/lib/constantes"
 import Tarjeta from "@/components/tarjetas/contenedor";
-import FormRecinto from "@/components/forms/recinto";
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
-
-export const dynamic = "force-dynamic";
+import DataRecinto from "@/components/data/recinto"
 
 
-async function Page({ params }) {
-    const recinto = await prisma.recinto.findUnique({
-        where: {
-          id: Number(params.id),
-        },
-        include: {
-          proyecto: true,
-        },
-      });
-    
+async function page({ params }) {
 
+  return (
+    <Tarjeta>
+      <h1 className="text-2xl font-bold text-center p-10">
+        VER RECINTO
+      </h1>
+      <Suspense>
+        <DataRecinto  id={Number(params.id)}  operacion={CRUD.READ}  />
+      </Suspense>
+    </Tarjeta>
+  );
+} 
 
-    const sesion = await auth();
-    const { user } = sesion;
-    // const recinto = await getRecinto(params.id)
-    const proyectos = await getProyectosPorId(user?.id)
+export default page;
 
-    if (!recinto) {
-        redirect("/recintos");
-    }
-
-
-    async function volver() {
-        'use server'
-        redirect('/recintos')
-    }
-
-    return (
-        <Tarjeta>
-            <FormRecinto
-                texto={"Volver"}
-                recinto={recinto}
-                proyectos={proyectos}
-                action={volver}
-                disabled={true}
-            />
-
-
-        </Tarjeta>
-    );
-}
-
-export default Page;

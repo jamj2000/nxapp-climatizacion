@@ -1,29 +1,22 @@
-import Formrecinto from "@/components/forms/recinto";
-import { newRecinto } from "@/lib/actions-recinto";
-import Tarjeta from "@/components/tarjetas/contenedor"
-import { auth } from "@/auth";
-import { getIdUsuario, getProyectosPorId } from "@/lib/actions-proyecto";
+import { Suspense } from "react";
+import { CRUD } from "@/lib/constantes"
+import Tarjeta from "@/components/tarjetas/contenedor";
+import DataRecinto from "@/components/data/recinto"
 
 
-async function page() {
-  const sesion = await auth();
-  const { user } = sesion;
-  const userId = await getIdUsuario(user?.email);
-  const proyectos = await getProyectosPorId(userId);
+async function page({ params }) {
 
   return (
     <Tarjeta>
-      <h1 className="text-green-600 text-2xl font-bold text-center p-10">
-        CREAR RECINTO
+      <h1 className="text-2xl font-bold text-center p-10">
+        NUEVO RECINTO
       </h1>
-      <Formrecinto
-        texto={"Crear recinto"}
-        action={newRecinto}
-        proyectos={proyectos} />
-
- 
+      <Suspense>
+        <DataRecinto  id={Number(params.id)}  operacion={CRUD.CREATE}  />
+      </Suspense>
     </Tarjeta>
   );
-}
+} 
 
 export default page;
+

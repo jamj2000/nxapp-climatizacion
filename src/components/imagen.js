@@ -11,6 +11,7 @@ export default
         onDrop={dropHandler}
         onDragOver={dragOverHandler}
         onDoubleClick={dblclickHandler}
+        title={"Haz doble click o arrastra y suelta aquí otra imagen para cambiar la actual"}
       />
       <input
         type="file"

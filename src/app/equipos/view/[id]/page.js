@@ -1,44 +1,21 @@
+import { Suspense } from "react";
+import { CRUD } from "@/lib/constantes"
 import Tarjeta from "@/components/tarjetas/contenedor";
-import { getProyectosPorId } from "@/lib/actions-proyecto";
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
-import FormEquipo from "@/components/forms/equipo";
+import DataEquipo from "@/components/data/equipo"
 
-export const dynamic = "force-dynamic";
 
-async function Page({ params }) {
-    const sesion = await auth();
-    const { user } = sesion;
-    const proyectos = await getProyectosPorId(user?.id)
-    const equipo = await prisma.equipo.findUnique({
-        where: {
-            id: Number(params.id),
-        },
-        include: { proyecto: true }
-    });
+async function page({ params }) {
 
-    if (!equipo) {
-        redirect("/equipos");
-    }
-
-    async function volver() {
-        'use server'
-        redirect('/equipos')
-    }
-
-    return (
-        <Tarjeta>
-            <FormEquipo
-                texto={"Volver"}
-                equipo={equipo}
-                proyectos={proyectos}
-                action={volver}
-                disabled={true}
-
-            />
-        </Tarjeta>
-    );
+  return (
+    <Tarjeta>
+      <h1 className="text-2xl font-bold text-center p-10">
+        VER EQUIPO
+      </h1>
+      <Suspense>
+        <DataEquipo  id={Number(params.id)}  operacion={CRUD.READ}  />
+      </Suspense>
+    </Tarjeta>
+  );
 }
 
-export default Page;
+export default page;

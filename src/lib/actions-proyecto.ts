@@ -159,13 +159,6 @@ async function imgCreate(file: File) {
 
 
 
-export async function getIdUsuario(email: string) {
-  const user = await prisma.user.findUnique({ where: { email } });
-  return user.id;
-}
-
-
-
 export async function getNameUser(id: string) {
   try {
     const user = await prisma.user.findUnique({ where: { id } });

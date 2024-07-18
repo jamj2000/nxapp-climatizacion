@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import Image from "next/image";
 
 
+
 export default async function Nav() {
   const sesion = await auth();
 
@@ -19,7 +20,7 @@ export default async function Nav() {
       </div>
 
       <div>
-        <Login sesion={sesion} />
+        <Login sesion={sesion}/>
       </div>
     </header>
   );
@@ -51,10 +52,9 @@ function Logo() {
 }
 
 
-function Login({ sesion }) {
+function Login({sesion}) {
 
-  return (
-    sesion ? (
+  if (sesion) return (
       <Link href="/auth/logout">
         <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl ">
           <img
@@ -63,8 +63,9 @@ function Login({ sesion }) {
             alt="FloWeather Logo"
           /> Logout
         </button>
-      </Link>
-    ) : (
+      </Link> )
+
+  return (
       <Link href="/auth/login">
         <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl 	">
           <img
@@ -74,7 +75,6 @@ function Login({ sesion }) {
           /> Login
         </button>
       </Link>
-    )
   )
 
 }

@@ -2,7 +2,8 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { signIn, signOut } from "@/auth";
-import { getUserByEmail } from "@/lib/data";
+
+
 
 // REGISTER
 export async function register(formData) {
@@ -13,7 +14,7 @@ export async function register(formData) {
   const { name, email, password } = Object.fromEntries (formData.entries())
 
   // Comprobamos si el usuario ya está registrado
-  const user = await getUserByEmail(email);
+  const user = await prisma.user.findUnique({   where: { email }   })
 
   if (user) {
     return { error: "El email ya está registrado" };
@@ -34,6 +35,8 @@ export async function register(formData) {
   return { success: "Registro correcto" };
 }
 
+
+
 // LOGIN credentials
 export async function login(formData) {
 
@@ -43,7 +46,7 @@ export async function login(formData) {
 
 
   // Comprobamos si el usuario está registrado
-  const user = await getUserByEmail(email);
+  const user = await prisma.user.findUnique({   where: { email }   })
 
   if (!user) {
     return { error: "Usuario no registrado." };
@@ -70,6 +73,8 @@ export async function loginGoogle() {
     throw error;
   }
 }
+
+
 
 // LOGOUT
 export async function logout() {

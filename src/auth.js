@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
-import { getUserById } from "@/lib/data";
 import authConfig from "@/auth.config";
 
 export const options = {
@@ -22,7 +21,7 @@ export const options = {
     async jwt({ token }) {
       if (!token.sub) return token;
 
-      const user = await getUserById(token.sub);
+      const user = await prisma.user.findUnique({   where: { id: token.sub }   }); 
       if (!user) return token;
 
       token.role = user?.role;

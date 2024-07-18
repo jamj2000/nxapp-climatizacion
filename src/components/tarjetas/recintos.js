@@ -32,7 +32,6 @@ async function Page() {
                         <TarjetaRecinto key={recinto.id} recinto={recinto} />
                     ))}
             </div>
-
         </Tarjeta>
     );
 }
