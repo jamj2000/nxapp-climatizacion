@@ -1,10 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { newProyecto, editProyecto, deleteProyecto } from "@/lib/actions-proyecto"
+import { newProyecto, editProyecto, deleteProyecto } from "@/lib/actions/proyecto"
 import { CRUD } from "@/lib/constantes"
 import FormProyecto from '@/components/forms/proyecto'
-
 
 async function volver() {
     'use server'

@@ -1,7 +1,6 @@
-import React from "react";
 import Link from "next/link";
 import { auth } from "@/auth";
-import { getNameUser } from "@/lib/actions-proyecto";
+import { getNameUser } from "@/lib/actions/proyecto";
 import Image from "next/image";
 
 async function TarjetaProyecto({ proyecto }) {

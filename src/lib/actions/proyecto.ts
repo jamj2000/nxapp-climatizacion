@@ -9,6 +9,8 @@ import { z, ZodError } from "@/lib/es-zod";
 const schema = z.object({
   id: z.coerce.number(),
   nombre: z.string().trim().min(1),   // al menos una letra
+  localidadId: z.coerce.number(),
+  userId: z.string().trim(),
   comentarios: z.string().trim(),
   imagen: z.string().nullable(),
   fecha: z.coerce.date(),
@@ -16,8 +18,8 @@ const schema = z.object({
   temp_ext_inv: z.coerce.number(),
   hum_ext_ver: z.coerce.number(),
   hum_ext_inv: z.coerce.number(),
-  temp_terreno_ver: z.coerce.number(),
-  temp_terreno_inv: z.coerce.number(),
+  temp_terreno_ver: z.coerce.number().optional(),
+  temp_terreno_inv: z.coerce.number().optional(),
   altitud: z.coerce.number(),
   presion: z.coerce.number(),
   zona_climatica: z.string().trim(),
@@ -73,47 +75,10 @@ const schema = z.object({
   entalpia_int_inv_lat: z.coerce.number(),
   volum_espe_int_inv: z.coerce.number(),
 
-  localidadId: z.coerce.number(),
-  userId: z.string().trim(),
-
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 })
-  .omit({
-    temp_terreno_ver: true,
-    temp_terreno_inv: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  // .partial({
-  //   factorFuncionamiento: true,
-  //   temp_int_ver: true,
-  //   temp_int_inv: true,
-  //   hum_int_ver: true,
-  //   hum_int_inv: true,
-  //   presion: true,
-  //   p_sat_agua_ext_ver: true,
-  //   hum_absol_ext_ver: true,
-  //   entalpia_ext_ver_sens: true,
-  //   entalpia_ext_ver_lat: true,
-  //   volum_espe_ext_ver: true,
-  //   p_sat_agua_ext_inv: true,
-  //   hum_absol_ext_inv: true,
-  //   entalpia_ext_inv_sens: true,
-  //   entalpia_ext_inv_lat: true,
-  //   volum_espe_ext_inv: true,
 
-  //   p_sat_agua_int_ver: true,
-  //   hum_absol_int_ver: true,
-  //   entalpia_int_ver_sens: true,
-  //   entalpia_int_ver_lat: true,
-  //   volum_espe_int_ver: true,
-  //   p_sat_agua_int_inv: true,
-  //   hum_absol_int_inv: true,
-  //   entalpia_int_inv_sens: true,
-  //   entalpia_int_inv_lat: true,
-  //   volum_espe_int_inv: true,
-  // })
 
 type ZodReturn = { success: true, data: z.infer<typeof schema> } | { success: false, error: ZodError }
 
@@ -171,88 +136,71 @@ export async function getNameUser(id: string) {
 
 
 
-export async function getProyectos() {
-  try {
-    const proyectos = await prisma.proyecto.findMany();
-    return proyectos;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
+// export async function getProyectos() {
+//   try {
+//     const proyectos = await prisma.proyecto.findMany();
+//     return proyectos;
+//   } catch (error) {
+//     console.log(error);
+//     return null;
+//   }
+// }
 
 
 
-export async function getProyecto(id: string) {
-  try {
-    const proyecto = await prisma.proyecto.findUnique({
-      where: { id: Number(id) },
-      include: {
-        recintos: true,
-        equipos: true,
-      },
-    });
-    return proyecto;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
+// export async function getProyecto(id: string) {
+//   try {
+//     const proyecto = await prisma.proyecto.findUnique({
+//       where: { id: Number(id) },
+//       include: {
+//         recintos: true,
+//         equipos: true,
+//       },
+//     });
+//     return proyecto;
+//   } catch (error) {
+//     console.log(error);
+//     return null;
+//   }
+// }
 
 
 
-export async function getProyectoEquipo(id: string) {
-  try {
-    const proyecto = await prisma.proyecto.findUnique({
-      where: { id: Number(id) },
-      include: {
-        equipos: true
-      },
-    });
-    return proyecto;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
+// export async function getProyectosPorId(userId: string) {
+//   try {
+//     const proyectos = await prisma.proyecto.findMany({
+//       where: { userId: userId },
+//     });
+//     return proyectos;
+//   } catch (error) {
+//     console.log(error);
+//     return null;
+//   }
+// }
 
 
 
-export async function getProyectosPorId(userId: string) {
-  try {
-    const proyectos = await prisma.proyecto.findMany({
-      where: { userId: userId },
-    });
-    return proyectos;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
+// type Props = {
+//   userId: string;
+//   recintos: Recinto[];
+//   equipos: Equipo[];
+// }
 
-type Props = {
-  userId: string;
-  recintos: Recinto[];
-  equipos: Equipo[];
-}
-
-
-
-export async function getProyectosConInfo({ userId, recintos, equipos }: Props) {
-  try {
-    const proyectos = await prisma.proyecto.findMany({
-      where: { userId: userId },
-      include: {
-        recintos,
-        equipos
-      }
-    });
-    return proyectos;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
+// export async function getProyectosConInfo({ userId, recintos, equipos }: Props) {
+//   try {
+//     const proyectos = await prisma.proyecto.findMany({
+//       where: { userId: userId },
+//       include: {
+//         recintos,
+//         equipos
+//       }
+//     });
+//     return proyectos;
+//   } catch (error) {
+//     console.log(error);
+//     return null;
+//   }
+// }
 
 
 
@@ -315,6 +263,7 @@ export async function editProyecto(formData: FormData) {
 }
 
 
+
 export async function deleteProyecto(formData: FormData) {
   const id = Number(formData.get("id"));
 
@@ -330,6 +279,7 @@ export async function deleteProyecto(formData: FormData) {
   }
   redirect("/proyectos");
 }
+
 
 
 export async function copyProyecto(formData: FormData) {

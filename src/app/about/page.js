@@ -1,4 +1,4 @@
-import Tarjeta from "@/components/tarjetas/contenedor";
+import Tarjeta from "@/components/cards/contenedor";
 
 export const dynamic = "force-static";
 

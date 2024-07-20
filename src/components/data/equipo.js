@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { newEquipo, editEquipo, deleteEquipo } from "@/lib/actions-equipo"
+import { newEquipo, editEquipo, deleteEquipo } from "@/lib/actions/equipo"
 import { CRUD } from "@/lib/constantes"
 import FormEquipo from '@/components/forms/equipo'
 

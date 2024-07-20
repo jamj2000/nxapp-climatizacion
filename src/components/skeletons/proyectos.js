@@ -1,4 +1,4 @@
-import TarjetaContenedor from "@/components/tarjetas/contenedor"
+import TarjetaContenedor from "@/components/cards/contenedor"
 import SkekeletonProyecto from "@/components/skeletons/proyecto"
 import Link from "next/link"
 

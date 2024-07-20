@@ -1,9 +1,9 @@
 import FormProyecto from "@/components/forms/proyecto";
-import TarjetaContenedor from "@/components/tarjetas/contenedor";
+import TarjetaContenedor from "@/components/cards/contenedor";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import TarjetaProyecto from "@/components/tarjetas/proyecto";
+import TarjetaProyecto from "@/components/cards/proyecto";
 
 
 export const dynamic = "force-dynamic";

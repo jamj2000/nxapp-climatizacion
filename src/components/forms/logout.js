@@ -1,4 +1,4 @@
-import { logout } from "@/lib/actions-auth";
+import { logout } from "@/lib/actions/auth";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 

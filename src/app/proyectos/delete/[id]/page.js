@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { CRUD } from "@/lib/constantes"
-import Tarjeta from "@/components/tarjetas/contenedor";
+import Tarjeta from "@/components/cards/contenedor";
 import DataProyecto from "@/components/data/proyecto"
 
 

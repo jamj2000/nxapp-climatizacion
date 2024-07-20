@@ -135,7 +135,7 @@ model Recinto {
   volumen                Float?
   ida                    String?
   //Valores de cerramiento 1
-  orientacion            String?
+  orientacion_c_1        String?
   ubicacion_c_1          String?
   color_c_1              String?
   temperatura_ver_c_1    Float?
@@ -145,7 +145,7 @@ model Recinto {
   tipo_vidrio_c_1        String?
   superficie_puertas_c_1 Float?
   //Valores de cerramiento 2
-  orientacion_2          String?
+  orientacion_c_2          String?
   ubicacion_c_2          String?
   color_c_2              String?
   temperatura_ver_c_2    Float?
@@ -155,7 +155,7 @@ model Recinto {
   tipo_vidrio_c_2        String?
   superficie_puertas_c_2 Float?
   //Valores de cerramiento 3
-  orientacion_3          String?
+  orientacion_c_3          String?
   ubicacion_c_3          String?
   color_c_3              String?
   temperatura_ver_c_3    Float?
@@ -165,7 +165,7 @@ model Recinto {
   tipo_vidrio_c_3        String?
   superficie_puertas_c_3 Float?
   //Valores de cerramiento 4
-  orientacion_4          String?
+  orientacion_c_4          String?
   ubicacion_c_4          String?
   color_c_4              String?
   temperatura_ver_c_4    Float?

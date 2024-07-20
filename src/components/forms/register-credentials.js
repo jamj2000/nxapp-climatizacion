@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { register } from "@/lib/actions-auth";
+import { register } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Button from "@/components/button-form";

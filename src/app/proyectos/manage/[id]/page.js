@@ -1,20 +1,25 @@
-import Tarjeta from "@/components/tarjetas/contenedor";
+import Tarjeta from "@/components/cards/contenedor";
 import Link from "next/link";
-import { getProyecto } from "@/lib/actions-proyecto";
-import TarjetaRecinto from "@/components/tarjetas/recinto";
-import TarjetaEquipo from "@/components/tarjetas/equipo";
+import TarjetaRecinto from "@/components/cards/recinto";
+import TarjetaEquipo from "@/components/cards/equipo";
 import { redirect } from "next/navigation";
 export const dynamic = "force-dynamic";
 
-async function Page({ params }) {
-  const proyecto = await getProyecto(params.id);
-  // console.log("PROYECTO", proyecto);
 
+async function Page({ params }) {
+  const proyecto = await prisma.proyecto.findUnique({
+    where: { id: Number(params.id) },
+    include: {
+      recintos: true,
+      equipos: true,
+    },
+  })
+  
   if (!proyecto) {
     redirect("/proyectos");
   }
 
-  const { recintos } = proyecto; // desestructuracion es super mega util
+  const { recintos } = proyecto; 
   const { equipos } = proyecto;
 
 

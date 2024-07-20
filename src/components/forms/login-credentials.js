@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { login } from "@/lib/actions-auth";
+import { login } from "@/lib/actions/auth";
 import Button from "@/components/button-form";
 import Link from "next/link";
 

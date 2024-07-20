@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { newRecinto, editRecinto, deleteRecinto } from "@/lib/actions-recinto"
+import { newRecinto, editRecinto, deleteRecinto } from "@/lib/actions/recinto"
 import { CRUD } from "@/lib/constantes"
 import FormRecinto from '@/components/forms/recinto'
 

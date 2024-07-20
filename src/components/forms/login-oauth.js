@@ -1,6 +1,4 @@
-import {
-  loginGoogle
-} from "@/lib/actions-auth";
+import {  loginGoogle } from "@/lib/actions/auth";
 
 function OAuthForm() {
   return (

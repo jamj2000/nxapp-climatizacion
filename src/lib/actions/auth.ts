@@ -1,16 +1,15 @@
 "use server";
+// npm i --save-dev @types/bcryptjs
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { signIn, signOut } from "@/auth";
 
-
+declare global {
+  var callbackUrl: string;
+}
 
 // REGISTER
-export async function register(formData) {
-
-  // const name = formData.get("name");
-  // const email = formData.get("email");
-  // const password = formData.get("password");
+export async function register(formData: FormData) {
   const { name, email, password } = Object.fromEntries (formData.entries())
 
   // Comprobamos si el usuario ya está registrado
@@ -21,7 +20,7 @@ export async function register(formData) {
   }
 
   // Encriptamos password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password as string, 10);
 
   // Guardamos credenciales en base datos
   await prisma.user.create({
@@ -38,12 +37,8 @@ export async function register(formData) {
 
 
 // LOGIN credentials
-export async function login(formData) {
-
-  // const email = formData.get("email");
-  // const password = formData.get("password");
+export async function login(formData: FormData) {
   const { email, password } = Object.fromEntries (formData.entries())
-
 
   // Comprobamos si el usuario está registrado
   const user = await prisma.user.findUnique({   where: { email }   })
@@ -53,7 +48,7 @@ export async function login(formData) {
   }
 
   // Comparamos password
-  const matchPassword = await bcrypt.compare(password, user.password);
+  const matchPassword = await bcrypt.compare(password as string, user.password);
 
   if (user && matchPassword) {
     // && user.emailVerified
@@ -64,6 +59,8 @@ export async function login(formData) {
     return { error: "Credenciales incorrectas." };
   }
 }
+
+
 
 // LOGIN google
 export async function loginGoogle() {
