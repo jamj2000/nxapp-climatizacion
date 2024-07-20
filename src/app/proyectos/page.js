@@ -8,6 +8,8 @@ import { auth } from "@/auth";
 async function Page() {
     const { user } = await auth()
 
+    let busqueda = ""
+
     return (
         <TarjetaContenedor>
             <div className="flex justify-between mb-6">

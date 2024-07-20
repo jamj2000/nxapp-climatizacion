@@ -3,12 +3,11 @@ import { copyProyecto } from "@/lib/actions/proyecto";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
-export const dynamic = "force-dynamic";
-
-// console.log('LOCALIDADES: ', localidades);
 
 async function page({ params }) {
   const { user } = await auth();
+
+  const usuarios = await prisma.user.findMany();
 
   const localidades = await prisma.localidad.findMany({ include: { zona_climatica:  true} });
 

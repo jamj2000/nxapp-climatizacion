@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import cloudinary from "@/lib/cloudinary";
-import { Proyecto, Recinto, Equipo } from "@prisma/client";
+// import { Proyecto, Recinto, Equipo } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
 
 const schema = z.object({
@@ -124,86 +124,6 @@ async function imgCreate(file: File) {
 
 
 
-export async function getNameUser(id: string) {
-  try {
-    const user = await prisma.user.findUnique({ where: { id } });
-    return user ? user.name : null;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-
-
-// export async function getProyectos() {
-//   try {
-//     const proyectos = await prisma.proyecto.findMany();
-//     return proyectos;
-//   } catch (error) {
-//     console.log(error);
-//     return null;
-//   }
-// }
-
-
-
-// export async function getProyecto(id: string) {
-//   try {
-//     const proyecto = await prisma.proyecto.findUnique({
-//       where: { id: Number(id) },
-//       include: {
-//         recintos: true,
-//         equipos: true,
-//       },
-//     });
-//     return proyecto;
-//   } catch (error) {
-//     console.log(error);
-//     return null;
-//   }
-// }
-
-
-
-// export async function getProyectosPorId(userId: string) {
-//   try {
-//     const proyectos = await prisma.proyecto.findMany({
-//       where: { userId: userId },
-//     });
-//     return proyectos;
-//   } catch (error) {
-//     console.log(error);
-//     return null;
-//   }
-// }
-
-
-
-// type Props = {
-//   userId: string;
-//   recintos: Recinto[];
-//   equipos: Equipo[];
-// }
-
-// export async function getProyectosConInfo({ userId, recintos, equipos }: Props) {
-//   try {
-//     const proyectos = await prisma.proyecto.findMany({
-//       where: { userId: userId },
-//       include: {
-//         recintos,
-//         equipos
-//       }
-//     });
-//     return proyectos;
-//   } catch (error) {
-//     console.log(error);
-//     return null;
-//   }
-// }
-
-
-
 export async function newProyecto(formData: FormData) {
   const result = validate(formData)
 
@@ -290,7 +210,7 @@ export async function copyProyecto(formData: FormData) {
     return issues;
   }
 
-  const { id, userId, ...data } = result.data
+  const { id, ...data } = result.data
 
   const imageFile = formData.get("file") as File;
 

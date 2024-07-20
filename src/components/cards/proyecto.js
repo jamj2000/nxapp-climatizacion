@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { auth } from "@/auth";
-import { getNameUser } from "@/lib/actions/proyecto";
 import Image from "next/image";
 
 async function TarjetaProyecto({ proyecto }) {
@@ -8,7 +7,11 @@ async function TarjetaProyecto({ proyecto }) {
   let nombre = "Desconocido";
 
   if (proyecto?.userId) {
-    nombre = await getNameUser(proyecto.userId);
+    const {name} = await prisma.user.findUnique({
+      select: { name: true },
+      where: { id: proyecto.userId }
+    });
+    nombre = name;
   }
 
   // await new Promise( (resolve) => { setTimeout( resolve, 4000) })

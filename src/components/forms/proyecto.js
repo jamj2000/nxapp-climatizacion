@@ -38,6 +38,7 @@ export function FormProyecto({
   texto,
   proyecto,
   localidades,
+  usuarios,
   userId,
   disabled = false,
 }) {
@@ -170,6 +171,8 @@ export function FormProyecto({
               className="border-2 border-gray-300 rounded ml-2 p-2 text-center"
             />
           </summary>
+
+
           <div className="mt-4 p-4 border rounded shadow-md grid gap-4 md:grid-cols-[auto_160px]">
             <div className="relative">
               <label className="font-bold">Localidad:

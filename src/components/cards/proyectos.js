@@ -6,7 +6,7 @@ async function page() {
   const { user } = await auth();
   // console.log("USUARIO: ",  user);
 
-  let busqueda = ""
+
   let proyectos = {}
 
   if (user?.role === "ADMIN")
