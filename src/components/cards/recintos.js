@@ -1,6 +1,6 @@
 import TarjetaRecinto from "@/components/cards/recinto";
 import { auth } from "@/auth";
-
+import { prisma } from "@/lib/prisma";
 
 async function Page() {
     const sesion = await auth();

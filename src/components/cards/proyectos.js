@@ -1,5 +1,6 @@
 import TarjetaProyecto from "@/components/cards/proyecto";
 import { auth } from "@/auth";
+import { prisma } from "@/lib/prisma";
 
 
 async function page() {

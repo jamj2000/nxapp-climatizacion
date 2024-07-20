@@ -38,7 +38,6 @@ export function FormProyecto({
   texto,
   proyecto,
   localidades,
-  usuarios,
   userId,
   disabled = false,
 }) {

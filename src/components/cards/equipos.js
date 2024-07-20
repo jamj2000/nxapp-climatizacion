@@ -1,6 +1,6 @@
 import TarjetaEquipo from "@/components/cards/equipo";
 import { auth } from "@/auth";
-
+import { prisma } from "@/lib/prisma";
 
 async function Equipos() {
     const sesion = await auth();
