@@ -3,7 +3,7 @@ import Link from "next/link";
 import TarjetaRecinto from "@/components/cards/recinto";
 import TarjetaEquipo from "@/components/cards/equipo";
 import { redirect } from "next/navigation";
-export const dynamic = "force-dynamic";
+import { prisma } from "@/lib/prisma";
 
 
 async function Page({ params }) {
