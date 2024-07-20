@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import Image from "next/image";
+import { prisma } from "@/lib/prisma";
 
 async function TarjetaProyecto({ proyecto }) {
   const sesion = await auth();
