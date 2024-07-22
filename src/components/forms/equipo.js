@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 
-export default function FormEquipo({ action, texto, equipo, proyectos, disabled = false }) {
+export default function FormEquipo({ action, texto,  equipo, proyectos, disabled = false }) {
   const router = useRouter()
+ 
 
   const [errores, setErrores] = useState(null)
 
@@ -37,7 +38,7 @@ export default function FormEquipo({ action, texto, equipo, proyectos, disabled 
         <Boton texto={texto} />
         <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
           {disabled
-            ? <span className="font-bold">{proyectos.find(p => p.id == equipo?.proyectoId)?.nombre ?? proyectos[0].nombre } </span>
+            ? <span className="font-bold">{proyectos.find(p => p.id == equipo?.proyectoId)?.nombre ?? proyectos[0].nombre} </span>
             : <select
               name="proyectoId"
               // disabled={disabled} Esto interfiere al devolver el valor

@@ -19,7 +19,7 @@ async function page({ params }) {
   });
   // console.log("USUARIO ID: " + user?.id);
   proyecto.nombre = proyecto.nombre + ' - Copia'
-  proyecto.fecha =  new Date();
+  proyecto.fecha =  create Date();
 
 
   return (

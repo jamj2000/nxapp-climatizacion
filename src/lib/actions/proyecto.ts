@@ -123,7 +123,7 @@ async function imgCreate(file: File) {
 
 
 
-export async function newProyecto(formData: FormData) {
+export async function createProyecto(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -152,7 +152,7 @@ export async function newProyecto(formData: FormData) {
 
 
 
-export async function editProyecto(formData: FormData) {
+export async function updateProyecto(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {

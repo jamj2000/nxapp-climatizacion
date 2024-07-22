@@ -769,7 +769,7 @@ export function presion(altitud) {
 
 export function qv_sens_equip(equipos) {
   if (!Array.isArray(equipos)) {
-    throw new Error("El parámetro equipos debe ser un array");
+    throw create Error("El parámetro equipos debe ser un array");
   }
   console.log("EQUIPOS", equipos);
 

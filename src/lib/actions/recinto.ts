@@ -90,7 +90,7 @@ function validate(formData: FormData): ZodReturn {
 
 
 
-export async function newRecinto(formData: FormData) {
+export async function createRecinto(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -112,7 +112,7 @@ export async function newRecinto(formData: FormData) {
 
 
 
-export async function editRecinto(formData: FormData) {
+export async function updateRecinto(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {

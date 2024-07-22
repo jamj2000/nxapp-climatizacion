@@ -16,7 +16,7 @@ async function Proyectos() {
     proyectos = await prisma.proyecto.findMany({  where: { userId: user?.id }   });
   }
 
-  //   await new Promise((resolve) => setTimeout(resolve, 4000))
+  //   await create Promise((resolve) => setTimeout(resolve, 4000))
 
   return (
 

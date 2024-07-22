@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { newEquipo, editEquipo, deleteEquipo } from "@/lib/actions/equipo"
+import { createEquipo, updateEquipo, deleteEquipo } from "@/lib/actions/equipo"
 import { CRUD } from "@/lib/constantes"
 import FormEquipo from '@/components/forms/equipo'
 
@@ -36,9 +36,9 @@ export default async function DataEquipo({ id, operacion }) {
     proyectos = await prisma.proyecto.findMany({   where: { userId: userId }   })
 
     switch (operacion) {
-        case CRUD.CREATE: texto = "Crear Equipo"; action = newEquipo; break;
+        case CRUD.CREATE: texto = "Crear Equipo"; action = createEquipo; break;
         case CRUD.READ: texto = "Volver"; action = volver; disabled = true; break;
-        case CRUD.UPDATE: texto = "Actualizar Equipo"; action = editEquipo; break;
+        case CRUD.UPDATE: texto = "Actualizar Equipo"; action = updateEquipo; break;
         case CRUD.DELETE: texto = "Eliminar Equipo"; action = deleteEquipo; disabled = true; break;
         default:
     }

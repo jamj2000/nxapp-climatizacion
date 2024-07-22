@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { newRecinto, editRecinto, deleteRecinto } from "@/lib/actions/recinto"
+import { createRecinto, updateRecinto, deleteRecinto } from "@/lib/actions/recinto"
 import { CRUD } from "@/lib/constantes"
 import FormRecinto from '@/components/forms/recinto'
 
@@ -36,9 +36,9 @@ export default async function DataRecinto({ id, operacion }) {
     proyectos = await prisma.proyecto.findMany({ where: { userId: userId } })
 
     switch (operacion) {
-        case CRUD.CREATE: texto = "Crear Recinto"; action = newRecinto; break;
+        case CRUD.CREATE: texto = "Crear Recinto"; action = createRecinto; break;
         case CRUD.READ: texto = "Volver"; action = volver; disabled = true; break;
-        case CRUD.UPDATE: texto = "Actualizar Recinto"; action = editRecinto; break;
+        case CRUD.UPDATE: texto = "Actualizar Recinto"; action = updateRecinto; break;
         case CRUD.DELETE: texto = "Eliminar Recinto"; action = deleteRecinto; disabled = true; break;
         default:
     }

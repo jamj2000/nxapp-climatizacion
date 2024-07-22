@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { newProyecto, editProyecto, deleteProyecto } from "@/lib/actions/proyecto"
+import { createProyecto, updateProyecto, deleteProyecto } from "@/lib/actions/proyecto"
 import { CRUD } from "@/lib/constantes"
 import FormProyecto from '@/components/forms/proyecto'
 
@@ -30,9 +30,9 @@ export default async function DataProyecto({ id, operacion }) {
     }
 
     switch (operacion) {
-        case CRUD.CREATE: texto = "Crear Recinto"; action = newProyecto; break;
+        case CRUD.CREATE: texto = "Crear Recinto"; action = createProyecto; break;
         case CRUD.READ: texto = "Volver"; action = volver; disabled = true; break;
-        case CRUD.UPDATE: texto = "Actualizar Proyecto"; action = editProyecto; break;
+        case CRUD.UPDATE: texto = "Actualizar Proyecto"; action = updateProyecto; break;
         case CRUD.DELETE: texto = "Eliminar Proyecto"; action = deleteProyecto; disabled = true; break;
         default:
     }

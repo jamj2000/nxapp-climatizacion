@@ -28,7 +28,7 @@ async function Recintos({ proyectoId }) {
         recintos = proyectos.map(proyecto => proyecto.recintos).flat()
     }
 
-      // await new Promise((resolve) => setTimeout(resolve, 4000))
+      // await create Promise((resolve) => setTimeout(resolve, 4000))
 
     return (
         <div className="flex flex-wrap gap-5 sm:gap-10 items-center justify-center mb-10">

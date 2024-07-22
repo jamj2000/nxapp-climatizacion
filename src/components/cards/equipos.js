@@ -28,7 +28,7 @@ async function Equipos({ proyectoId }) {
         equipos = proyectos.map(proyecto => proyecto.equipos).flat()
     }
 
-    // await new Promise((resolve) => setTimeout(resolve, 4000))
+    // await create Promise((resolve) => setTimeout(resolve, 4000))
 
     return (
 

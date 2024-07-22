@@ -27,7 +27,7 @@ function validate(formData: FormData): ZodReturn {
 
 
 
-export async function newEquipo(formData: FormData) {
+export async function createEquipo(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -49,7 +49,7 @@ export async function newEquipo(formData: FormData) {
 
 
 
-export async function editEquipo(formData: FormData) {
+export async function updateEquipo(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {

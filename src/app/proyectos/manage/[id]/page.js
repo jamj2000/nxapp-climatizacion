@@ -17,7 +17,7 @@ async function Page({ params }) {
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl font-semibold">Recintos y Equipos</h1>
                 {/* <Link
-                    href="/proyectos/new"
+                    href="/proyectos/create"
                     className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                 > Crear Proyecto
                 </Link>
@@ -34,7 +34,7 @@ async function Page({ params }) {
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl">Recintos</h1>
                 <Link
-                    href="/recintos/new"
+                    href="/recintos/create"
                     className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                 > Crear Recinto
                 </Link>
@@ -48,7 +48,7 @@ async function Page({ params }) {
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl">Equipos</h1>
                 <Link
-                    href="/equipos/new"
+                    href="/equipos/create"
                     className="inline-flex items-center px-5 py-3 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                 > Crear Equipo
                 </Link>
@@ -99,7 +99,7 @@ export default Page;
 //         <h3 className="font-bold text-3xl mb-2">Recintos</h3>
 
 //         <Link
-//           href="/recintos/new"
+//           href="/recintos/create"
 //           className="inline-flex items-center px-5 py-3  font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 //         >
 //           Crear recinto
@@ -115,7 +115,7 @@ export default Page;
 //         <h3 className="font-bold text-3xl mb-2">Equipos</h3>
 
 //           <Link
-//             href="/equipos/new"
+//             href="/equipos/create"
 //             className="inline-flex items-center px-5 py-3  font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 //           >
 //             Crear Equipo

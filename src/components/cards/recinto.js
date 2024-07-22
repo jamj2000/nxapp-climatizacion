@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default async function TarjetaRecinto({ recinto }) {
-  // await new Promise( (resolve) => { setTimeout( resolve, 4000) })
+  // await create Promise( (resolve) => { setTimeout( resolve, 4000) })
 
   return (
     <>
@@ -34,7 +34,7 @@ export default async function TarjetaRecinto({ recinto }) {
             Ver
           </Link>
 
-        <Link href={`/recintos/edit/${recinto?.id}`}
+        <Link href={`/recintos/update/${recinto?.id}`}
             className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-yellow-700 rounded-lg hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800"
           >
             Editar
