@@ -1,7 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import cloudinary from "@/lib/cloudinary";
 // import { Proyecto, Recinto, Equipo } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
@@ -146,9 +145,9 @@ export async function newProyecto(formData: FormData) {
     console.log(proyecto);
     revalidatePath("/proyectos");
   } catch (error) {
-    console.log(error);
+    console.log("Error al crear el proyecto:", error);
   }
-  redirect("/proyectos");
+
 }
 
 
@@ -177,9 +176,9 @@ export async function editProyecto(formData: FormData) {
     console.log(proyecto);
     revalidatePath("/proyectos");
   } catch (error) {
-    console.log(error);
+    console.log("Error al actualizar el proyecto:", error);
   }
-  redirect("/proyectos");
+
 }
 
 
@@ -191,13 +190,11 @@ export async function deleteProyecto(formData: FormData) {
     const proyecto = await prisma.proyecto.delete({
       where: { id }
     });
-
-    // console.log("Proyecto eliminado:", proyecto);
     revalidatePath("/proyectos");
   } catch (error) {
-    console.log("Error al eliminar el proyecto:", error);
+    console.log("Error al eliminar el proyecto: ", error);
   }
-  redirect("/proyectos");
+
 }
 
 
@@ -221,9 +218,10 @@ export async function copyProyecto(formData: FormData) {
 
   try {
     await prisma.proyecto.create({ data });
+    revalidatePath("/proyectos");
   } catch (error) {
-    console.log(error);
+    console.log("Error al copiar el proyecto:", error);
   }
 
-  redirect("/proyectos");
+
 }

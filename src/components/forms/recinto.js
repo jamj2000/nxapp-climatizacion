@@ -4,6 +4,7 @@
 'use client'
 import Boton from "@/components/boton";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
@@ -15,14 +16,17 @@ export default function FormRecinto({
   disabled = false
 }) {
 
+  const router = useRouter()
+  
   const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
 
   const [errores, setErrores] = useState(null)
   
   async function wrapper(formData) {
     const errores = await action(formData);
-    console.log(errores);
+    // console.log(errores);
     setErrores(errores)
+    if (!errores) router.back()
   }
   
   const [longitud, setLongitud] = useState(recinto?.longitud)
@@ -119,8 +123,8 @@ export default function FormRecinto({
                 <input
                   type="number"
                   name="hum_ver_relativa"
-                  min={30}
-                  max={70}
+                  // min={30}
+                  // max={70}
                   defaultValue={Number(recinto?.hum_ver_relativa)}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -148,8 +152,8 @@ export default function FormRecinto({
                 <input
                   type="number"
                   name="hum_inv_relativa"
-                  min={30}
-                  max={70}
+                  // min={30}
+                  // max={70}
                   defaultValue={Number(recinto?.hum_inv_relativa)}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -900,10 +904,10 @@ export default function FormRecinto({
                   defaultValue={recinto?.orientacion_techo}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
-                  <option value="norte">Norte</option>
-                  <option value="sur">Sur</option>
-                  <option value="este">Este</option>
-                  <option value="oeste">Oeste</option>
+                  <option value="NORTE">NORTE</option>
+                  <option value="ESTE">ESTE</option>
+                  <option value="SUR">SUR</option>
+                  <option value="OESTE">OESTE</option>
                 </select>
               </label>
             </div>

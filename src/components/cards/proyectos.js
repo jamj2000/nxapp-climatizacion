@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
 
-async function page() {
+async function Proyectos() {
   const { user } = await auth();
   // console.log("USUARIO: ",  user);
 
@@ -32,4 +32,4 @@ async function page() {
 
 }
 
-export default page;
+export default Proyectos;

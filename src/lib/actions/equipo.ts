@@ -1,8 +1,8 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { Equipo } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
+import { revalidatePath } from "next/cache";
 
 
 const schema = z.object({
@@ -38,14 +38,13 @@ export async function newEquipo(formData: FormData) {
   const { id, ...data } = result.data
 
   try {
-    const equipo = await prisma.equipo.create({ data });
+    await prisma.equipo.create({ data });
+    revalidatePath("/proyectos");
+    revalidatePath("/equipos");
   } catch (error) {
     console.log(error);
-    // console.log(recinto)
-    console.log("Error al crear el cerramiento");
+    console.log("Error al crear el equipo: ", error);
   }
-
-  redirect("/equipos");
 }
 
 
@@ -62,23 +61,24 @@ export async function editEquipo(formData: FormData) {
 
   try {
     await prisma.equipo.update({ where: { id }, data });
+    revalidatePath("/proyectos");
+    revalidatePath("/equipos");
   } catch (error) {
-    console.log(error);
+    console.log("Error al actualizar el equipo: ", error);
   }
-  redirect("/equipos");
+
 }
 
 
 
 export async function deleteEquipo(formData: FormData) {
-
   const id = Number(formData.get('id'))
-  const proyectoId = Number(formData.get('proyectoId'))
 
   try {
     await prisma.equipo.delete({ where: { id } });
+    revalidatePath("/proyectos");
+    revalidatePath("/equipos");
   } catch (error) {
-    console.log("Error al eliminar el cerramiento:", error);
+    console.log("Error al eliminar el equipo: ", error);
   }
-  redirect("/equipos");
 }

@@ -2,18 +2,31 @@ import TarjetaEquipo from "@/components/cards/equipo";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
-async function Equipos() {
+async function Equipos({ proyectoId }) {
     const sesion = await auth();
     const { user } = sesion;
-    // const proyectos = await getProyectosConInfo({ userId: user?.id, recintos: true, equipos: true });
-    const proyectos = await prisma.proyecto.findMany({
-        where: { userId: user?.id },
-        include: {
-          equipos: true
-        }
-      });
 
-    const equipos = proyectos.map(proyecto => proyecto.equipos).flat()
+    let proyectos;
+    let equipos;
+
+    if (proyectoId) {
+        const proyecto = await prisma.proyecto.findUnique({
+            where: { userId: user?.id, id: proyectoId },
+            include: {
+                equipos: true
+            }
+        });
+        equipos = proyecto.equipos
+    }
+    else {
+        proyectos = await prisma.proyecto.findMany({
+            where: { userId: user?.id },
+            include: {
+                equipos: true
+            }
+        });
+        equipos = proyectos.map(proyecto => proyecto.equipos).flat()
+    }
 
     // await new Promise((resolve) => setTimeout(resolve, 4000))
 

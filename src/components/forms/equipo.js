@@ -1,16 +1,19 @@
 'use client'
 import Boton from "@/components/boton";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function FormEquipo({ action, texto, equipo, proyectos, disabled = false }) {
+  const router = useRouter()
 
   const [errores, setErrores] = useState(null)
 
   async function wrapper(formData) {
     const errores = await action(formData);
-    console.log(errores);
+    // console.log(errores);
     setErrores(errores)
+    if (!errores) router.back()
   }
 
   return (

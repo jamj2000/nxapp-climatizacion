@@ -2,20 +2,33 @@ import TarjetaRecinto from "@/components/cards/recinto";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
-async function Page() {
+async function Recintos({ proyectoId }) {
     const sesion = await auth();
     const { user } = sesion;
-    // const proyectos = await getProyectosConInfo({ userId: user?.id, recintos: true, equipos: true });
-    const proyectos = await prisma.proyecto.findMany({
-        where: { userId: user?.id },
-        include: {
-          recintos: true
-        }
-      });
 
-    const recintos = proyectos.map(proyecto => proyecto.recintos).flat()
+    let proyectos;
+    let recintos;
 
-    // await new Promise((resolve) => setTimeout(resolve, 4000))
+    if (proyectoId) {
+        const proyecto = await prisma.proyecto.findUnique({
+            where: { userId: user?.id, id: proyectoId },
+            include: {
+                recintos: true
+            }
+        });
+        recintos = proyecto.recintos
+    }
+    else {
+        proyectos = await prisma.proyecto.findMany({
+            where: { userId: user?.id },
+            include: {
+                recintos: true
+            }
+        });
+        recintos = proyectos.map(proyecto => proyecto.recintos).flat()
+    }
+
+      // await new Promise((resolve) => setTimeout(resolve, 4000))
 
     return (
         <div className="flex flex-wrap gap-5 sm:gap-10 items-center justify-center mb-10">
@@ -28,4 +41,4 @@ async function Page() {
     )
 }
 
-export default Page;
+export default Recintos;

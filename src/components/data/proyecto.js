@@ -14,7 +14,6 @@ async function volver() {
 export default async function DataProyecto({ id, operacion }) {
     const sesion = await auth();
     const { user } = sesion;
-    const userId = user?.id;
 
     // console.log(id, operacion);
 

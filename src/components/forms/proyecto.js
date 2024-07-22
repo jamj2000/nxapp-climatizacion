@@ -1,7 +1,9 @@
 'use client'
 import DropImagen from "@/components/imagen";
+import Image from "next/image";
 import Boton from "@/components/boton";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 
 import {
@@ -29,7 +31,8 @@ import {
   entalpia_int_inv_lat,
   volum_espe_int_inv,
 } from "@/lib/calculos"
-import Image from "next/image";
+
+
 
 
 
@@ -42,7 +45,7 @@ export function FormProyecto({
   disabled = false,
 }) {
 
-
+  const router = useRouter()
 
   const proyectoId = proyecto?.id;
   const usuarioId = proyecto?.userId ?? userId;
@@ -135,6 +138,7 @@ export function FormProyecto({
     const errores = await action(formData);
     // console.log(errores);
     setErrores(errores)
+    if (!errores) router.back()
   }
 
   return (

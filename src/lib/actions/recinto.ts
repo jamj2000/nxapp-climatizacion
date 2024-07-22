@@ -1,9 +1,8 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z, ZodError } from "@/lib/es-zod";
 import { Recinto } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 const schema = z.object({
   id: z.coerce.number(),
@@ -11,8 +10,8 @@ const schema = z.object({
   proyectoId: z.coerce.number(),
   temp_ver_relativa: z.coerce.number(),
   temp_inv_relativa: z.coerce.number(),
-  hum_ver_relativa: z.coerce.number(),
-  hum_inv_relativa: z.coerce.number(),
+  hum_ver_relativa: z.coerce.number().min(30).max(70),
+  hum_inv_relativa: z.coerce.number().min(30).max(70),
   longitud: z.coerce.number(),
   anchura: z.coerce.number(),
   altura: z.coerce.number(),
@@ -104,14 +103,11 @@ export async function newRecinto(formData: FormData) {
   try {
     const recinto = await prisma.recinto.create({ data });
     console.log(recinto);
+    revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
-    console.log(error);
-    // console.log(recinto)
-    console.log("Error al crear el cerramiento");
+    console.log("Error al crear el cerramiento: ", error);
   }
-
-  redirect("/recintos");
 }
 
 
@@ -128,12 +124,12 @@ export async function editRecinto(formData: FormData) {
 
   try {
     const recinto = await prisma.recinto.update({ where: {id}, data });
-    // console.log(recinto);
+    revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
-    console.log(error);
+    console.log("Error al actualizar el cerramiento: ", error);
   }
-  redirect("/recintos");
+
 }
 
 
@@ -145,10 +141,9 @@ export async function deleteRecinto(formData: FormData) {
 
   try {
     const recinto = await prisma.recinto.delete({    where: { id }   });
-    // console.log("recintos eliminado:", recinto);
+    revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
-    console.log("Error al eliminar el cerramiento:", error);
+    console.log("Error al eliminar el cerramiento: ", error);
   }
-  redirect("/recintos");
 }
