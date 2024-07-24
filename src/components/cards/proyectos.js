@@ -1,6 +1,7 @@
 import TarjetaProyecto from "@/components/cards/proyecto";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { readProyecto, readProyectos } from "@/lib/actions/proyecto";
 
 
 async function Proyectos() {
@@ -11,12 +12,14 @@ async function Proyectos() {
   let proyectos = {}
 
   if (user?.role === "ADMIN")
-    proyectos = await prisma.proyecto.findMany();
+    // proyectos = await prisma.proyecto.findMany();
+    proyectos = await readProyectos()
   else {
-    proyectos = await prisma.proyecto.findMany({  where: { userId: user?.id }   });
+    proyectos = await readProyectos({ userId: user?.id })
+    // proyectos = await prisma.proyecto.findMany({  where: { userId: user?.id }   });
   }
 
-  //   await create Promise((resolve) => setTimeout(resolve, 4000))
+  //   await new Promise((resolve) => setTimeout(resolve, 4000))
 
   return (
 

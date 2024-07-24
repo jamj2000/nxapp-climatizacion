@@ -15,7 +15,7 @@ async function TarjetaProyecto({ proyecto }) {
     nombre = name;
   }
 
-  // await create Promise( (resolve) => { setTimeout( resolve, 4000) })
+  // await new Promise( (resolve) => { setTimeout( resolve, 4000) })
 
   return (
     <div className="w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

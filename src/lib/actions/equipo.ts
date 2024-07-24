@@ -25,8 +25,6 @@ function validate(formData: FormData): ZodReturn {
   return result
 }
 
-
-
 export async function createEquipo(formData: FormData) {
   const result = validate(formData)
 
@@ -81,4 +79,15 @@ export async function deleteEquipo(formData: FormData) {
   } catch (error) {
     console.log("Error al eliminar el equipo: ", error);
   }
+}
+
+// READ ACTIONS
+
+export async function readEquipoWithProyecto(id: number) {
+  const equipo = await prisma.equipo.findUnique({
+    where: { id },
+    include: { proyecto: true }
+  })
+  
+  return equipo
 }

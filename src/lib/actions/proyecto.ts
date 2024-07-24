@@ -5,6 +5,8 @@ import cloudinary from "@/lib/cloudinary";
 // import { Proyecto, Recinto, Equipo } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
 
+
+
 const schema = z.object({
   id: z.coerce.number(),
   nombre: z.string().trim().min(1),   // al menos una letra
@@ -23,7 +25,7 @@ const schema = z.object({
   presion: z.coerce.number(),
   zona_climatica: z.string().trim(),
   oda: z.string().trim(),
-  
+
   us_um: z.coerce.number(),
   uc: z.coerce.number(),
   ut_umd: z.coerce.number(),
@@ -140,9 +142,7 @@ export async function createProyecto(formData: FormData) {
   }
 
   try {
-    const proyecto = await prisma.proyecto.create({ data });
-
-    console.log(proyecto);
+    await prisma.proyecto.create({ data });
     revalidatePath("/proyectos");
   } catch (error) {
     console.log("Error al crear el proyecto:", error);
@@ -169,11 +169,10 @@ export async function updateProyecto(formData: FormData) {
   }
 
   try {
-    const proyecto = await prisma.proyecto.update({
+    await prisma.proyecto.update({
       where: { id },
       data
     });
-    console.log(proyecto);
     revalidatePath("/proyectos");
   } catch (error) {
     console.log("Error al actualizar el proyecto:", error);
@@ -187,7 +186,7 @@ export async function deleteProyecto(formData: FormData) {
   const id = Number(formData.get("id"));
 
   try {
-    const proyecto = await prisma.proyecto.delete({
+    await prisma.proyecto.delete({
       where: { id }
     });
     revalidatePath("/proyectos");
@@ -224,4 +223,40 @@ export async function copyProyecto(formData: FormData) {
   }
 
 
+}
+
+
+
+// READ ACTIONS
+
+
+type Props1 = {
+  id: number,
+  userId?: string,
+  include?: { equipos?: true, recintos?: true }
+}
+
+
+export async function readProyecto({ id, userId, include }: Props1) {
+  const proyecto = await prisma.proyecto.findUnique({
+    where: { id, userId },
+    include
+  })
+
+  return proyecto
+}
+
+
+type Props2 = {
+  userId?: string,
+  include?: { equipos?: true, recintos?: true }
+} 
+
+export async function readProyectos({ userId, include }: Props2 = {}) {
+  const proyectos = await prisma.proyecto.findMany({
+    where: { userId },
+    include
+  })
+
+  return proyectos
 }

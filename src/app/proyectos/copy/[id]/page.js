@@ -1,5 +1,5 @@
 import FormProyecto from "@/components/forms/proyecto";
-import { copyProyecto } from "@/lib/actions/proyecto";
+import { copyProyecto, readProyecto } from "@/lib/actions/proyecto";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
@@ -11,15 +11,11 @@ async function page({ params }) {
 
   const localidades = await prisma.localidad.findMany({ include: { zona_climatica:  true} });
 
+  const proyecto = await readProyecto ( {id: Number(params.id) } )
 
-  const proyecto = await prisma.proyecto.findUnique({
-    where: {
-      id: Number(params.id),
-    },
-  });
   // console.log("USUARIO ID: " + user?.id);
   proyecto.nombre = proyecto.nombre + ' - Copia'
-  proyecto.fecha =  create Date();
+  proyecto.fecha =  new Date();
 
 
   return (

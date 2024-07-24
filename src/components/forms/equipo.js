@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 export default function FormEquipo({ action, texto,  equipo, proyectos, disabled = false }) {
   const router = useRouter()
  
-
   const [errores, setErrores] = useState(null)
 
   async function wrapper(formData) {

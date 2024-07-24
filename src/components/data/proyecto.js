@@ -1,13 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { createProyecto, updateProyecto, deleteProyecto } from "@/lib/actions/proyecto"
+import { createProyecto, updateProyecto, deleteProyecto, readProyecto } from "@/lib/actions/proyecto"
 import { CRUD } from "@/lib/constantes"
 import FormProyecto from '@/components/forms/proyecto'
 
 async function volver() {
     'use server'
-    redirect('/proyectos')
+    return
 }
 
 
@@ -26,7 +25,8 @@ export default async function DataProyecto({ id, operacion }) {
     const localidades = await prisma.localidad.findMany({ include: { zona_climatica: true } });
 
     if (id) {
-        proyecto = await prisma.proyecto.findUnique({ where: { id } });
+        // proyecto = await prisma.proyecto.findUnique({ where: { id } });
+        proyecto = await readProyecto ({ id })
     }
 
     switch (operacion) {

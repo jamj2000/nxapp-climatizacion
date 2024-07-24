@@ -1,14 +1,14 @@
-import { prisma } from "@/lib/prisma";
+// import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { createRecinto, updateRecinto, deleteRecinto } from "@/lib/actions/recinto"
+import { createRecinto, updateRecinto, deleteRecinto, readRecintoWithProyecto } from "@/lib/actions/recinto"
 import { CRUD } from "@/lib/constantes"
 import FormRecinto from '@/components/forms/recinto'
+import { readProyectos } from "@/lib/actions/proyecto";
 
 
 async function volver() {
     'use server'
-    redirect('/recintos')
+    return
 }
 
 
@@ -26,14 +26,12 @@ export default async function DataRecinto({ id, operacion }) {
     let disabled = false
 
     if (id) {
-        recinto = await prisma.recinto.findUnique({
-            where: { id },
-            include: { proyecto: true }
-        });
+        recinto = await readRecintoWithProyecto(id)
     }
 
     // Proyectos que pertenecen al usuario con userId
-    proyectos = await prisma.proyecto.findMany({ where: { userId: userId } })
+    // proyectos = await prisma.proyecto.findMany({ where: { userId: userId } })
+    proyectos = await readProyectos ( {userId: userId})
 
     switch (operacion) {
         case CRUD.CREATE: texto = "Crear Recinto"; action = createRecinto; break;

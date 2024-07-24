@@ -89,7 +89,6 @@ function validate(formData: FormData): ZodReturn {
 }
 
 
-
 export async function createRecinto(formData: FormData) {
   const result = validate(formData)
 
@@ -101,8 +100,7 @@ export async function createRecinto(formData: FormData) {
   const { id, ...data } = result.data
 
   try {
-    const recinto = await prisma.recinto.create({ data });
-    console.log(recinto);
+    await prisma.recinto.create({ data });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
@@ -123,7 +121,7 @@ export async function updateRecinto(formData: FormData) {
   const { id, ...data } = result.data
 
   try {
-    const recinto = await prisma.recinto.update({ where: {id}, data });
+    await prisma.recinto.update({ where: {id}, data });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
@@ -136,14 +134,24 @@ export async function updateRecinto(formData: FormData) {
 
 export async function deleteRecinto(formData: FormData) {
   const id = Number(formData.get("id"));
-  const proyectoId = Number(formData.get("proyectoId"));
-  console.log("ID recibido:", proyectoId);
 
   try {
-    const recinto = await prisma.recinto.delete({    where: { id }   });
+    await prisma.recinto.delete({    where: { id }   });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
     console.log("Error al eliminar el cerramiento: ", error);
   }
+}
+
+
+// READ ACTIONS
+
+export async function readRecintoWithProyecto(id: number) {
+  const recinto = await prisma.recinto.findUnique({
+    where: { id },
+    include: { proyecto: true }
+  })
+  
+  return recinto
 }
