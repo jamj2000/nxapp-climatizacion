@@ -69,17 +69,26 @@ const schema = z.object({
   entalpia_int_inv_lat: z.coerce.number(),
   volum_espe_int_inv: z.coerce.number(),
 
-  temp_terreno_ver: z.coerce.number().optional(),
-  temp_terreno_inv: z.coerce.number().optional(),
+  // temp_terreno_ver: z.coerce.number().optional().transform(value => value ?? null), // convertimos undefined a null
+  // temp_terreno_inv: z.coerce.number().optional().transform(value => value ?? null),
 
-  factorFuncionamiento: z.coerce.number().optional(),
-  temp_int_ver: z.coerce.number().optional(),
-  temp_int_inv: z.coerce.number().optional(),
-  hum_int_ver: z.coerce.number().optional(),
-  hum_int_inv: z.coerce.number().optional(),
+  // factorFuncionamiento: z.coerce.number().optional().transform(value => value ?? null),
+  // temp_int_ver: z.coerce.number().optional().transform(value => value ?? null),
+  // temp_int_inv: z.coerce.number().optional().transform(value => value ?? null),
+  // hum_int_ver: z.coerce.number().optional().transform(value => value ?? null),
+  // hum_int_inv: z.coerce.number().optional().transform(value => value ?? null),
 
-  createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional(),
+  temp_terreno_ver: z.coerce.number(), 
+  temp_terreno_inv: z.coerce.number(),
+
+  factorFuncionamiento: z.coerce.number(),
+  temp_int_ver: z.coerce.number(),
+  temp_int_inv: z.coerce.number(),
+  hum_int_ver: z.coerce.number(),
+  hum_int_inv: z.coerce.number(),
+
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 
 })
 
