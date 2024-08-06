@@ -56,7 +56,7 @@ export function FormProyecto({
   const [errores, setErrores] = useState(null)
 
 
-  function calcular() {
+  function calcular(localidad) {
     const {
       altitud,
       temp_ext_ver, hum_ext_ver, temp_ext_inv, hum_ext_inv,
@@ -119,7 +119,7 @@ export function FormProyecto({
 
   }
 
-  const [calculo, setCalculo] = useState(calcular())
+  const [calculo, setCalculo] = useState(calcular(localidad))
 
   useEffect(() => {
     // Para poder usar la rueda del ratón dentro de los inputs de tipo number
@@ -127,10 +127,13 @@ export function FormProyecto({
     inputs.forEach(input => input.addEventListener('wheel', () => { }));
   }, [])
 
+  useEffect(() => {
+    setCalculo(calcular(localidad))
+  }, [localidad])
 
   function updateLocalidad(e) {
     setLocalidad(localidades.find(localidad => localidad.id == e.target.value))
-    const resultado = calcular()
+    const resultado = calcular(localidad)
     setCalculo(resultado)
   }
 
