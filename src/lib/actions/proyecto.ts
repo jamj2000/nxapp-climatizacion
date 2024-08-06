@@ -2,7 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
-import { Proyecto } from "@prisma/client";
+// import { Proyecto, Recinto, Equipo } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
 
 
@@ -13,13 +13,14 @@ const schema = z.object({
   localidadId: z.coerce.number(),
   userId: z.string().trim(),
   comentarios: z.string().trim(),
-  imagen: z.string(),
+  imagen: z.string().nullable(),
   fecha: z.coerce.date(),
-
   temp_ext_ver: z.coerce.number(),
   temp_ext_inv: z.coerce.number(),
   hum_ext_ver: z.coerce.number(),
   hum_ext_inv: z.coerce.number(),
+  temp_terreno_ver: z.coerce.number().optional(),
+  temp_terreno_inv: z.coerce.number().optional(),
   altitud: z.coerce.number(),
   presion: z.coerce.number(),
   zona_climatica: z.string().trim(),
@@ -47,6 +48,12 @@ const schema = z.object({
   potencia_lampara: z.coerce.number(),
   valor_seguridad: z.coerce.number(),
 
+  factorFuncionamiento: z.coerce.number().optional(),
+  temp_int_ver: z.coerce.number().optional(),
+  temp_int_inv: z.coerce.number().optional(),
+  hum_int_ver: z.coerce.number().optional(),
+  hum_int_inv: z.coerce.number().optional(),
+
   p_sat_agua_ext_ver: z.coerce.number(),
   hum_absol_ext_ver: z.coerce.number(),
   entalpia_ext_ver_sens: z.coerce.number(),
@@ -69,24 +76,12 @@ const schema = z.object({
   entalpia_int_inv_lat: z.coerce.number(),
   volum_espe_int_inv: z.coerce.number(),
 
-  temp_terreno_ver: z.coerce.number().optional().transform(value => value ?? null), // convertimos undefined a null
-  temp_terreno_inv: z.coerce.number().optional().transform(value => value ?? null),
-
-  factorFuncionamiento: z.coerce.number().optional().transform(value => value ?? null),
-  temp_int_ver: z.coerce.number().optional().transform(value => value ?? null),
-  temp_int_inv: z.coerce.number().optional().transform(value => value ?? null),
-  hum_int_ver: z.coerce.number().optional().transform(value => value ?? null),
-  hum_int_inv: z.coerce.number().optional().transform(value => value ?? null),
-
-})
-.extend ({
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
 })
 
 
-
-type ZodReturn = { success: true, data: Proyecto } | { success: false, error: ZodError }
+type ZodReturn = { success: true, data: z.infer<typeof schema> } | { success: false, error: ZodError }
 
 
 
