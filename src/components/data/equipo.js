@@ -6,7 +6,7 @@ import FormEquipo from '@/components/forms/equipo'
 import { readProyectos } from "@/lib/actions/proyecto";
 
 
-async function volver() {
+async function noAction() {
     'use server'
     return
 }
@@ -26,16 +26,26 @@ export default async function DataEquipo({ id, operacion }) {
     let disabled = false
 
     if (id) {
-        equipo = await readEquipoWithProyecto(id)
+        equipo = await prisma.equipo.findUnique({
+            where: { id },
+            include: { proyecto: true }
+        })
+        // equipo = await readEquipoWithProyecto(id)
     }
 
     // Proyectos que pertenecen al usuario con userId
-    // proyectos = await prisma.proyecto.findMany({   where: { userId: userId }   })
-    proyectos = await readProyectos ({ userId: userId })
+    proyectos = await prisma.proyecto.findMany({
+        select: {
+            id: true,
+            nombre: true,
+        },
+        where: { userId: userId }
+    })
+    // proyectos = await readProyectos ({ userId: userId })
 
     switch (operacion) {
         case CRUD.CREATE: texto = "Crear Equipo"; action = createEquipo; break;
-        case CRUD.READ: texto = "Volver"; action = volver; disabled = true; break;
+        case CRUD.READ: texto = "Volver"; action = noAction; disabled = true; break;
         case CRUD.UPDATE: texto = "Actualizar Equipo"; action = updateEquipo; break;
         case CRUD.DELETE: texto = "Eliminar Equipo"; action = deleteEquipo; disabled = true; break;
         default:
