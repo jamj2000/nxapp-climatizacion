@@ -4,6 +4,7 @@ import { createEquipo, updateEquipo, deleteEquipo, readEquipoWithProyecto } from
 import { CRUD } from "@/lib/constantes"
 import FormEquipo from '@/components/forms/equipo'
 import { readProyectos } from "@/lib/actions/proyecto";
+import { prisma } from "@/lib/prisma"
 
 
 async function noAction() {
@@ -26,14 +27,13 @@ export default async function DataEquipo({ id, operacion }) {
     let disabled = false
 
     if (id) {
+        // equipo = await readEquipoWithProyecto(id)
         equipo = await prisma.equipo.findUnique({
             where: { id },
             include: { proyecto: true }
         })
-        // equipo = await readEquipoWithProyecto(id)
-    }
-
     // Proyectos que pertenecen al usuario con userId
+    // proyectos = await readProyectos ({ userId: userId })
     proyectos = await prisma.proyecto.findMany({
         select: {
             id: true,
@@ -41,7 +41,7 @@ export default async function DataEquipo({ id, operacion }) {
         },
         where: { userId: userId }
     })
-    // proyectos = await readProyectos ({ userId: userId })
+
 
     switch (operacion) {
         case CRUD.CREATE: texto = "Crear Equipo"; action = createEquipo; break;
