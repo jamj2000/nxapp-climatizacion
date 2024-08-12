@@ -11,7 +11,7 @@ async function page({ params }) {
       <h1 className="text-2xl font-bold text-center p-10">
         CREAR EQUIPO
       </h1>
-      <Suspense>
+      <Suspense fallback={<span className="loading loading-ring loading-lg"></span>}>
         <DataEquipo  id={Number(params.id)}  operacion={CRUD.CREATE}  />
       </Suspense>
     </Tarjeta>

@@ -11,7 +11,7 @@ async function page({ params }) {
       <h1 className="text-2xl font-bold text-center p-10">
         ELIMINAR PROYECTO
       </h1>
-      <Suspense>
+      <Suspense fallback={<span className="loading loading-ring loading-lg"></span>}>
         <DataProyecto  id={Number(params.id)}  operacion={CRUD.DELETE}  />
       </Suspense>
     </Tarjeta>
