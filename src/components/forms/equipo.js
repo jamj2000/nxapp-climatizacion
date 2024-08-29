@@ -1,13 +1,47 @@
 'use client'
 import Boton from "@/components/boton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { readProyectos } from '@/lib/actions/proyecto'
+import { readEquipo, createEquipo, updateEquipo, deleteEquipo, noAction } from '@/lib/actions/equipo'
+import { CRUD } from "@/lib/constantes";
 
+export default function FormEquipo({ id, userId, operacion }) {
+  let action;
+  let texto;
+  let disabled;
 
-export default function FormEquipo({ action, texto,  equipo, proyectos, disabled = false }) {
+  switch (operacion) {
+    case CRUD.CREATE: texto = "Crear Equipo"; action = createEquipo; disabled = false; break;
+    case CRUD.READ: texto = "Volver"; action = noAction; disabled = true; break;
+    case CRUD.UPDATE: texto = "Actualizar Equipo"; action = updateEquipo; disabled = false; break;
+    case CRUD.DELETE: texto = "Eliminar Equipo"; action = deleteEquipo; disabled = true; break;
+    default:
+  }
+
   const router = useRouter()
- 
+
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [equipo, setEquipo] = useState({})
+  const [proyectos, setProyectos] = useState([])
   const [errores, setErrores] = useState(null)
+
+  useEffect(() => {
+    // Datos de Proyectos y Equipo
+    async function fetchData() {
+      const proyectos = await readProyectos({ userId, select: { id: true, nombre: true } })
+      setProyectos(proyectos)
+        
+      if (id) {
+        const equipo = await readEquipo({ id, include: { proyecto: true } })
+        setEquipo(equipo)
+      }
+    }
+    fetchData()
+
+    setIsLoaded(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function wrapper(formData) {
     const errores = await action(formData);
@@ -16,10 +50,10 @@ export default function FormEquipo({ action, texto,  equipo, proyectos, disabled
     if (!errores) router.back()
   }
 
-  return (
+  if (isLoaded) return (
     <form action={wrapper}>
-      <input type="hidden" name="id" defaultValue={equipo?.id} />
-      {disabled && <input type='hidden' name="proyectoId" defaultValue={equipo?.proyectoId} />}
+      <input type="hidden" name="id" defaultValue={id} />
+      {disabled && <input type='hidden' name="proyectoId" value={equipo?.proyectoId} />}
 
       <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
         <p className="uppercase mb-2 text-black">Errores detectados:</p>
@@ -36,20 +70,20 @@ export default function FormEquipo({ action, texto,  equipo, proyectos, disabled
       <div className="flex flex-col gap-4 justify-between items-center mb-4 md:flex-row">
         <Boton texto={texto} />
         <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
-          {disabled
-            ? <span className="font-bold">{proyectos.find(p => p.id == equipo?.proyectoId)?.nombre ?? proyectos[0].nombre} </span>
-            : <select
-              name="proyectoId"
-              // disabled={disabled} Esto interfiere al devolver el valor
-              className="border-2 border-gray-300 rounded p-2"
-              defaultValue={equipo?.proyectoId}
-            >
-              {proyectos?.map((proyecto) =>
-                <option key={proyecto.id} value={proyecto.id}>
-                  {proyecto.nombre}
-                </option>
-              )}
-            </select>
+          {
+            disabled
+              ? <span className="font-bold">{ equipo.proyecto?.nombre } </span>
+              : <select
+                name="proyectoId"
+                className="border-2 border-gray-300 rounded p-2"
+                value={equipo?.proyectoId}
+                onChange={(e) => setEquipo( { ...equipo, proyectoId: e.target.value } )}
+              >
+                {
+                  proyectos
+                    ?.map(proyecto => <option key={proyecto.id} value={proyecto.id}>  {proyecto.nombre}  </option>)
+                }
+              </select>
           }
         </label>
       </div>
@@ -63,7 +97,8 @@ export default function FormEquipo({ action, texto,  equipo, proyectos, disabled
               <input
                 type="text"
                 name="nombre"
-                defaultValue={equipo?.nombre}
+                value={equipo?.nombre}
+                onChange={(e) => setEquipo( { ...equipo, nombre: e.target.value } )}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>
@@ -74,7 +109,8 @@ export default function FormEquipo({ action, texto,  equipo, proyectos, disabled
               <input
                 type="number"
                 name="potencia"
-                defaultValue={Number(equipo?.potencia)}
+                value={Number(equipo?.potencia)}
+                onChange={(e) => setEquipo( { ...equipo, potencia: e.target.value } )}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>
@@ -86,7 +122,8 @@ export default function FormEquipo({ action, texto,  equipo, proyectos, disabled
               <input
                 type="number"
                 name="factor_funcionamiento"
-                defaultValue={Number(equipo?.factor_funcionamiento)}
+                value={Number(equipo?.factor_funcionamiento)}
+                onChange={(e) => setEquipo( { ...equipo, factor_funcionamiento: e.target.value } )}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>

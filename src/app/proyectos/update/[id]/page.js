@@ -1,19 +1,18 @@
-import { Suspense } from "react";
-import { CRUD } from "@/lib/constantes"
 import Tarjeta from "@/components/cards/contenedor";
-import DataProyecto from "@/components/data/proyecto"
+import FormProyecto from "@/components/forms/proyecto";
+import { auth } from "@/auth";
+import { CRUD } from "@/lib/constantes"
 
 
 async function page({ params }) {
+  const { user } = await auth()
 
   return (
     <Tarjeta>
       <h1 className="text-2xl font-bold text-center p-10">
         ACTUALIZAR PROYECTO
       </h1>
-      <Suspense fallback={<span className="loading loading-ring loading-lg"></span>}>
-        <DataProyecto  id={Number(params.id)}  operacion={CRUD.UPDATE}  />
-      </Suspense>
+      <FormProyecto id={Number(params.id)} userId={user.id} operacion={CRUD.UPDATE} />    
     </Tarjeta>
   );
 }

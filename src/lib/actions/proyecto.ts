@@ -8,7 +8,7 @@ import { z, ZodError } from "@/lib/es-zod";
 
 
 const schema = z.object({
-  id: z.coerce.number(),
+  id: z.union([z.coerce.number(), z.string().nullish()]),
   nombre: z.string().trim().min(1),   // al menos una letra
   localidadId: z.coerce.number(),
   userId: z.string().trim(),
@@ -231,9 +231,9 @@ export async function copyProyecto(formData: FormData) {
 
 
 type Props1 = {
-  id: number,
+  id: number | undefined,
   userId?: string,
-  include?: { equipos?: true, recintos?: true }
+  include?: { equipos?: true, recintos?: true, localidad?: true }
 }
 
 
@@ -249,14 +249,22 @@ export async function readProyecto({ id, userId, include }: Props1) {
 
 type Props2 = {
   userId?: string,
-  include?: { equipos?: true, recintos?: true }
+  include?: { equipos?: true, recintos?: true },
+  select?: unknown
 } 
 
-export async function readProyectos({ userId, include }: Props2 = {}) {
+export async function readProyectos({ userId, include, select }: Props2 = {}) {
   const proyectos = await prisma.proyecto.findMany({
     where: { userId },
     include
   })
 
   return proyectos
+}
+
+
+
+export async function noAction() {
+  'use server'
+  return
 }

@@ -4,9 +4,7 @@ import Image from "next/image";
 import Boton from "@/components/boton";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CRUD } from '@/lib/constantes'
-import { readProyecto, createProyecto, updateProyecto, deleteProyecto, noAction } from '@/lib/actions/proyecto'
-import { readLocalidades, readLocalidad } from "@/lib/actions/localidad";
+
 
 import {
   presion,
@@ -36,121 +34,98 @@ import {
 
 
 
-function calcular(localidad) {
-  const {
-    altitud,
-    temp_ext_ver, hum_ext_ver, temp_ext_inv, hum_ext_inv,
-  } = localidad
-
-  const temp_int_ver = 25;
-  const temp_int_inv = 21;
-  const hum_int_ver = 50;
-  const hum_int_inv = 50;
-
-  const _presion = presion(altitud)
-
-  const _p_sat_agua_ext_ver = p_sat_agua_ext_ver(temp_ext_ver)
-  const _hum_absol_ext_ver = hum_absol_ext_ver(hum_ext_ver, _p_sat_agua_ext_ver, _presion)
-  const _entalpia_ext_ver_sens = entalpia_ext_ver_sens(temp_ext_ver, _hum_absol_ext_ver)
-  const _entalpia_ext_ver_lat = entalpia_ext_ver_lat(_hum_absol_ext_ver)
-  const _volum_espe_ext_ver = volum_espe_ext_ver(temp_ext_ver, _hum_absol_ext_ver, _presion)
-  const _p_sat_agua_int_ver = p_sat_agua_int_ver(temp_int_ver)
-  const _hum_absol_int_ver = hum_absol_int_ver(hum_int_ver, _p_sat_agua_int_ver, _presion)
-  const _entalpia_int_ver_sens = entalpia_int_ver_sens(temp_int_ver, _hum_absol_int_ver)
-  const _entalpia_int_ver_lat = entalpia_int_ver_lat(_hum_absol_int_ver)
-  const _volum_espe_int_ver = volum_espe_int_ver(temp_int_ver, _hum_absol_int_ver, _presion)
-
-  const _p_sat_agua_ext_inv = p_sat_agua_ext_inv(temp_ext_inv)
-  const _hum_absol_ext_inv = hum_absol_ext_inv(hum_ext_inv, _p_sat_agua_ext_inv, _presion)
-  const _entalpia_ext_inv_sens = entalpia_ext_inv_sens(temp_ext_inv, _hum_absol_ext_inv)
-  const _entalpia_ext_inv_lat = entalpia_ext_inv_lat(_hum_absol_ext_inv)
-  const _volum_espe_ext_inv = volum_espe_ext_inv(temp_ext_inv, _hum_absol_ext_inv, _presion)
-  const _p_sat_agua_int_inv = p_sat_agua_int_inv(temp_int_inv)
-  const _hum_absol_int_inv = hum_absol_int_inv(hum_int_inv, _p_sat_agua_int_inv, _presion)
-  const _entalpia_int_inv_sens = entalpia_int_inv_sens(temp_int_inv, _hum_absol_int_inv)
-  const _entalpia_int_inv_lat = entalpia_int_inv_lat(_hum_absol_int_inv)
-  const _volum_espe_int_inv = volum_espe_int_inv(temp_int_inv, _hum_absol_int_inv, _presion)
-
-  return {
-    _presion,
-
-    _p_sat_agua_ext_ver,
-    _hum_absol_ext_ver,
-    _entalpia_ext_ver_sens,
-    _entalpia_ext_ver_lat,
-    _volum_espe_ext_ver,
-    _p_sat_agua_int_ver,
-    _hum_absol_int_ver,
-    _entalpia_int_ver_sens,
-    _entalpia_int_ver_lat,
-    _volum_espe_int_ver,
-
-    _p_sat_agua_ext_inv,
-    _hum_absol_ext_inv,
-    _entalpia_ext_inv_sens,
-    _entalpia_ext_inv_lat,
-    _volum_espe_ext_inv,
-    _p_sat_agua_int_inv,
-    _hum_absol_int_inv,
-    _entalpia_int_inv_sens,
-    _entalpia_int_inv_lat,
-    _volum_espe_int_inv,
-  }
-
-}
 
 
-
-export function FormProyecto({ id, userId, operacion }) {
-
-  let action;
-  let texto;
-  let disabled;
-
-  switch (operacion) {
-    case CRUD.CREATE: texto = "Crear Proyecto"; action = createProyecto; disabled = false; break;
-    case CRUD.READ: texto = "Volver"; action = noAction; disabled = true; break;
-    case CRUD.UPDATE: texto = "Actualizar Proyecto"; action = updateProyecto; disabled = false; break;
-    case CRUD.DELETE: texto = "Eliminar Proyecto"; action = deleteProyecto; disabled = true; break;
-    default:
-  }
+export function FormProyecto({
+  action,
+  texto,
+  proyecto,
+  localidades,
+  userId,
+  disabled = false,
+}) {
 
   const router = useRouter()
 
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [localidades, setLocalidades] = useState([])
-  const [proyecto, setProyecto] = useState({})
-  const [localidad, setLocalidad] = useState({})
+  const proyectoId = proyecto?.id;
+  const usuarioId = proyecto?.userId ?? userId;
+  const initLocalidad = localidades.find(localidad => localidad.id == proyecto?.localidadId)
+
+  const [localidad, setLocalidad] = useState(initLocalidad ?? localidades[0])
+
   const [errores, setErrores] = useState(null)
+
+
+  function calcular(localidad) {
+    const {
+      altitud,
+      temp_ext_ver, hum_ext_ver, temp_ext_inv, hum_ext_inv,
+    } = localidad
+
+    const temp_int_ver = 25;
+    const temp_int_inv = 21;
+    const hum_int_ver = 50;
+    const hum_int_inv = 50;
+
+    const _presion = presion(altitud)
+
+    const _p_sat_agua_ext_ver = p_sat_agua_ext_ver(temp_ext_ver)
+    const _hum_absol_ext_ver = hum_absol_ext_ver(hum_ext_ver, _p_sat_agua_ext_ver, _presion)
+    const _entalpia_ext_ver_sens = entalpia_ext_ver_sens(temp_ext_ver, _hum_absol_ext_ver)
+    const _entalpia_ext_ver_lat = entalpia_ext_ver_lat(_hum_absol_ext_ver)
+    const _volum_espe_ext_ver = volum_espe_ext_ver(temp_ext_ver, _hum_absol_ext_ver, _presion)
+    const _p_sat_agua_int_ver = p_sat_agua_int_ver(temp_int_ver)
+    const _hum_absol_int_ver = hum_absol_int_ver(hum_int_ver, _p_sat_agua_int_ver, _presion)
+    const _entalpia_int_ver_sens = entalpia_int_ver_sens(temp_int_ver, _hum_absol_int_ver)
+    const _entalpia_int_ver_lat = entalpia_int_ver_lat(_hum_absol_int_ver)
+    const _volum_espe_int_ver = volum_espe_int_ver(temp_int_ver, _hum_absol_int_ver, _presion)
+
+    const _p_sat_agua_ext_inv = p_sat_agua_ext_inv(temp_ext_inv)
+    const _hum_absol_ext_inv = hum_absol_ext_inv(hum_ext_inv, _p_sat_agua_ext_inv, _presion)
+    const _entalpia_ext_inv_sens = entalpia_ext_inv_sens(temp_ext_inv, _hum_absol_ext_inv)
+    const _entalpia_ext_inv_lat = entalpia_ext_inv_lat(_hum_absol_ext_inv)
+    const _volum_espe_ext_inv = volum_espe_ext_inv(temp_ext_inv, _hum_absol_ext_inv, _presion)
+    const _p_sat_agua_int_inv = p_sat_agua_int_inv(temp_int_inv)
+    const _hum_absol_int_inv = hum_absol_int_inv(hum_int_inv, _p_sat_agua_int_inv, _presion)
+    const _entalpia_int_inv_sens = entalpia_int_inv_sens(temp_int_inv, _hum_absol_int_inv)
+    const _entalpia_int_inv_lat = entalpia_int_inv_lat(_hum_absol_int_inv)
+    const _volum_espe_int_inv = volum_espe_int_inv(temp_int_inv, _hum_absol_int_inv, _presion)
+
+    return {
+      _presion,
+
+      _p_sat_agua_ext_ver,
+      _hum_absol_ext_ver,
+      _entalpia_ext_ver_sens,
+      _entalpia_ext_ver_lat,
+      _volum_espe_ext_ver,
+      _p_sat_agua_int_ver,
+      _hum_absol_int_ver,
+      _entalpia_int_ver_sens,
+      _entalpia_int_ver_lat,
+      _volum_espe_int_ver,
+
+      _p_sat_agua_ext_inv,
+      _hum_absol_ext_inv,
+      _entalpia_ext_inv_sens,
+      _entalpia_ext_inv_lat,
+      _volum_espe_ext_inv,
+      _p_sat_agua_int_inv,
+      _hum_absol_int_inv,
+      _entalpia_int_inv_sens,
+      _entalpia_int_inv_lat,
+      _volum_espe_int_inv,
+    }
+
+  }
+
   const [calculo, setCalculo] = useState(calcular(localidad))
 
   useEffect(() => {
     // Para poder usar la rueda del ratón dentro de los inputs de tipo number
     const inputs = document.querySelectorAll("input[type='number']")
     inputs.forEach(input => input.addEventListener('wheel', () => { }));
-
-    // Datos de Localidades y Proyecto
-    async function fetchData() {
-      const localidades = await readLocalidades()
-      setLocalidades(localidades)
-
-      if (id) {
-        const proyecto = await readProyecto({ id, userId, include: { localidad: { include: { zona_climatica: true } } } })
-        setProyecto(proyecto)
-        setLocalidad(proyecto.localidad)
-      }
-      else {
-        setLocalidad(localidades[0])
-      }
-
-      // console.log(proyecto);
-    }
-    fetchData()
-
-    setIsLoaded(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
 
   useEffect(() => {
     setCalculo(calcular(localidad))
@@ -169,10 +144,10 @@ export function FormProyecto({ id, userId, operacion }) {
     if (!errores) router.back()
   }
 
-  if (isLoaded) return (
+  return (
     <form action={wrapper}>
-      <input type="hidden" name="id" defaultValue={id} />
-      <input type="hidden" name="userId" defaultValue={userId} />
+      <input type="hidden" name="id" defaultValue={proyectoId} />
+      <input type="hidden" name="userId" defaultValue={usuarioId} />
 
       <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
         <p className="uppercase mb-2 text-black">Errores detectados:</p>
@@ -198,7 +173,7 @@ export function FormProyecto({ id, userId, operacion }) {
               type="text"
               name="nombre"
               maxLength={50}
-              value={proyecto?.nombre}
+              defaultValue={proyecto?.nombre}
               className="border-2 border-gray-300 rounded ml-2 p-2 text-center"
             />
           </summary>
@@ -209,12 +184,11 @@ export function FormProyecto({ id, userId, operacion }) {
               <label className="font-bold">Localidad:
 
                 <select name="localidadId" className="text-left border-2 border-gray-300 rounded p-2 w-full"
-                  value={localidad.id}
-                  onChange={updateLocalidad} >
-                  {
-                    localidades
-                      .map(localidad => <option key={localidad.id} value={localidad.id}>{localidad.nombre} </option>)
-                  }
+                  onInput={updateLocalidad}
+                  defaultValue={proyecto?.localidadId} >
+                  {localidades.map(localidad => (
+                    <option key={localidad.id} value={localidad.id}>{localidad.nombre} </option>
+                  ))}
                 </select>
               </label>
 
@@ -225,8 +199,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   className="border-2 border-gray-300 rounded p-2 w-full"
                   type="date"
                   name="fecha"
-                  value={proyecto?.fecha?.toISOString().split("T")[0] ?? new Date().toISOString().split("T")[0]}
-                  onChange={() => { }}
+                  defaultValue={proyecto?.fecha?.toISOString().split("T")[0] ?? new Date().toISOString().split("T")[0]}
                 />
               </label>
             </div>
@@ -239,7 +212,7 @@ export function FormProyecto({ id, userId, operacion }) {
           <div className="mt-4 grid gap-1 items-stretch sm:grid-cols-1 md:grid-cols-[300px_auto] xl:grid-cols-[500px_auto]">
             <div className="mb-2">
               <div className="flex justify-center">
-                <input type="hidden" name="imagen" value={proyecto?.imagen} />
+                <input type="hidden" name="imagen" defaultValue={proyecto?.imagen} />
                 <DropImagen
                   imgUrl={proyecto?.imagen || "/project-image-default.jpg"}
                   alt="Logo de proyecto"
@@ -253,7 +226,7 @@ export function FormProyecto({ id, userId, operacion }) {
                 placeholder="Comentarios"
                 title="Añadir comentario del proyecto"
                 maxLength={300}
-                value={proyecto?.comentarios}
+                defaultValue={proyecto?.comentarios}
                 className="border-2 border-gray-300 rounded p-2 w-full h-24"
               />
             </div>
@@ -278,7 +251,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   step={1}
                   max={1000}
                   min={0}
-                  value={proyecto?.numero_personas}
+                  defaultValue={proyecto?.numero_personas}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -298,7 +271,7 @@ export function FormProyecto({ id, userId, operacion }) {
 
                 <select
                   name="ocupacion_personas"
-                  value={proyecto?.ocupacion_personas}
+                  defaultValue={proyecto?.ocupacion_personas}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="sedentario">Sedentaria</option>
@@ -323,7 +296,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="w_persona"
                   step={0.01}
-                  value={proyecto?.w_persona}
+                  defaultValue={proyecto?.w_persona}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -345,7 +318,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="caudales_ida"
                   step={0.01}
-                  value={proyecto?.caudales_ida}
+                  defaultValue={proyecto?.caudales_ida}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -367,7 +340,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="caudales_aire"
                   step={0.01}
-                  value={proyecto?.caudales_aire}
+                  defaultValue={proyecto?.caudales_aire}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -376,18 +349,18 @@ export function FormProyecto({ id, userId, operacion }) {
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
                 <div className="flex justify-between items-center">
-                  Tipo lámpara:
+                  Tipo lamapara:
                   <Image width={20} height={20}
                     src="/question.svg"
                     className="ml-2"
                     alt="info"
-                    title="Permite introducir el tipo de lámpara"
+                    title="Permite introducir el tipo de lampara"
                   />
                 </div>
 
                 <select
                   name="tipo_lampara"
-                  value={proyecto?.tipo_lampara}
+                  defaultValue={proyecto?.tipo_lampara}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="fluorescente">Fluorescente</option>
@@ -412,7 +385,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="potencia_lampara"
                   step={0.01}
-                  value={proyecto?.potencia_lampara}
+                  defaultValue={proyecto?.potencia_lampara}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -433,7 +406,7 @@ export function FormProyecto({ id, userId, operacion }) {
                 <input
                   type="number"
                   name="valor_seguridad"
-                  value={proyecto?.valor_seguridad}
+                  defaultValue={proyecto?.valor_seguridad}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -454,7 +427,7 @@ export function FormProyecto({ id, userId, operacion }) {
                 <input
                   type="number"
                   name="carga_latente"
-                  value={proyecto?.carga_latente}
+                  defaultValue={proyecto?.carga_latente}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -474,7 +447,7 @@ export function FormProyecto({ id, userId, operacion }) {
 
                 <select
                   name="oda"
-                  value={proyecto?.oda}
+                  defaultValue={proyecto?.oda}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="oda1">ODA 1</option>

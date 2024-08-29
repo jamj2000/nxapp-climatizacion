@@ -5,7 +5,8 @@ import { Recinto } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 const schema = z.object({
-  id: z.coerce.number(),
+  // id: z.coerce.number(),
+  id: z.union([z.coerce.number(), z.string().nullish()]),
   nombre: z.coerce.string().trim(),
   proyectoId: z.coerce.number(),
   temp_ver_relativa: z.coerce.number(),
@@ -77,8 +78,8 @@ const schema = z.object({
   superficie_suelo: z.coerce.number(),
 });
 
-type ZodReturn = { success: true, data: Recinto } | { success: false, error: ZodError }
-
+// type ZodReturn = { success: true, data: Recinto } | { success: false, error: ZodError }
+type ZodReturn = { success: true, data: z.infer<typeof schema> } | { success: false, error: ZodError }
 
 
 function validate(formData: FormData): ZodReturn {
@@ -154,4 +155,10 @@ export async function readRecintoWithProyecto(id: number) {
   })
   
   return recinto
+}
+
+
+export async function noAction() {
+  'use server'
+  return
 }

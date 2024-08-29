@@ -6,15 +6,16 @@ import { revalidatePath } from "next/cache";
 
 
 const schema = z.object({
-  id: z.coerce.number(),
+  // id: z.coerce.number(),
+  id: z.union([z.coerce.number(), z.string().nullish()]),
   nombre: z.string().trim(),
   proyectoId: z.coerce.number(),
   factor_funcionamiento: z.coerce.number().min(1).max(5),
   potencia: z.coerce.number().min(1).max(5)
 });
 
-type ZodReturn = { success: true, data: Equipo } | { success: false, error: ZodError }
-
+// type ZodReturn = { success: true, data: Equipo } | { success: false, error: ZodError }
+type ZodReturn = { success: true, data: z.infer<typeof schema> } | { success: false, error: ZodError }
 
 
 function validate(formData: FormData): ZodReturn {
@@ -82,12 +83,23 @@ export async function deleteEquipo(formData: FormData) {
 }
 
 // READ ACTIONS
+type Props = {
+  id?: number,
+  userId?: string,
+  include?: { proyectos?: true }
+} 
 
-export async function readEquipoWithProyecto(id: number) {
+export async function readEquipo({id, userId, include}: Props) {
   const equipo = await prisma.equipo.findUnique({
-    where: { id },
-    include: { proyecto: true }
+    where: { id, userId },
+    include
   })
   
   return equipo
+}
+
+
+export async function noAction() {
+  'use server'
+  return
 }
