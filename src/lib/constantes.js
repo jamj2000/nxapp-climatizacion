@@ -5,4 +5,5 @@ export const CRUD = {
     DELETE: 'DELETE'
 }
 
+export const COPY = 'copy'
 

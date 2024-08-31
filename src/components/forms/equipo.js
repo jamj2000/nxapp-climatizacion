@@ -12,10 +12,26 @@ export default function FormEquipo({ id, userId, operacion }) {
   let disabled;
 
   switch (operacion) {
-    case CRUD.CREATE: texto = "Crear Equipo"; action = createEquipo; disabled = false; break;
-    case CRUD.READ: texto = "Volver"; action = noAction; disabled = true; break;
-    case CRUD.UPDATE: texto = "Actualizar Equipo"; action = updateEquipo; disabled = false; break;
-    case CRUD.DELETE: texto = "Eliminar Equipo"; action = deleteEquipo; disabled = true; break;
+    case CRUD.CREATE:
+      texto = "Crear Equipo";
+      action = createEquipo;
+      disabled = false;
+      break;
+    case CRUD.READ:
+      texto = "Volver";
+      action = noAction;
+      disabled = true;
+      break;
+    case CRUD.UPDATE:
+      texto = "Actualizar Equipo";
+      action = updateEquipo;
+      disabled = false;
+      break;
+    case CRUD.DELETE:
+      texto = "Eliminar Equipo";
+      action = deleteEquipo;
+      disabled = true;
+      break;
     default:
   }
 
@@ -31,7 +47,7 @@ export default function FormEquipo({ id, userId, operacion }) {
     async function fetchData() {
       const proyectos = await readProyectos({ userId, select: { id: true, nombre: true } })
       setProyectos(proyectos)
-        
+
       if (id) {
         const equipo = await readEquipo({ id, include: { proyecto: true } })
         setEquipo(equipo)
@@ -72,12 +88,12 @@ export default function FormEquipo({ id, userId, operacion }) {
         <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
           {
             disabled
-              ? <span className="font-bold">{ equipo.proyecto?.nombre } </span>
+              ? <span className="font-bold">{equipo.proyecto?.nombre} </span>
               : <select
                 name="proyectoId"
                 className="border-2 border-gray-300 rounded p-2"
                 value={equipo?.proyectoId}
-                onChange={(e) => setEquipo( { ...equipo, proyectoId: e.target.value } )}
+                onChange={(e) => setEquipo({ ...equipo, proyectoId: e.target.value })}
               >
                 {
                   proyectos
@@ -98,7 +114,7 @@ export default function FormEquipo({ id, userId, operacion }) {
                 type="text"
                 name="nombre"
                 value={equipo?.nombre}
-                onChange={(e) => setEquipo( { ...equipo, nombre: e.target.value } )}
+                onChange={(e) => setEquipo({ ...equipo, nombre: e.target.value })}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>
@@ -110,7 +126,7 @@ export default function FormEquipo({ id, userId, operacion }) {
                 type="number"
                 name="potencia"
                 value={Number(equipo?.potencia)}
-                onChange={(e) => setEquipo( { ...equipo, potencia: e.target.value } )}
+                onChange={(e) => setEquipo({ ...equipo, potencia: e.target.value })}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>
@@ -123,7 +139,7 @@ export default function FormEquipo({ id, userId, operacion }) {
                 type="number"
                 name="factor_funcionamiento"
                 value={Number(equipo?.factor_funcionamiento)}
-                onChange={(e) => setEquipo( { ...equipo, factor_funcionamiento: e.target.value } )}
+                onChange={(e) => setEquipo({ ...equipo, factor_funcionamiento: e.target.value })}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>

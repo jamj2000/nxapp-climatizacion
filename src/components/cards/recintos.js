@@ -1,6 +1,5 @@
 import TarjetaRecinto from "@/components/cards/recinto";
 import { auth } from "@/auth";
-// import { prisma } from "@/lib/prisma";
 import { readProyecto, readProyectos } from "@/lib/actions/proyecto";
 
 async function Recintos({ proyectoId }) {
@@ -11,22 +10,10 @@ async function Recintos({ proyectoId }) {
     let recintos;
 
     if (proyectoId) {
-        // const proyecto = await prisma.proyecto.findUnique({
-        //     where: { userId: user?.id, id: proyectoId },
-        //     include: {
-        //         recintos: true
-        //     }
-        // });
-        const proyecto = await readProyecto({id: proyectoId, userId: user?.id, include: {recintos:true}})
+        const proyecto = await readProyecto({id: proyectoId, include: {recintos:true}})
         recintos = proyecto?.recintos
     }
     else {
-        // proyectos = await prisma.proyecto.findMany({
-        //     where: { userId: user?.id },
-        //     include: {
-        //         recintos: true
-        //     }
-        // });
         proyectos = await readProyectos({userId: user?.id, include: { recintos: true}})
         recintos = proyectos?.map(proyecto => proyecto.recintos).flat()
     }

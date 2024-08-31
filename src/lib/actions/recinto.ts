@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { z, ZodError } from "@/lib/es-zod";
 import { Recinto } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -147,15 +147,21 @@ export async function deleteRecinto(formData: FormData) {
 
 
 // READ ACTIONS
+type Props = {
+  id?: number,
+  userId?: string,
+  include?: { proyectos?: true }
+} 
 
-export async function readRecintoWithProyecto(id: number) {
+export async function readRecinto({id, include}: Props) {
   const recinto = await prisma.recinto.findUnique({
     where: { id },
-    include: { proyecto: true }
+    include
   })
   
   return recinto
 }
+
 
 
 export async function noAction() {

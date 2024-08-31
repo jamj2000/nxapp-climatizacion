@@ -1,9 +1,10 @@
 import Credentials from "@auth/core/providers/credentials";
 import Google from "@auth/core/providers/google";
+import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
+// import { getUserByEmail } from "@/lib/actions/auth";
 
-export default {
+const AuthConfig = {
   providers: [
     Google,
     Credentials({
@@ -27,4 +28,7 @@ export default {
       },
     }),
   ],
+
 };
+
+export default AuthConfig;

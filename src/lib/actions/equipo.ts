@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Equipo } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
 import { revalidatePath } from "next/cache";
@@ -89,9 +89,9 @@ type Props = {
   include?: { proyectos?: true }
 } 
 
-export async function readEquipo({id, userId, include}: Props) {
+export async function readEquipo({id, include}: Props) {
   const equipo = await prisma.equipo.findUnique({
-    where: { id, userId },
+    where: { id },
     include
   })
   

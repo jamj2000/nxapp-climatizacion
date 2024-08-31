@@ -1,6 +1,6 @@
 import TarjetaProyecto from "@/components/cards/proyecto";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { readProyecto, readProyectos } from "@/lib/actions/proyecto";
 
 

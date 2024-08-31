@@ -3,10 +3,18 @@ import authConfig from "@/auth.config";
 
 const { auth } = NextAuth(authConfig);
 
+
 export default auth((req) => {
   // console.log(req.auth);
   // console.log(req.nextUrl);
 
+  console.log('MIDDLEWARE ', req.nextUrl.pathname);
+
+  // Rutas públicas
+  if (req.nextUrl.pathname.startsWith('/about')) return null
+
+
+  // Rutas privadas
   if (!req.auth) {
     console.log("no autenticado");
 
@@ -22,12 +30,20 @@ export default auth((req) => {
   }
 });
 
+
+
 export const config = {
   matcher: [
-    "/dashboard(.*)",
-    "/admin(.*)",
-    "/proyectos(.*)",
-    "/recintos(.*)",
-    "/equipos(.*)",
-  ],
+    // rutas públicas: las incluimos para no perder la sesión
+    '/about',
+
+    // rutas de admin
+    '/admin(.*)',
+
+    // rutas de user
+    '/dashboard(.*)',
+    '/proyectos(.*)',
+    '/recintos(.*)',
+    '/equipos(.*)'
+  ]
 };

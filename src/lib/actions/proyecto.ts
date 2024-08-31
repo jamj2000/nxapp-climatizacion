@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
 // import { Proyecto, Recinto, Equipo } from "@prisma/client";
@@ -232,14 +232,13 @@ export async function copyProyecto(formData: FormData) {
 
 type Props1 = {
   id: number | undefined,
-  userId?: string,
   include?: { equipos?: true, recintos?: true, localidad?: true }
 }
 
 
-export async function readProyecto({ id, userId, include }: Props1) {
+export async function readProyecto({ id, include }: Props1) {
   const proyecto = await prisma.proyecto.findUnique({
-    where: { id, userId },
+    where: { id },
     include
   })
 

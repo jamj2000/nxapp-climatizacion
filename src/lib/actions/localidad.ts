@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Localidad, Zona } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
 

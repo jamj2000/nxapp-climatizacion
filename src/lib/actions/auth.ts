@@ -1,7 +1,7 @@
 "use server";
 // npm i --save-dev @types/bcryptjs
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { signIn, signOut } from "@/auth";
 
 declare global {
@@ -77,6 +77,31 @@ export async function loginGoogle() {
 export async function logout() {
   try {
     await signOut({ redirectTo: "/" });
+  } catch (error) {
+    throw error;
+  }
+}
+
+// GET USER BY ID
+export async function getUserById(id: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id }
+    });
+    return user
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+// GET USER BY EMAIL
+export async function getUserByEmail(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email }
+    });
+    return user
   } catch (error) {
     throw error;
   }

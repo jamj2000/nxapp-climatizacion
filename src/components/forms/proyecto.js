@@ -4,9 +4,9 @@ import Image from "next/image";
 import Boton from "@/components/boton";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CRUD } from '@/lib/constantes'
-import { readProyecto, createProyecto, updateProyecto, deleteProyecto, noAction } from '@/lib/actions/proyecto'
-import { readLocalidades, readLocalidad } from "@/lib/actions/localidad";
+import { CRUD, COPY } from '@/lib/constantes'
+import { readProyecto, createProyecto, updateProyecto, deleteProyecto, copyProyecto, noAction } from '@/lib/actions/proyecto'
+import { readLocalidades } from "@/lib/actions/localidad";
 
 import {
   presion,
@@ -108,10 +108,31 @@ export function FormProyecto({ id, userId, operacion }) {
   let disabled;
 
   switch (operacion) {
-    case CRUD.CREATE: texto = "Crear Proyecto"; action = createProyecto; disabled = false; break;
-    case CRUD.READ: texto = "Volver"; action = noAction; disabled = true; break;
-    case CRUD.UPDATE: texto = "Actualizar Proyecto"; action = updateProyecto; disabled = false; break;
-    case CRUD.DELETE: texto = "Eliminar Proyecto"; action = deleteProyecto; disabled = true; break;
+    case CRUD.CREATE:
+      texto = "Crear Proyecto";
+      action = createProyecto;
+      disabled = false;
+      break;
+    case CRUD.READ:
+      texto = "Volver";
+      action = noAction;
+      disabled = true;
+      break;
+    case CRUD.UPDATE:
+      texto = "Actualizar Proyecto";
+      action = updateProyecto;
+      disabled = false;
+      break;
+    case CRUD.DELETE:
+      texto = "Eliminar Proyecto";
+      action = deleteProyecto;
+      disabled = true;
+      break;
+      case COPY:
+        texto = "Copiar Proyecto";
+        action = copyProyecto;
+        disabled = false;
+        break;
     default:
   }
 
@@ -133,17 +154,19 @@ export function FormProyecto({ id, userId, operacion }) {
     async function fetchData() {
       const localidades = await readLocalidades()
       setLocalidades(localidades)
+      setLocalidad(localidades[0]) 
 
       if (id) {
-        const proyecto = await readProyecto({ id, userId, include: { localidad: { include: { zona_climatica: true } } } })
-        setProyecto(proyecto)
+        const proyecto = await readProyecto({ id, include: { localidad: { include: { zona_climatica: true } } } })
+        if (operacion == COPY) {
+          setProyecto( {...proyecto, nombre: proyecto.nombre + ' - Copia', fecha: new Date()})
+        }
+        else {
+          setProyecto(proyecto)
+        }
         setLocalidad(proyecto.localidad)
       }
-      else {
-        setLocalidad(localidades[0])
-      }
-
-      // console.log(proyecto);
+    
     }
     fetchData()
 
