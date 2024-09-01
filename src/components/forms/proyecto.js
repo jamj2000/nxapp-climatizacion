@@ -128,11 +128,11 @@ export function FormProyecto({ id, userId, operacion }) {
       action = deleteProyecto;
       disabled = true;
       break;
-      case COPY:
-        texto = "Copiar Proyecto";
-        action = copyProyecto;
-        disabled = false;
-        break;
+    case COPY:
+      texto = "Copiar Proyecto";
+      action = copyProyecto;
+      disabled = false;
+      break;
     default:
   }
 
@@ -154,19 +154,19 @@ export function FormProyecto({ id, userId, operacion }) {
     async function fetchData() {
       const localidades = await readLocalidades()
       setLocalidades(localidades)
-      setLocalidad(localidades[0]) 
+      setLocalidad(localidades[0])
 
       if (id) {
         const proyecto = await readProyecto({ id, include: { localidad: { include: { zona_climatica: true } } } })
         if (operacion == COPY) {
-          setProyecto( {...proyecto, nombre: proyecto.nombre + ' - Copia', fecha: new Date()})
+          setProyecto({ ...proyecto, nombre: proyecto.nombre + ' - Copia', fecha: new Date() })
         }
         else {
           setProyecto(proyecto)
         }
         setLocalidad(proyecto.localidad)
       }
-    
+
     }
     fetchData()
 
@@ -221,7 +221,7 @@ export function FormProyecto({ id, userId, operacion }) {
               type="text"
               name="nombre"
               maxLength={50}
-              value={proyecto?.nombre}
+              defaultValue={proyecto?.nombre}
               className="border-2 border-gray-300 rounded ml-2 p-2 text-center"
             />
           </summary>
@@ -248,8 +248,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   className="border-2 border-gray-300 rounded p-2 w-full"
                   type="date"
                   name="fecha"
-                  value={proyecto?.fecha?.toISOString().split("T")[0] ?? new Date().toISOString().split("T")[0]}
-                  onChange={() => { }}
+                  defaultValue={proyecto?.fecha?.toISOString().split("T")[0]}
                 />
               </label>
             </div>
@@ -262,7 +261,7 @@ export function FormProyecto({ id, userId, operacion }) {
           <div className="mt-4 grid gap-1 items-stretch sm:grid-cols-1 md:grid-cols-[300px_auto] xl:grid-cols-[500px_auto]">
             <div className="mb-2">
               <div className="flex justify-center">
-                <input type="hidden" name="imagen" value={proyecto?.imagen} />
+                <input type="hidden" name="imagen" defaultValue={proyecto?.imagen} />
                 <DropImagen
                   imgUrl={proyecto?.imagen || "/project-image-default.jpg"}
                   alt="Logo de proyecto"
@@ -276,7 +275,7 @@ export function FormProyecto({ id, userId, operacion }) {
                 placeholder="Comentarios"
                 title="Añadir comentario del proyecto"
                 maxLength={300}
-                value={proyecto?.comentarios}
+                defaultValue={proyecto?.comentarios}
                 className="border-2 border-gray-300 rounded p-2 w-full h-24"
               />
             </div>
@@ -301,7 +300,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   step={1}
                   max={1000}
                   min={0}
-                  value={proyecto?.numero_personas}
+                  defaultValue={proyecto?.numero_personas}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -321,7 +320,9 @@ export function FormProyecto({ id, userId, operacion }) {
 
                 <select
                   name="ocupacion_personas"
+                  // defaultValue={proyecto?.ocupacion_personas} // No usamos defaultValue sino value, para actualizar select
                   value={proyecto?.ocupacion_personas}
+                  onChange={(e) => setProyecto({ ...proyecto, ocupacion_personas: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="sedentario">Sedentaria</option>
@@ -346,7 +347,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="w_persona"
                   step={0.01}
-                  value={proyecto?.w_persona}
+                  defaultValue={proyecto?.w_persona}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -368,7 +369,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="caudales_ida"
                   step={0.01}
-                  value={proyecto?.caudales_ida}
+                  defaultValue={proyecto?.caudales_ida}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -390,7 +391,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="caudales_aire"
                   step={0.01}
-                  value={proyecto?.caudales_aire}
+                  defaultValue={proyecto?.caudales_aire}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -410,7 +411,9 @@ export function FormProyecto({ id, userId, operacion }) {
 
                 <select
                   name="tipo_lampara"
+                  // defaultValue={proyecto?.tipo_lampara} // No usamos defaultValue sino value, para actualizar select
                   value={proyecto?.tipo_lampara}
+                  onChange={(e) => setProyecto({ ...proyecto, tipo_lampara: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="fluorescente">Fluorescente</option>
@@ -435,7 +438,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="potencia_lampara"
                   step={0.01}
-                  value={proyecto?.potencia_lampara}
+                  defaultValue={proyecto?.potencia_lampara}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -456,7 +459,7 @@ export function FormProyecto({ id, userId, operacion }) {
                 <input
                   type="number"
                   name="valor_seguridad"
-                  value={proyecto?.valor_seguridad}
+                  defaultValue={proyecto?.valor_seguridad}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -477,7 +480,7 @@ export function FormProyecto({ id, userId, operacion }) {
                 <input
                   type="number"
                   name="carga_latente"
-                  value={proyecto?.carga_latente}
+                  defaultValue={proyecto?.carga_latente}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -497,7 +500,9 @@ export function FormProyecto({ id, userId, operacion }) {
 
                 <select
                   name="oda"
+                  // defaultValue={proyecto?.oda} // No usamos defaultValue sino value, para actualizar select
                   value={proyecto?.oda}
+                  onChange={(e) => setProyecto({ ...proyecto, oda: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="oda1">ODA 1</option>
