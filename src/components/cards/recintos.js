@@ -10,11 +10,11 @@ async function Recintos({ proyectoId }) {
     let recintos;
 
     if (proyectoId) {
-        const proyecto = await readProyecto({id: proyectoId, include: {recintos:true}})
+        const proyecto = await readProyecto({id: proyectoId, include: {recintos:{ include: { proyecto: true }}}})
         recintos = proyecto?.recintos
     }
     else {
-        proyectos = await readProyectos({userId: user?.id, include: { recintos: true}})
+        proyectos = await readProyectos({userId: user?.id, include: { recintos: { include: { proyecto: true }}}})
         recintos = proyectos?.map(proyecto => proyecto.recintos).flat()
     }
 
@@ -26,7 +26,7 @@ async function Recintos({ proyectoId }) {
                 recintos
                     .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
                     .map((recinto) => (
-                        <TarjetaRecinto key={recinto.id} recinto={recinto} />
+                        <TarjetaRecinto key={recinto.id} recinto={recinto} proyectos={proyectos} />
                     ))}
         </div>
     )

@@ -2,13 +2,20 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
+import Modal from '@/components/modal'
+import Form from '@/components/forms/proyecto'
+import { FaPen, FaTrash, FaEye } from "react-icons/fa6";
+import { updateProyecto, deleteProyecto, noAction } from "@/lib/actions/proyecto"
 
-async function TarjetaProyecto({ proyecto }) {
+async function TarjetaProyecto( { proyecto, localidades }) {
+
+  const data = { proyecto, localidades }
+
   const sesion = await auth();
   let nombre = "Desconocido";
 
   if (proyecto?.userId) {
-    const {name} = await prisma.user.findUnique({
+    const { name } = await prisma.user.findUnique({
       select: { name: true },
       where: { id: proyecto.userId }
     });
@@ -50,24 +57,25 @@ async function TarjetaProyecto({ proyecto }) {
           </p>
         }
 
-        <div className="flex justify-around gap-2">
-          <Link href={`/proyectos/view/${proyecto?.id}`}
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Ver
-          </Link>
+        <div className="flex justify-around gap-2 py-4">
+          <Modal icon={<FaEye size='1rem' color='white' />} text='Ver'
+            className='cursor-pointer flex gap-2 items-center text-white bg-blue-600 p-2 rounded-md self-end hover:shadow-md'>
 
-          <Link href={`/proyectos/update/${proyecto?.id}`}
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-yellow-700 rounded-lg hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800"
-          >
-            Editar
-          </Link>
+            <Form action={noAction} data={data} disabled={true} text="Cerrar" />
+          </Modal>
 
-          <Link href={`/proyectos/delete/${proyecto?.id}`}
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-blue-red focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-          >
-            Borrar
-          </Link>
+          <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
+            className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
+
+            <Form action={updateProyecto} data={data} disabled={false} text="Actualizar este equipo" />
+          </Modal>
+
+          <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
+            className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
+
+            <Form action={deleteProyecto} data={data} disabled={true} text="Eliminar este equipo" />
+          </Modal>
+
 
           {sesion?.user.role === "ADMIN" &&
             <Link href={`/proyectos/copy/${proyecto?.id}`}

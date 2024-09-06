@@ -4,56 +4,40 @@
 'use client'
 import Boton from "@/components/boton";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { readProyectos } from '@/lib/actions/proyecto'
-import { readRecinto, createRecinto, updateRecinto, deleteRecinto, noAction } from '@/lib/actions/recinto'
-import { CRUD } from "@/lib/constantes";
 
 
-export default function FormRecinto({ id, userId, operacion }) {
-  let action;
-  let texto;
-  let disabled;
-
-  switch (operacion) {
-    case CRUD.CREATE:
-      texto = "Crear Recinto";
-      action = createRecinto;
-      disabled = false;
-      break;
-    case CRUD.READ:
-      texto = "Volver";
-      action = noAction;
-      disabled = true;
-      break;
-    case CRUD.UPDATE:
-      texto = "Actualizar Recinto";
-      action = updateRecinto;
-      disabled = false;
-      break;
-    case CRUD.DELETE:
-      texto = "Eliminar Recinto";
-      action = deleteRecinto;
-      disabled = true;
-      break;
-    default:
-  }
-
-  const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
+export default function FormRecinto({ action, data, disabled, text }) {
 
   const router = useRouter()
 
-  const [isLoaded, setIsLoaded] = useState(false)
   const [recinto, setRecinto] = useState({})
   const [proyectos, setProyectos] = useState([])
+  const [errores, setErrores] = useState({})
+
+  const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
 
   const [longitud, setLongitud] = useState(0)
   const [anchura, setAnchura] = useState(0)
   const [altura, setAltura] = useState(0)
   const [orientacion, setOrientacion] = useState(0) // Toma valores 0, 1, 2 o 3
 
-  const [errores, setErrores] = useState(null)
+
+  useEffect(() => {
+    setRecinto(data.recinto)
+    setProyectos(data.proyectos)
+    setLongitud(recinto.longitud)
+    setAnchura(recinto.anchura)
+    setAltura(recinto.altura)
+
+    let orienta = ORIENTACION.indexOf(recinto.orientacion_c_1)
+    if (orienta == -1) orienta = 0
+    setOrientacion(orienta)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+
 
 
   // const [orientacion, setOrientacion] = useState(() => {
@@ -63,55 +47,56 @@ export default function FormRecinto({ id, userId, operacion }) {
   // })
 
 
-  useEffect(() => {
-    // Para poder usar la rueda del ratón dentro de los inputs de tipo number
-    const inputs = document.querySelectorAll("input[type='number']")
-    inputs.forEach(input => input.addEventListener('wheel', () => { }));
+  // useEffect(() => {
+  //   // Para poder usar la rueda del ratón dentro de los inputs de tipo number
+  //   const inputs = document.querySelectorAll("input[type='number']")
+  //   inputs.forEach(input => input.addEventListener('wheel', () => { }));
 
-    // Datos de Proyectos y Recinto
-    async function fetchData() {
-      const proyectos = await readProyectos({ userId, select: { id: true, nombre: true } })
-      setProyectos(proyectos)
+  //   // Datos de Proyectos y Recinto
+  //   async function fetchData() {
+  //     const proyectos = await readProyectos({ userId, select: { id: true, nombre: true } })
+  //     setProyectos(proyectos)
 
-      if (id) {
-        const recinto = await readRecinto({ id, include: { proyecto: true } })
-        setRecinto(recinto)
-        setLongitud(recinto.longitud)
-        setAnchura(recinto.anchura)
-        setAltura(recinto.altura)
-        let orienta = ORIENTACION.indexOf(recinto.orientacion_c_1)
-        if (orienta == -1) orienta = 0
-        setOrientacion(orienta)
-      }
-    }
-    fetchData()
+  //     if (id) {
+  //       const recinto = await readRecinto({ id, include: { proyecto: true } })
+  //       setRecinto(recinto)
+  //       setLongitud(recinto.longitud)
+  //       setAnchura(recinto.anchura)
+  //       setAltura(recinto.altura)
+  //       let orienta = ORIENTACION.indexOf(recinto.orientacion_c_1)
+  //       if (orienta == -1) orienta = 0
+  //       setOrientacion(orienta)
+  //     }
+  //   }
+  //   fetchData()
 
-    setIsLoaded(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  //   setIsLoaded(true)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
 
 
   async function wrapper(formData) {
     const errores = await action(formData);
-    // console.log(errores);
     setErrores(errores)
-    if (!errores) router.back()
+    // if (!errores) router.back()
   }
 
 
 
 
-  if (isLoaded) return (
+  return (
     <form action={wrapper} >
       {/* IMPORTANTE: Comentar. El id del proyecto lo cogemos de la lista de proyectos */}
       {/* cuando no está disabled */}
       <input type="hidden" name="id" defaultValue={recinto?.id} />
       {disabled && <input type='hidden' name="proyectoId" defaultValue={recinto?.proyectoId} />}
 
-      <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
+      {/* <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
         <p className="uppercase mb-2 text-black" > Errores detectados: </p>
-        {
+        {        let orienta = ORIENTACION.indexOf(recinto.orientacion_c_1)
+        if (orienta == -1) orienta = 0
+        setOrientacion(orienta)
           errores
           && errores.map(({ campo, mensaje }, index) => (
             <div key={index} >
@@ -119,15 +104,16 @@ export default function FormRecinto({ id, userId, operacion }) {
               <p className="indent-10" > {mensaje} </p>
             </div>))
         }
-      </div>
+      </div> */}
 
 
       <div className="flex flex-col gap-4 justify-between items-center mb-4 md:flex-row" >
-        <Boton texto={texto} />
+        <Boton texto={text} />
         <label className="grid grid-cols-[150px_auto] items-center gap-2" > Proyecto asociado:
           {
             disabled
-              ? <span className="font-bold">{recinto.proyecto?.nombre} </span>
+              // ? <span className="font-bold">{recinto.proyecto?.nombre} </span> // ¿permite useState objetos anidados?
+              ? <span className="font-bold">{proyectos.find(p => p.id === recinto.proyectoId)?.nombre}  </span>
               : <select
                 name="proyectoId"
                 className="border-2 border-gray-300 rounded p-2"
@@ -145,7 +131,7 @@ export default function FormRecinto({ id, userId, operacion }) {
 
       <fieldset disabled={disabled} >
 
-        <details open className="mt-4 p-4 border rounded shadow-md" >
+        <details className="mt-4 p-4 border rounded shadow-md" >
           <summary className="font-bold" > RECINTO:
             <input
               type="text"

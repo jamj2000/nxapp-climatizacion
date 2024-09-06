@@ -2,6 +2,7 @@ import TarjetaEquipo from "@/components/cards/equipo";
 import { auth } from "@/auth";
 import { readProyecto, readProyectos } from "@/lib/actions/proyecto";
 
+
 async function Equipos({ proyectoId }) {
     const sesion = await auth();
     const { user } = sesion;
@@ -27,7 +28,7 @@ async function Equipos({ proyectoId }) {
                 equipos
                     .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
                     .map((equipo) => (
-                        <TarjetaEquipo key={equipo.id} equipo={equipo} />
+                        <TarjetaEquipo key={equipo.id} equipo={equipo} proyectos={proyectos} />
                     ))}
         </div>
 
@@ -35,3 +36,7 @@ async function Equipos({ proyectoId }) {
 }
 
 export default Equipos
+
+// {entries.map((post) =>
+//     <Post key={post.id} post={post} />
+// )}

@@ -1,6 +1,7 @@
 import TarjetaProyecto from "@/components/cards/proyecto";
 import { auth } from "@/auth";
 import { readProyectos } from "@/lib/actions/proyecto";
+import { readLocalidades } from "@/lib/actions/localidad";
 
 
 async function Proyectos() {
@@ -16,6 +17,8 @@ async function Proyectos() {
     proyectos = await readProyectos({ userId: user?.id })
   }
 
+  const localidades = await readLocalidades()
+
   //   await new Promise((resolve) => setTimeout(resolve, 4000))
 
   return (
@@ -24,7 +27,7 @@ async function Proyectos() {
       {proyectos
         .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
         .map((proyecto) => (
-          <TarjetaProyecto key={proyecto.id} proyecto={proyecto} />
+          <TarjetaProyecto key={proyecto.id} proyecto={proyecto} localidades={localidades}/>
         ))}
     </div>
 

@@ -3,12 +3,13 @@ import prisma from "@/lib/prisma";
 import { Equipo } from "@prisma/client";
 import { z, ZodError } from "@/lib/es-zod";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 
 const schema = z.object({
   // id: z.coerce.number(),
   id: z.union([z.coerce.number(), z.string().nullish()]),
-  nombre: z.string().trim(),
+  nombre: z.string().trim().min(1),
   proyectoId: z.coerce.number(),
   factor_funcionamiento: z.coerce.number().min(1).max(5),
   potencia: z.coerce.number().min(1).max(5)
@@ -30,8 +31,8 @@ export async function createEquipo(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const issues = result.error.issues.map(issue => ({ campo: issue.path[0], mensaje: issue.message }))
-    return issues;
+    const issues = result.error.issues.map(issue => ([ issue.path[0], issue.message ]))
+    return Object.fromEntries(issues);
   }
 
   const { id, ...data } = result.data
@@ -52,8 +53,8 @@ export async function updateEquipo(formData: FormData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const issues = result.error.issues.map(issue => ({ campo: issue.path[0], mensaje: issue.message }))
-    return issues;
+    const issues = result.error.issues.map(issue => ([ issue.path[0], issue.message ]))
+    return Object.fromEntries(issues);
   }
 
   const { id, ...data } = result.data
@@ -87,14 +88,14 @@ type Props = {
   id?: number,
   userId?: string,
   include?: { proyectos?: true }
-} 
+}
 
-export async function readEquipo({id, include}: Props) {
+export async function readEquipo({ id, include }: Props) {
   const equipo = await prisma.equipo.findUnique({
     where: { id },
     include
   })
-  
+
   return equipo
 }
 

@@ -1,11 +1,9 @@
 'use client'
 import DropImagen from "@/components/imagen";
-import Image from "next/image";
 import Boton from "@/components/boton";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { CRUD, COPY } from '@/lib/constantes'
-import { readProyecto, createProyecto, updateProyecto, deleteProyecto, copyProyecto, noAction } from '@/lib/actions/proyecto'
 import { readLocalidades } from "@/lib/actions/localidad";
 
 import {
@@ -33,14 +31,22 @@ import {
   entalpia_int_inv_lat,
   volum_espe_int_inv,
 } from "@/lib/calculos"
+import { readProyecto } from "@/lib/actions/proyecto";
 
 
 
 function calcular(localidad) {
-  const {
-    altitud,
-    temp_ext_ver, hum_ext_ver, temp_ext_inv, hum_ext_inv,
-  } = localidad
+  // const {
+  //   altitud,
+  //   temp_ext_ver, hum_ext_ver, temp_ext_inv, hum_ext_inv,
+  // } = localidad
+
+  const altitud = localidad?.altitud
+  const temp_ext_ver = localidad?.temp_ext_ver
+  const hum_ext_ver = localidad?.hum_ext_ver
+  const temp_ext_inv = localidad?.temp_ext_inv
+  const hum_ext_inv = localidad?.hum_ext_inv
+
 
   const temp_int_ver = 25;
   const temp_int_inv = 21;
@@ -101,86 +107,56 @@ function calcular(localidad) {
 
 
 
-export function FormProyecto({ id, userId, operacion }) {
-
-  let action;
-  let texto;
-  let disabled;
-
-  switch (operacion) {
-    case CRUD.CREATE:
-      texto = "Crear Proyecto";
-      action = createProyecto;
-      disabled = false;
-      break;
-    case CRUD.READ:
-      texto = "Volver";
-      action = noAction;
-      disabled = true;
-      break;
-    case CRUD.UPDATE:
-      texto = "Actualizar Proyecto";
-      action = updateProyecto;
-      disabled = false;
-      break;
-    case CRUD.DELETE:
-      texto = "Eliminar Proyecto";
-      action = deleteProyecto;
-      disabled = true;
-      break;
-    case COPY:
-      texto = "Copiar Proyecto";
-      action = copyProyecto;
-      disabled = false;
-      break;
-    default:
-  }
+export function FormProyecto({ action, data, disabled, text }) {
 
   const router = useRouter()
 
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [proyecto, setProyecto] = useState([])
+  const [errores, setErrores] = useState({})
+
   const [localidades, setLocalidades] = useState([])
-  const [proyecto, setProyecto] = useState({})
   const [localidad, setLocalidad] = useState({})
-  const [errores, setErrores] = useState(null)
-  const [calculo, setCalculo] = useState(calcular(localidad))
+  const [calculo, setCalculo] = useState({})
 
   useEffect(() => {
     // Para poder usar la rueda del ratón dentro de los inputs de tipo number
-    const inputs = document.querySelectorAll("input[type='number']")
-    inputs.forEach(input => input.addEventListener('wheel', () => { }));
+    // const inputs = document.querySelectorAll("input[type='number']")
+    // inputs.forEach(input => input.addEventListener('wheel', () => { }));
 
     // Datos de Localidades y Proyecto
-    async function fetchData() {
-      const localidades = await readLocalidades()
-      setLocalidades(localidades)
-      setLocalidad(localidades[0])
+    setProyecto(data.proyecto)
+    setLocalidades(data.localidades)
+    setLocalidad(data.localidades.find(l => l.id == proyecto.localidadId))
 
-      if (id) {
-        const proyecto = await readProyecto({ id, include: { localidad: { include: { zona_climatica: true } } } })
-        if (operacion == COPY) {
-          setProyecto({ ...proyecto, nombre: proyecto.nombre + ' - Copia', fecha: new Date() })
-        }
-        else {
-          setProyecto(proyecto)
-        }
-        setLocalidad(proyecto.localidad)
-      }
+    // async function fetchData() {
+    //   if (data.proyecto.id) {
+    //     const proyecto = await readProyecto({ id: data.proyecto.id, include: { localidad: { include: { zona_climatica: true } } } })
+    //     if (operacion == COPY) {
+    //       setProyecto({ ...proyecto, nombre: proyecto.nombre + ' - Copia', fecha: new Date() })
+    //     }
+    //     else {
+    //       setProyecto(data)
+    //     }
+    //     setLocalidad(proyecto.localidad)
+    //   }
+    // }
+    // fetchData()
+    const calculo = calcular(localidad)
+    setCalculo(calculo)
 
-    }
-    fetchData()
+  }, [localidad])
 
-    setIsLoaded(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
 
   useEffect(() => {
     setCalculo(calcular(localidad))
   }, [localidad])
 
+
+
   function updateLocalidad(e) {
     setLocalidad(localidades.find(localidad => localidad.id == e.target.value))
+    // setProyecto({ ...proyecto, localidadId: e.target.value })}
     const resultado = calcular(localidad)
     setCalculo(resultado)
   }
@@ -189,27 +165,27 @@ export function FormProyecto({ id, userId, operacion }) {
     const errores = await action(formData);
     // console.log(errores);
     setErrores(errores)
-    if (!errores) router.back()
+    // if (!errores) router.back()
   }
 
-  if (isLoaded) return (
+  return (
     <form action={wrapper}>
-      <input type="hidden" name="id" defaultValue={id} />
-      <input type="hidden" name="userId" defaultValue={userId} />
+      <input type="hidden" name="id" defaultValue={proyecto.id} />
+      <input type="hidden" name="userId" defaultValue={proyecto.userId} />
 
-      <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
-        <p className="uppercase mb-2 text-black">Errores detectados:</p>
-        {errores
-          && errores.map(({ campo, mensaje }, index) => (
-            <div key={index}>
-              <p className="font-light">{campo}</p>
-              <p className="indent-10">{mensaje}</p>
-            </div>))
-        }
-      </div>
+      {/* <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
+      <p className="uppercase mb-2 text-black">Errores detectados:</p>
+      {errores
+        && errores.map(({ campo, mensaje }, index) => (
+          <div key={index}>
+            <p className="font-light">{campo}</p>
+            <p className="indent-10">{mensaje}</p>
+          </div>))
+      }
+    </div> */}
 
       <div className="flex flex-col gap-4 justify-between items-center mb-4 md:flex-row">
-        <Boton texto={texto} />
+        <Boton texto={text} />
       </div>
 
 
@@ -232,7 +208,7 @@ export function FormProyecto({ id, userId, operacion }) {
               <label className="font-bold">Localidad:
 
                 <select name="localidadId" className="text-left border-2 border-gray-300 rounded p-2 w-full"
-                  value={localidad.id}
+                  value={localidad?.id}
                   onChange={updateLocalidad} >
                   {
                     localidades
@@ -255,7 +231,7 @@ export function FormProyecto({ id, userId, operacion }) {
           </div>
         </details>
 
-        <details open className="mt-4 p-4 border rounded shadow-md">
+        <details className="mt-4 p-4 border rounded shadow-md">
           <summary>DATOS: </summary>
 
           <div className="mt-4 grid gap-1 items-stretch sm:grid-cols-1 md:grid-cols-[300px_auto] xl:grid-cols-[500px_auto]">
@@ -651,7 +627,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   readOnly
                   type="number"
                   name="presion"
-                  value={calculo._presion.toFixed(4)}
+                  value={calculo._presion?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -955,7 +931,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="p_sat_agua_ext_ver"
                   step={0.01}
-                  value={calculo._p_sat_agua_ext_ver.toFixed(4)}
+                  value={calculo._p_sat_agua_ext_ver?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -971,7 +947,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="hum_absol_ext_ver"
                   step={0.01}
-                  value={calculo._hum_absol_ext_ver.toFixed(4)}
+                  value={calculo._hum_absol_ext_ver?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -986,7 +962,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_ext_ver_sens"
                   step={0.01}
-                  value={calculo._entalpia_ext_ver_sens.toFixed(4)}
+                  value={calculo._entalpia_ext_ver_sens?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1003,7 +979,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_ext_ver_lat"
                   step={0.01}
-                  value={calculo._entalpia_ext_ver_lat.toFixed(4)}
+                  value={calculo._entalpia_ext_ver_lat?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1020,7 +996,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="volum_espe_ext_ver"
                   step={0.01}
-                  value={calculo._volum_espe_ext_ver.toFixed(4)}
+                  value={calculo._volum_espe_ext_ver?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1045,7 +1021,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="p_sat_agua_int_ver"
                   step={0.01}
-                  value={calculo._p_sat_agua_int_ver.toFixed(4)}
+                  value={calculo._p_sat_agua_int_ver?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1061,7 +1037,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="hum_absol_int_ver"
                   step={0.01}
-                  value={calculo._hum_absol_int_ver.toFixed(4)}
+                  value={calculo._hum_absol_int_ver?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1076,7 +1052,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_int_ver_sens"
                   step={0.01}
-                  value={calculo._entalpia_int_ver_sens.toFixed(4)}
+                  value={calculo._entalpia_int_ver_sens?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1093,7 +1069,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_int_ver_lat"
                   step={0.01}
-                  value={calculo._entalpia_int_ver_lat.toFixed(4)}
+                  value={calculo._entalpia_int_ver_lat?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1110,7 +1086,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="volum_espe_int_ver"
                   step={0.01}
-                  value={calculo._volum_espe_int_ver.toFixed(4)}
+                  value={calculo._volum_espe_int_ver?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1135,7 +1111,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="p_sat_agua_ext_inv"
                   step={0.01}
-                  value={calculo._p_sat_agua_ext_inv.toFixed(4)}
+                  value={calculo._p_sat_agua_ext_inv?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1151,7 +1127,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="hum_absol_ext_inv"
                   step={0.01}
-                  value={calculo._hum_absol_ext_inv.toFixed(4)}
+                  value={calculo._hum_absol_ext_inv?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1166,7 +1142,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_ext_inv_sens"
                   step={0.01}
-                  value={calculo._entalpia_ext_inv_sens.toFixed(4)}
+                  value={calculo._entalpia_ext_inv_sens?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1183,7 +1159,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_ext_inv_lat"
                   step={0.01}
-                  value={calculo._entalpia_ext_inv_lat.toFixed(4)}
+                  value={calculo._entalpia_ext_inv_lat?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1200,7 +1176,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="volum_espe_ext_inv"
                   step={0.01}
-                  value={calculo._volum_espe_ext_inv.toFixed(4)}
+                  value={calculo._volum_espe_ext_inv?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1225,7 +1201,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="p_sat_agua_int_inv"
                   step={0.01}
-                  value={calculo._p_sat_agua_int_inv.toFixed(4)}
+                  value={calculo._p_sat_agua_int_inv?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1241,7 +1217,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="hum_absol_int_inv"
                   step={0.01}
-                  value={calculo._hum_absol_int_inv.toFixed(4)}
+                  value={calculo._hum_absol_int_inv?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1256,7 +1232,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_int_inv_sens"
                   step={0.01}
-                  value={calculo._entalpia_int_inv_sens.toFixed(4)}
+                  value={calculo._entalpia_int_inv_sens?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1273,7 +1249,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="entalpia_int_inv_lat"
                   step={0.01}
-                  value={calculo._entalpia_int_inv_lat.toFixed(4)}
+                  value={calculo._entalpia_int_inv_lat?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -1290,7 +1266,7 @@ export function FormProyecto({ id, userId, operacion }) {
                   type="number"
                   name="volum_espe_int_inv"
                   step={0.01}
-                  value={calculo._volum_espe_int_inv.toFixed(4)}
+                  value={calculo._volum_espe_int_inv?.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
