@@ -37,6 +37,3 @@ async function Equipos({ proyectoId }) {
 
 export default Equipos
 
-// {entries.map((post) =>
-//     <Post key={post.id} post={post} />
-// )}

@@ -1,6 +1,6 @@
 'use client'
 import Boton from "@/components/boton";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function FormEquipo({ action, data, disabled, text }) {
@@ -13,9 +13,9 @@ export default function FormEquipo({ action, data, disabled, text }) {
 
  
   useEffect(() => {
-    setEquipo(data.equipo)
-    setProyectos(data.proyectos)
-  }, [data.equipo, data.proyectos])
+    setEquipo(data?.equipo)
+    setProyectos(data?.proyectos)
+  }, [data?.equipo, data?.proyectos])
 
 
   async function wrapper(formData) {
@@ -26,7 +26,7 @@ export default function FormEquipo({ action, data, disabled, text }) {
 
   return (
     <form action={wrapper}>
-      <input type="hidden" name="id" defaultValue={equipo.id} />
+      <input type="hidden" name="id" defaultValue={equipo?.id} />
       {disabled && <input type='hidden' name="proyectoId" value={equipo?.proyectoId} />}
 
 
@@ -35,7 +35,7 @@ export default function FormEquipo({ action, data, disabled, text }) {
         <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
           {
             disabled
-              // ? <span className="font-bold">{equipo.proyecto?.nombre} </span> // ¿permite useState objetos anidados?
+              // ? <span className="font-bold">{equipo.proyecto?.nombre} </span> 
               ? <span className="font-bold">{proyectos.find(p => p.id === equipo.proyectoId)?.nombre} </span>
               : <select
                 name="proyectoId"

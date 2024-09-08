@@ -16,63 +16,26 @@ export default function FormRecinto({ action, data, disabled, text }) {
   const [proyectos, setProyectos] = useState([])
   const [errores, setErrores] = useState({})
 
-  const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
-
   const [longitud, setLongitud] = useState(0)
   const [anchura, setAnchura] = useState(0)
   const [altura, setAltura] = useState(0)
   const [orientacion, setOrientacion] = useState(0) // Toma valores 0, 1, 2 o 3
 
+  const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
 
   useEffect(() => {
-    setRecinto(data.recinto)
-    setProyectos(data.proyectos)
-    setLongitud(recinto.longitud)
-    setAnchura(recinto.anchura)
-    setAltura(recinto.altura)
+    setRecinto(data?.recinto)
+    setProyectos(data?.proyectos)
+    setLongitud(data?.recinto.longitud)
+    setAnchura(data?.recinto.anchura)
+    setAltura(data?.recinto.altura)
 
-    let orienta = ORIENTACION.indexOf(recinto.orientacion_c_1)
+    let orienta = ORIENTACION.indexOf(data?.recinto.orientacion_c_1)
     if (orienta == -1) orienta = 0
     setOrientacion(orienta)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    // setOrientacion([0, 1, 2, 3].includes(ORIENTACION.indexOf(data.recinto.orientacion_c_1)) || 0)
 
-
-
-
-  // const [orientacion, setOrientacion] = useState(() => {
-  //   const orienta = ORIENTACION.indexOf(recinto?.orientacion_c_1)
-  //   if (orienta == -1) return 0
-  //   else return orienta
-  // })
-
-
-  // useEffect(() => {
-  //   // Para poder usar la rueda del ratón dentro de los inputs de tipo number
-  //   const inputs = document.querySelectorAll("input[type='number']")
-  //   inputs.forEach(input => input.addEventListener('wheel', () => { }));
-
-  //   // Datos de Proyectos y Recinto
-  //   async function fetchData() {
-  //     const proyectos = await readProyectos({ userId, select: { id: true, nombre: true } })
-  //     setProyectos(proyectos)
-
-  //     if (id) {
-  //       const recinto = await readRecinto({ id, include: { proyecto: true } })
-  //       setRecinto(recinto)
-  //       setLongitud(recinto.longitud)
-  //       setAnchura(recinto.anchura)
-  //       setAltura(recinto.altura)
-  //       let orienta = ORIENTACION.indexOf(recinto.orientacion_c_1)
-  //       if (orienta == -1) orienta = 0
-  //       setOrientacion(orienta)
-  //     }
-  //   }
-  //   fetchData()
-
-  //   setIsLoaded(true)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  }, [data?.recinto, data?.proyectos])
 
 
 
@@ -113,7 +76,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
           {
             disabled
               // ? <span className="font-bold">{recinto.proyecto?.nombre} </span> // ¿permite useState objetos anidados?
-              ? <span className="font-bold">{proyectos.find(p => p.id === recinto.proyectoId)?.nombre}  </span>
+              ? <span className="font-bold">{proyectos.find(p => p.id === recinto?.proyectoId)?.nombre}  </span>
               : <select
                 name="proyectoId"
                 className="border-2 border-gray-300 rounded p-2"
@@ -131,19 +94,24 @@ export default function FormRecinto({ action, data, disabled, text }) {
 
       <fieldset disabled={disabled} >
 
-        <details className="mt-4 p-4 border rounded shadow-md" >
-          <summary className="font-bold" > RECINTO:
+        <details open className="mt-4 p-4 border rounded shadow-md" >
+          <summary className="font-bold" > RECINTO: </summary>
+          <label className="grid items-start gap-2 font-bold">
             <input
               type="text"
               name="nombre"
               maxLength={50}
               value={recinto?.nombre}
               onChange={(e) => setRecinto({ ...recinto, nombre: e.target.value })}
-              className="border-2 border-gray-300 rounded ml-2 p-2 text-center"
+              className="border-2 border-gray-300 rounded ml-2 p-2 text-left"
             />
-          </summary>
+          </label>
+        </details>
 
 
+
+        <details className="mt-4 p-4 border rounded shadow-md" >
+          <summary className="font-bold" > DATOS </summary>
           <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 2xl:grid-cols-4" >
             <div className="bg-slate-50 rounded-md p-4 grid items-center" >
               <label className="grid grid-cols-[auto_140px] items-center gap-2" >

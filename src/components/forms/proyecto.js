@@ -124,27 +124,13 @@ export function FormProyecto({ action, data, disabled, text }) {
     // inputs.forEach(input => input.addEventListener('wheel', () => { }));
 
     // Datos de Localidades y Proyecto
-    setProyecto(data.proyecto)
-    setLocalidades(data.localidades)
-    setLocalidad(data.proyecto.localidad)
-    // setLocalidad(data.localidades.find(l => l.id == proyecto.localidadId))
+    setProyecto(data?.proyecto)
+    setLocalidades(data?.localidades)
+    setLocalidad(data?.proyecto.localidad)
 
-    // async function fetchData() {
-    //   if (data.proyecto.id) {
-    //     const proyecto = await readProyecto({ id: data.proyecto.id, include: { localidad: { include: { zona_climatica: true } } } })
-    //     if (operacion == COPY) {
-    //       setProyecto({ ...proyecto, nombre: proyecto.nombre + ' - Copia', fecha: new Date() })
-    //     }
-    //     else {
-    //       setProyecto(data)
-    //     }
-    //     setLocalidad(proyecto.localidad)
-    //   }
-    // }
-    // fetchData()
-    const calculo = calcular(data.proyecto.localidad)
+    const calculo = calcular(data?.proyecto.localidad)
     setCalculo(calculo)
-   }, [data.proyecto, data.localidades])     // IMPORTANTE
+  }, [data?.proyecto, data?.localidades])     // IMPORTANTE
 
 
 
@@ -158,7 +144,7 @@ export function FormProyecto({ action, data, disabled, text }) {
     setLocalidad(localidades.find(localidad => localidad.id == e.target.value))
     const resultado = calcular(localidad)
     setCalculo(resultado)
-    console.log('LOCALIDAD ', data.proyecto.localidad);
+    // console.log('LOCALIDAD ', data.proyecto.localidad);
   }
 
   async function wrapper(formData) {
@@ -170,8 +156,8 @@ export function FormProyecto({ action, data, disabled, text }) {
 
   return (
     <form action={wrapper}>
-      <input type="hidden" name="id" defaultValue={proyecto.id} />
-      <input type="hidden" name="userId" defaultValue={proyecto.userId} />
+      <input type="hidden" name="id" defaultValue={proyecto?.id} />
+      <input type="hidden" name="userId" defaultValue={proyecto?.userId} />
 
       {/* <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
       <p className="uppercase mb-2 text-black">Errores detectados:</p>
@@ -192,17 +178,19 @@ export function FormProyecto({ action, data, disabled, text }) {
       <fieldset disabled={disabled}>
 
         <details open className="mt-4 p-4 border rounded shadow-md">
-          <summary className="font-bold">PROYECTO:
+          <summary className="font-bold">PROYECTO:  </summary>
+
+          <label className="grid items-start gap-2 font-bold">
             <input
               type="text"
               name="nombre"
               maxLength={50}
-              defaultValue={proyecto?.nombre}
+              // defaultValue={proyecto?.nombre}
+              value={proyecto?.nombre}
+              onChange={(e) => setProyecto({ ...proyecto, nombre: e.target.value })}
               className="border-2 border-gray-300 rounded ml-2 p-2 text-left"
             />
-          </summary>
-
-
+          </label>
           <div className="mt-4 p-4 border rounded shadow-md grid gap-4 md:grid-cols-[auto_160px]">
             <div className="relative">
               <label className="font-bold">Localidad:
