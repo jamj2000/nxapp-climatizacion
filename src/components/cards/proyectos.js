@@ -12,9 +12,9 @@ async function Proyectos() {
   let proyectos = {}
 
   if (user?.role === "ADMIN")
-    proyectos = await readProyectos()
+    proyectos = await readProyectos({ include: { localidad: { include: { zona_climatica: true }} }})
   else {
-    proyectos = await readProyectos({ userId: user?.id })
+    proyectos = await readProyectos({ userId: user?.id, include: {localidad: { include: { zona_climatica: true }} } })
   }
 
   const localidades = await readLocalidades()

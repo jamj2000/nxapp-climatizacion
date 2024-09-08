@@ -248,7 +248,7 @@ export async function readProyecto({ id, include }: Props1) {
 
 type Props2 = {
   userId?: string,
-  include?: { equipos?: true, recintos?: true },
+  include?: { equipos?: true, recintos?: true, localidad?: true },
   select?: unknown
 } 
 

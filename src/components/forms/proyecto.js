@@ -4,7 +4,7 @@ import Boton from "@/components/boton";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { readLocalidades } from "@/lib/actions/localidad";
+
 
 import {
   presion,
@@ -31,7 +31,7 @@ import {
   entalpia_int_inv_lat,
   volum_espe_int_inv,
 } from "@/lib/calculos"
-import { readProyecto } from "@/lib/actions/proyecto";
+
 
 
 
@@ -111,14 +111,14 @@ export function FormProyecto({ action, data, disabled, text }) {
 
   const router = useRouter()
 
-  const [proyecto, setProyecto] = useState([])
-  const [errores, setErrores] = useState({})
-
   const [localidades, setLocalidades] = useState([])
   const [localidad, setLocalidad] = useState({})
+  const [proyecto, setProyecto] = useState([])
   const [calculo, setCalculo] = useState({})
+  const [errores, setErrores] = useState({})
 
   useEffect(() => {
+    // console.log('DATA ', data);
     // Para poder usar la rueda del ratón dentro de los inputs de tipo number
     // const inputs = document.querySelectorAll("input[type='number']")
     // inputs.forEach(input => input.addEventListener('wheel', () => { }));
@@ -126,7 +126,8 @@ export function FormProyecto({ action, data, disabled, text }) {
     // Datos de Localidades y Proyecto
     setProyecto(data.proyecto)
     setLocalidades(data.localidades)
-    setLocalidad(data.localidades.find(l => l.id == proyecto.localidadId))
+    setLocalidad(data.proyecto.localidad)
+    // setLocalidad(data.localidades.find(l => l.id == proyecto.localidadId))
 
     // async function fetchData() {
     //   if (data.proyecto.id) {
@@ -141,10 +142,9 @@ export function FormProyecto({ action, data, disabled, text }) {
     //   }
     // }
     // fetchData()
-    const calculo = calcular(localidad)
+    const calculo = calcular(data.proyecto.localidad)
     setCalculo(calculo)
-
-  }, [localidad])
+   }, [data.proyecto, data.localidades])     // IMPORTANTE
 
 
 
@@ -156,16 +156,16 @@ export function FormProyecto({ action, data, disabled, text }) {
 
   function updateLocalidad(e) {
     setLocalidad(localidades.find(localidad => localidad.id == e.target.value))
-    // setProyecto({ ...proyecto, localidadId: e.target.value })}
     const resultado = calcular(localidad)
     setCalculo(resultado)
+    console.log('LOCALIDAD ', data.proyecto.localidad);
   }
 
   async function wrapper(formData) {
     const errores = await action(formData);
     // console.log(errores);
     setErrores(errores)
-    // if (!errores) router.back()
+    if (!errores) router.refresh()
   }
 
   return (
@@ -198,7 +198,7 @@ export function FormProyecto({ action, data, disabled, text }) {
               name="nombre"
               maxLength={50}
               defaultValue={proyecto?.nombre}
-              className="border-2 border-gray-300 rounded ml-2 p-2 text-center"
+              className="border-2 border-gray-300 rounded ml-2 p-2 text-left"
             />
           </summary>
 
@@ -206,7 +206,6 @@ export function FormProyecto({ action, data, disabled, text }) {
           <div className="mt-4 p-4 border rounded shadow-md grid gap-4 md:grid-cols-[auto_160px]">
             <div className="relative">
               <label className="font-bold">Localidad:
-
                 <select name="localidadId" className="text-left border-2 border-gray-300 rounded p-2 w-full"
                   value={localidad?.id}
                   onChange={updateLocalidad} >
@@ -257,7 +256,7 @@ export function FormProyecto({ action, data, disabled, text }) {
             </div>
           </div>
 
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 x  l:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
                 <div className="flex justify-between items-center">
@@ -277,6 +276,8 @@ export function FormProyecto({ action, data, disabled, text }) {
                   max={1000}
                   min={0}
                   defaultValue={proyecto?.numero_personas}
+                  // value={proyecto?.numero_personas}
+                  // onChange={(e) => setProyecto({ ...proyecto, numero_personas: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
@@ -296,9 +297,9 @@ export function FormProyecto({ action, data, disabled, text }) {
 
                 <select
                   name="ocupacion_personas"
-                  // defaultValue={proyecto?.ocupacion_personas} // No usamos defaultValue sino value, para actualizar select
-                  value={proyecto?.ocupacion_personas}
-                  onChange={(e) => setProyecto({ ...proyecto, ocupacion_personas: e.target.value })}
+                  defaultValue={proyecto?.ocupacion_personas} // No usamos defaultValue sino value, para actualizar select
+                  // value={proyecto?.ocupacion_personas}
+                  // onChange={(e) => setProyecto({ ...proyecto, ocupacion_personas: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="sedentario">Sedentaria</option>
@@ -493,7 +494,7 @@ export function FormProyecto({ action, data, disabled, text }) {
 
         <details className="mt-4 p-4 border rounded shadow-md">
           <summary>MÉTRICAS BASE</summary>
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
                 <div className="flex justify-between items-center">
@@ -651,7 +652,7 @@ export function FormProyecto({ action, data, disabled, text }) {
                   name="zona_climatica"
                   value={localidad?.zona_climatica?.id}
                   onChange={() => { }}
-                  className="border-2 border-gray-300 rounded p-2 w-full"
+                  className="border-2 border-gray-300 rounded p-2 w-full text-right"
                 />
               </label>
             </div>
@@ -659,7 +660,7 @@ export function FormProyecto({ action, data, disabled, text }) {
           </div>
 
 
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
                 <div className="flex justify-between items-center">
@@ -845,7 +846,7 @@ export function FormProyecto({ action, data, disabled, text }) {
             </div>
           </div>
 
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
                 <div className="flex justify-between items-center">
@@ -920,7 +921,7 @@ export function FormProyecto({ action, data, disabled, text }) {
 
         <details className="mt-4 p-4 border rounded shadow-md">
           <summary>VERANO en el EXTERIOR</summary>
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
@@ -1010,7 +1011,7 @@ export function FormProyecto({ action, data, disabled, text }) {
 
         <details className="mt-4 p-4 border rounded shadow-md">
           <summary>VERANO en el INTERIOR</summary>
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
@@ -1100,7 +1101,7 @@ export function FormProyecto({ action, data, disabled, text }) {
 
         <details className="mt-4 p-4 border rounded shadow-md">
           <summary>INVIERNO en el EXTERIOR</summary>
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
@@ -1190,7 +1191,7 @@ export function FormProyecto({ action, data, disabled, text }) {
 
         <details className="mt-4 p-4 border rounded shadow-md">
           <summary>INVIERNO en el INTERIOR</summary>
-          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-4 grid gap-1 items-stretch md:grid-cols-2 4xl:grid-cols-4">
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center">
               <label className="grid grid-cols-[auto_140px] items-center gap-2">
