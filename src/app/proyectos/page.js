@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import TarjetaContenedor from "@/components/cards/contenedor";
-import Proyectos from "@/components/cards/proyectos"
+import TarjetaContenedor from "@/components/contenedor";
+import Proyectos from "@/components/proyectos"
 import SkeletonProyectos from "@/components/skeletons/proyectos";
 import { auth } from "@/auth";
 import { createProyecto } from "@/lib/actions/proyecto";
@@ -8,7 +8,8 @@ import FormProyecto from "@/components/forms/proyecto";
 import { FaPlus } from "react-icons/fa6";
 import Modal from "@/components/modal";
 
-async function Page() {
+async function Page({searchParams}) {
+    const query = searchParams?.query || '';
     const { user } = await auth()
 
     let busqueda = ""
@@ -23,17 +24,9 @@ async function Page() {
                     <FormProyecto action={createProyecto} data={null} disabled={false} text="Crear Proyecto" />
                 </Modal>
 
-                {
-                    user?.role === "ADMIN" &&
-                    <input
-                        className="ml-5 text-center"
-                        defaultValue={busqueda}
-                        placeholder="Busqueda de proyectos"
-                    />
-                }
             </div>
             <Suspense fallback={<SkeletonProyectos />}>
-                <Proyectos />
+                <Proyectos query={query} />
             </Suspense>
         </TarjetaContenedor>
     );

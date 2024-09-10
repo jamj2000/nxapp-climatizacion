@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import TarjetaContenedor from "@/components/cards/contenedor";
-import Recintos from "@/components/cards/recintos"
+import TarjetaContenedor from "@/components/contenedor";
+import Recintos from "@/components/recintos"
 import SkeletonRecintos from "@/components/skeletons/recintos";
-import Equipos from "@/components/cards/equipos"
+import Equipos from "@/components/equipos"
 import SkeletonEquipos from "@/components/skeletons/equipos";
 import { auth } from "@/auth";
 

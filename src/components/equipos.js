@@ -1,4 +1,4 @@
-import TarjetaEquipo from "@/components/cards/equipo";
+import TarjetaEquipo from "@/components/equipo";
 import { auth } from "@/auth";
 import { readProyecto, readProyectos } from "@/lib/actions/proyecto";
 

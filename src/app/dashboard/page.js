@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import Tarjeta from "@/components/cards/contenedor";
+import Tarjeta from "@/components/contenedor";
 
 async function page() {
   const sesion = await auth();

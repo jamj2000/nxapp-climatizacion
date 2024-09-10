@@ -1,4 +1,4 @@
-import Tarjeta from "@/components/cards/contenedor";
+import Tarjeta from "@/components/contenedor";
 import FormProyecto from "@/components/forms/proyecto";
 import { auth } from "@/auth";
 import { COPY } from "@/lib/constantes"

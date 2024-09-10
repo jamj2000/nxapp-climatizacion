@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import TarjetaContenedor from "@/components/cards/contenedor"
-import Equipos from "@/components/cards/equipos"
+import TarjetaContenedor from "@/components/contenedor"
+import Equipos from "@/components/equipos"
 import SkeletonEquipos from "@/components/skeletons/equipos";
 import Modal from "@/components/modal";
 import FormEquipo from "@/components/forms/equipo";

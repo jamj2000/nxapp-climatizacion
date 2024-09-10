@@ -12,31 +12,36 @@ export default function FormRecinto({ action, data, disabled, text }) {
 
   const router = useRouter()
 
+  const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
+
   const [recinto, setRecinto] = useState({})
   const [proyectos, setProyectos] = useState([])
-  const [errores, setErrores] = useState({})
+  const [errores, setErrores] = useState(null)
 
-  const [longitud, setLongitud] = useState(0)
-  const [anchura, setAnchura] = useState(0)
-  const [altura, setAltura] = useState(0)
-  const [orientacion, setOrientacion] = useState(0) // Toma valores 0, 1, 2 o 3
+  let volumen = recinto?.longitud * recinto?.anchura * recinto?.altura;
+  let alturaXanchura = recinto?.altura * recinto?.anchura;
+  let alturaXlongitud = recinto?.altura * recinto?.longitud;
+  let anchuraXlongitud = recinto?.anchura * recinto?.longitud;
 
-  const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
 
   useEffect(() => {
     setRecinto(data?.recinto)
     setProyectos(data?.proyectos)
-    setLongitud(data?.recinto.longitud)
-    setAnchura(data?.recinto.anchura)
-    setAltura(data?.recinto.altura)
-
-    let orienta = ORIENTACION.indexOf(data?.recinto.orientacion_c_1)
-    if (orienta == -1) orienta = 0
-    setOrientacion(orienta)
-    // setOrientacion([0, 1, 2, 3].includes(ORIENTACION.indexOf(data.recinto.orientacion_c_1)) || 0)
-
   }, [data?.recinto, data?.proyectos])
 
+
+  function updateOrientacion(event) {
+    const orientacionC1 = event.target.value
+    const orientacionC1Index = ORIENTACION.indexOf(orientacionC1)
+
+    setRecinto({
+      ...recinto,
+      orientacion_c_1: orientacionC1,
+      orientacion_c_2: ORIENTACION[(orientacionC1Index + 1) % 4],
+      orientacion_c_3: ORIENTACION[(orientacionC1Index + 2) % 4],
+      orientacion_c_4: ORIENTACION[(orientacionC1Index + 3) % 4]
+    })
+  }
 
 
   async function wrapper(formData) {
@@ -50,44 +55,39 @@ export default function FormRecinto({ action, data, disabled, text }) {
 
   return (
     <form action={wrapper} >
-      {/* IMPORTANTE: Comentar. El id del proyecto lo cogemos de la lista de proyectos */}
-      {/* cuando no está disabled */}
       <input type="hidden" name="id" defaultValue={recinto?.id} />
-      {disabled && <input type='hidden' name="proyectoId" defaultValue={recinto?.proyectoId} />}
 
-      {/* <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
+      <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
         <p className="uppercase mb-2 text-black" > Errores detectados: </p>
-        {        let orienta = ORIENTACION.indexOf(recinto.orientacion_c_1)
-        if (orienta == -1) orienta = 0
-        setOrientacion(orienta)
-          errores
+        {errores
           && errores.map(({ campo, mensaje }, index) => (
             <div key={index} >
               <p className="font-light" > {campo} </p>
               <p className="indent-10" > {mensaje} </p>
             </div>))
         }
-      </div> */}
+      </div>
 
 
       <div className="flex flex-col gap-4 justify-between items-center mb-4 md:flex-row" >
         <Boton texto={text} />
         <label className="grid grid-cols-[150px_auto] items-center gap-2" > Proyecto asociado:
-          {
-            disabled
-              // ? <span className="font-bold">{recinto.proyecto?.nombre} </span> // ¿permite useState objetos anidados?
-              ? <span className="font-bold">{proyectos.find(p => p.id === recinto?.proyectoId)?.nombre}  </span>
-              : <select
-                name="proyectoId"
-                className="border-2 border-gray-300 rounded p-2"
-                value={recinto?.proyectoId}
-                onChange={(e) => setRecinto({ ...recinto, proyectoId: e.target.value })}
-              >
-                {
-                  proyectos
-                    ?.map(proyecto => <option key={proyecto.id} value={proyecto.id} >  {proyecto.nombre} </option>)
-                }
-              </select>
+          {disabled
+            ? <>
+              <input type='hidden' name="proyectoId" defaultValue={recinto?.proyectoId} />
+              <span className="font-bold">{proyectos.find(p => p.id === recinto?.proyectoId)?.nombre}  </span>
+            </>
+            : <select
+              name="proyectoId"
+              className="border-2 border-gray-300 rounded p-2"
+              value={recinto?.proyectoId}
+              onChange={(e) => setRecinto({ ...recinto, proyectoId: e.target.value })}
+            >
+              {
+                proyectos
+                  ?.map(proyecto => <option key={proyecto.id} value={proyecto.id} >  {proyecto.nombre} </option>)
+              }
+            </select>
           }
         </label>
       </div>
@@ -181,8 +181,8 @@ export default function FormRecinto({ action, data, disabled, text }) {
                 <input
                   type="number"
                   name="longitud"
-                  onChange={(e) => setLongitud(e.target.value)}
-                  value={longitud}
+                  value={recinto?.longitud}
+                  onChange={(e) => setRecinto({ ...recinto, longitud: e.target.value })}
                   step={0.01}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -193,8 +193,8 @@ export default function FormRecinto({ action, data, disabled, text }) {
                 <input
                   type="number"
                   name="anchura"
-                  onChange={(e) => setAnchura(e.target.value)}
-                  value={anchura}
+                  value={recinto?.anchura}
+                  onChange={(e) => setRecinto({ ...recinto, anchura: e.target.value })}
                   step={0.01}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -205,8 +205,9 @@ export default function FormRecinto({ action, data, disabled, text }) {
                 <input
                   type="number"
                   name="altura"
-                  value={altura}
-                  onChange={(e) => setAltura(e.target.value)}
+                  value={recinto?.altura}
+                  onChange={(e) => setRecinto({ ...recinto, altura: e.target.value })}
+                  // onChange={(e) => setAltura(e.target.value)}
                   step={0.01}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -218,7 +219,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                   readOnly
                   type="number"
                   name="volumen"
-                  value={(longitud * altura * anchura).toFixed(4)}
+                  value={volumen.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -332,7 +333,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                   type="number"
                   name="superficie_c_1"
                   step={0.01}
-                  value={(longitud * altura).toFixed(4)}
+                  value={alturaXlongitud.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -383,18 +384,17 @@ export default function FormRecinto({ action, data, disabled, text }) {
             </div>
 
             <div className="bg-slate-50 rounded-md p-4 grid items-center" >
-              <input type="hidden" name="orientacion_c_1" defaultValue={ORIENTACION[orientacion]} />
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Orientacion:
                 <select
-                  name="orientacion"
-                  value={orientacion}
-                  onChange={(e) => setOrientacion(e.target.value)}
+                  name="orientacion_c_1"
+                  value={recinto?.orientacion_c_1 ?? ORIENTACION[0]}
+                  onChange={updateOrientacion}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
-                  <option value={0}> {ORIENTACION[0]} </option>
-                  <option value={1}> {ORIENTACION[1]} </option>
-                  <option value={2}> {ORIENTACION[2]} </option>
-                  <option value={3}> {ORIENTACION[3]} </option>
+                  <option value={ORIENTACION[0]}> {ORIENTACION[0]} </option>
+                  <option value={ORIENTACION[1]}> {ORIENTACION[1]} </option>
+                  <option value={ORIENTACION[2]}> {ORIENTACION[2]} </option>
+                  <option value={ORIENTACION[3]}> {ORIENTACION[3]} </option>
                 </select>
               </label>
             </div>
@@ -474,7 +474,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                   type="number"
                   name="superficie_c_2"
                   step={0.01}
-                  value={(anchura * altura).toFixed(4)}
+                  value={alturaXanchura.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -529,7 +529,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                 <input
                   readOnly
                   name="orientacion_c_2"
-                  value={ORIENTACION[(+orientacion + 1) % +4]}
+                  value={recinto?.orientacion_c_2}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -612,7 +612,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                   type="number"
                   name="superficie_c_3"
                   step={0.01}
-                  value={(longitud * altura).toFixed(4)}
+                  value={alturaXlongitud.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -667,7 +667,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                 <input
                   readOnly
                   name="orientacion_c_3"
-                  value={ORIENTACION[(+orientacion + 2) % +4]}
+                  value={recinto?.orientacion_c_3}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -749,7 +749,8 @@ export default function FormRecinto({ action, data, disabled, text }) {
                   readOnly
                   type="number"
                   name="superficie_c_4"
-                  value={(altura * anchura).toFixed(4)}
+                  step={0.01}
+                  value={alturaXanchura.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -804,7 +805,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                 <input
                   readOnly
                   name="orientacion_c_4"
-                  value={ORIENTACION[(+orientacion + 3) % +4]}
+                  value={recinto?.orientacion_c_4}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -872,7 +873,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                   readOnly
                   type="number"
                   name="superficie_suelo"
-                  value={(longitud * anchura).toFixed(4)}
+                  value={anchuraXlongitud.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -940,7 +941,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
                   type="number"
                   name="superficie_techo"
                   step={0.01}
-                  value={(longitud * anchura).toFixed(4)}
+                  value={anchuraXlongitud.toFixed(4)}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />

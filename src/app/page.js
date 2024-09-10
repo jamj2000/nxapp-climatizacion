@@ -1,4 +1,4 @@
-import Tarjeta from "@/components/cards/contenedor";
+import Tarjeta from "@/components/contenedor";
 
 
 export default function Home() {

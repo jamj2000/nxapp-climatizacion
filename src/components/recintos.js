@@ -1,4 +1,4 @@
-import TarjetaRecinto from "@/components/cards/recinto";
+import TarjetaRecinto from "@/components/recinto";
 import { auth } from "@/auth";
 import { readProyecto, readProyectos } from "@/lib/actions/proyecto";
 

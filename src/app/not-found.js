@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Tarjeta from "@/components/cards/contenedor";
+import Tarjeta from "@/components/contenedor";
 
 export const dynamic = "force-static";
 

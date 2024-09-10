@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import TarjetaContenedor from "@/components/cards/contenedor"
-import Recintos from "@/components/cards/recintos"
+import TarjetaContenedor from "@/components/contenedor"
+import Recintos from "@/components/recintos"
 import SkeletonRecintos from "@/components/skeletons/recintos";
 import Modal from "@/components/modal";
 import { FaPlus } from "react-icons/fa6";

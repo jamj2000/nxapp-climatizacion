@@ -250,7 +250,7 @@ type Props2 = {
   userId?: string,
   include?: { equipos?: true, recintos?: true, localidad?: true },
   select?: unknown
-} 
+}
 
 export async function readProyectos({ userId, include, select }: Props2 = {}) {
   const proyectos = await prisma.proyecto.findMany({
@@ -261,6 +261,20 @@ export async function readProyectos({ userId, include, select }: Props2 = {}) {
   return proyectos
 }
 
+export async function readFilteredProyectos({ userId, include, select }: Props2 = {}, query: string) {
+  const proyectos = await prisma.proyecto.findMany({
+    where: {
+      userId,
+      nombre: {
+        contains: query,
+        mode: 'insensitive',
+      },
+    },
+    include
+  })
+
+  return proyectos
+}
 
 
 export async function noAction() {

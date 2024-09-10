@@ -115,14 +115,10 @@ export function FormProyecto({ action, data, disabled, text }) {
   const [localidad, setLocalidad] = useState({})
   const [proyecto, setProyecto] = useState([])
   const [calculo, setCalculo] = useState({})
-  const [errores, setErrores] = useState({})
+  const [errores, setErrores] = useState(null)
+
 
   useEffect(() => {
-    // console.log('DATA ', data);
-    // Para poder usar la rueda del ratón dentro de los inputs de tipo number
-    // const inputs = document.querySelectorAll("input[type='number']")
-    // inputs.forEach(input => input.addEventListener('wheel', () => { }));
-
     // Datos de Localidades y Proyecto
     setProyecto(data?.proyecto)
     setLocalidades(data?.localidades)
@@ -130,7 +126,12 @@ export function FormProyecto({ action, data, disabled, text }) {
 
     const calculo = calcular(data?.proyecto.localidad)
     setCalculo(calculo)
-  }, [data?.proyecto, data?.localidades])     // IMPORTANTE
+
+    // Para poder usar la rueda del ratón dentro de los inputs de tipo number
+    const inputs = document.querySelectorAll("input[type='number']")
+    inputs.forEach(input => input.addEventListener('wheel', () => { }));
+
+  }, [data?.proyecto, data?.localidades])    
 
 
 
@@ -144,7 +145,6 @@ export function FormProyecto({ action, data, disabled, text }) {
     setLocalidad(localidades.find(localidad => localidad.id == e.target.value))
     const resultado = calcular(localidad)
     setCalculo(resultado)
-    // console.log('LOCALIDAD ', data.proyecto.localidad);
   }
 
   async function wrapper(formData) {
@@ -159,16 +159,16 @@ export function FormProyecto({ action, data, disabled, text }) {
       <input type="hidden" name="id" defaultValue={proyecto?.id} />
       <input type="hidden" name="userId" defaultValue={proyecto?.userId} />
 
-      {/* <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
-      <p className="uppercase mb-2 text-black">Errores detectados:</p>
-      {errores
-        && errores.map(({ campo, mensaje }, index) => (
-          <div key={index}>
-            <p className="font-light">{campo}</p>
-            <p className="indent-10">{mensaje}</p>
-          </div>))
-      }
-    </div> */}
+      <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
+        <p className="uppercase mb-2 text-black">Errores detectados:</p>
+        {errores
+          && errores.map(({ campo, mensaje }, index) => (
+            <div key={index}>
+              <p className="font-light">{campo}</p>
+              <p className="indent-10">{mensaje}</p>
+            </div>))
+        }
+      </div>
 
       <div className="flex flex-col gap-4 justify-between items-center mb-4 md:flex-row">
         <Boton texto={text} />
@@ -176,7 +176,6 @@ export function FormProyecto({ action, data, disabled, text }) {
 
 
       <fieldset disabled={disabled}>
-
         <details open className="mt-4 p-4 border rounded shadow-md">
           <summary className="font-bold">PROYECTO:  </summary>
 
@@ -185,7 +184,6 @@ export function FormProyecto({ action, data, disabled, text }) {
               type="text"
               name="nombre"
               maxLength={50}
-              // defaultValue={proyecto?.nombre}
               value={proyecto?.nombre}
               onChange={(e) => setProyecto({ ...proyecto, nombre: e.target.value })}
               className="border-2 border-gray-300 rounded ml-2 p-2 text-left"
@@ -199,7 +197,7 @@ export function FormProyecto({ action, data, disabled, text }) {
                   onChange={updateLocalidad} >
                   {
                     localidades
-                      .map(localidad => <option key={localidad.id} value={localidad.id}>{localidad.nombre} </option>)
+                      ?.map(localidad => <option key={localidad.id} value={localidad.id}>{localidad.nombre} </option>)
                   }
                 </select>
               </label>
@@ -285,9 +283,9 @@ export function FormProyecto({ action, data, disabled, text }) {
 
                 <select
                   name="ocupacion_personas"
-                  defaultValue={proyecto?.ocupacion_personas} // No usamos defaultValue sino value, para actualizar select
-                  // value={proyecto?.ocupacion_personas}
-                  // onChange={(e) => setProyecto({ ...proyecto, ocupacion_personas: e.target.value })}
+                  // defaultValue={proyecto?.ocupacion_personas} // No usamos defaultValue sino value, para actualizar select
+                  value={proyecto?.ocupacion_personas}
+                  onChange={(e) => setProyecto({ ...proyecto, ocupacion_personas: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
                   <option value="sedentario">Sedentaria</option>

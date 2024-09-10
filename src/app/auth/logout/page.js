@@ -1,5 +1,5 @@
 import FormLogout from "@/components/forms/logout"
-import Tarjeta from "@/components/cards/contenedor";
+import Tarjeta from "@/components/contenedor";
 
 async function page() {
 

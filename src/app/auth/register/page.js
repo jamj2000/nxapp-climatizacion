@@ -1,5 +1,5 @@
 import RegisterForm from '@/components/forms/register-credentials'
-import Tarjeta from '@/components/cards/contenedor'
+import Tarjeta from '@/components/contenedor'
 
 
 function page() {
