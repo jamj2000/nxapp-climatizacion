@@ -35,19 +35,19 @@ export default async function TarjetaRecinto({ recinto, proyectos }) {
           <Modal icon={<FaEye size='1rem' color='white' />} text='Ver'
             className='cursor-pointer flex gap-2 items-center text-white bg-blue-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form action={noAction} data={data} disabled={true} text="Cerrar" />
+            <Form id={'recinto-view-' + recinto.id} action={noAction} data={data} disabled={true} text="Cerrar" />
           </Modal>
 
           <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
             className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form action={updateRecinto} data={data} disabled={false} text="Actualizar este equipo" />
+            <Form id={'recinto-update-' + recinto.id} action={updateRecinto} data={data} disabled={false} text="Actualizar este equipo" />
           </Modal>
 
           <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
             className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form action={deleteRecinto} data={data} disabled={true} text="Eliminar este equipo" />
+            <Form id={'recinto-delete-' + recinto.id} action={deleteRecinto} data={data} disabled={true} text="Eliminar este equipo" />
           </Modal>
 
         </div>

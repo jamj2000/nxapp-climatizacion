@@ -1,13 +1,10 @@
 'use client'
 import Boton from "@/components/boton";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 
 
-export default function FormEquipo({ action, data, disabled, text }) {
-
-  const router = useRouter()
+export default function FormEquipo({ id, action, data, disabled, text }) {
 
   const [equipo, setEquipo] = useState({})
   const [proyectos, setProyectos] = useState([])
@@ -23,11 +20,13 @@ export default function FormEquipo({ action, data, disabled, text }) {
   async function wrapper(formData) {
     const errores = await action(formData);
     setErrores(errores)
-    // if (!errores) { router.prefetch('/equipos'); router.forward() }
+    if (!errores) {
+      document.getElementById(id).closest('dialog').close()
+    } 
   }
 
   return (
-    <form action={wrapper}>
+    <form id={id} action={wrapper}>
       <input type="hidden" name="id" defaultValue={equipo?.id} />
 
       <div className="flex flex-col gap-4 justify-between items-center mb-4 md:flex-row">
@@ -36,7 +35,7 @@ export default function FormEquipo({ action, data, disabled, text }) {
           {disabled
               ? <>
                 <input type='hidden' name="proyectoId" defaultValue={equipo?.proyectoId} />
-                <span className="font-bold">{proyectos.find(p => p.id === equipo.proyectoId)?.nombre} </span>
+                <span className="font-bold">{proyectos?.find(p => p.id === equipo.proyectoId)?.nombre} </span>
               </>
               : <select
                 name="proyectoId"

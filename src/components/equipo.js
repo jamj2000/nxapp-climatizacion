@@ -27,20 +27,20 @@ export default async function TarjetaEquipo({ equipo, proyectos }) {
           <Modal icon={<FaEye size='1rem' color='white' />} text='Ver'
             className='cursor-pointer flex gap-2 items-center text-white bg-blue-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form action={noAction} data={data} disabled={true} text="Cerrar" />
+            <Form id={'equipo-view-' + equipo.id} action={noAction} data={data} disabled={true} text="Cerrar" />
           </Modal>
 
           <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
             className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form action={updateEquipo} data={data} disabled={false} text="Actualizar este equipo" />
+            <Form id={'equipo-update-' + equipo.id} action={updateEquipo} data={data} disabled={false} text="Actualizar este equipo" />
           </Modal>
 
 
           <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
               className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form action={deleteEquipo} data={data} disabled={true} text="Eliminar este equipo" />
+            <Form id={'equipo-delete-' + equipo.id} action={deleteEquipo} data={data} disabled={true} text="Eliminar este equipo" />
           </Modal>
 
         </div>

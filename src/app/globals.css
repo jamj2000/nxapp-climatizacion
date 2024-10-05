@@ -20,13 +20,19 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-image: url(/fondo.jpeg);
+  /* background-image: url(/fondo.jpeg); */
+  background-image: linear-gradient(to bottom right, rgb(255, 207, 104), rgb(188, 188, 245));
   background-size: cover;
   background-attachment: fixed;
   overflow-x: hidden;
   min-height: 100vh;
   max-width: 100vw;
 }
+
+a {
+  transition: 1s;
+}
+
 
 header {
   position: fixed;

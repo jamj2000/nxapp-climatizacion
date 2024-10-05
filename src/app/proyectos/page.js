@@ -7,10 +7,13 @@ import { createProyecto } from "@/lib/actions/proyecto";
 import FormProyecto from "@/components/forms/proyecto";
 import { FaPlus } from "react-icons/fa6";
 import Modal from "@/components/modal";
+import { readLocalidades } from "@/lib/actions/localidad";
 
 async function Page({searchParams}) {
     const query = searchParams?.query || '';
     const { user } = await auth()
+    const localidades = await readLocalidades()
+    const data = { localidades, proyecto: { userId: user.id} }
 
     let busqueda = ""
 
@@ -21,7 +24,7 @@ async function Page({searchParams}) {
                 <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Proyecto'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
-                    <FormProyecto action={createProyecto} data={null} disabled={false} text="Crear Proyecto" />
+                    <FormProyecto id={'proyecto-create'} action={createProyecto} data={data} disabled={false} text="Crear Proyecto" />
                 </Modal>
 
             </div>

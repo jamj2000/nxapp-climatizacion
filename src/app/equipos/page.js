@@ -5,10 +5,15 @@ import Equipos from "@/components/equipos"
 import SkeletonEquipos from "@/components/skeletons/equipos";
 import Modal from "@/components/modal";
 import FormEquipo from "@/components/forms/equipo";
-import { FaEye, FaPlus } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
 import { createEquipo } from "@/lib/actions/equipo";
+import { auth } from "@/auth";
+import { readProyectos } from "@/lib/actions/proyecto";
 
 async function Page() {
+    const { user } = await auth()
+    const proyectos = await readProyectos({ userId: user?.id, include: { equipos: true} })
+    const data = { proyectos, equipo: { userId: user.id} }
 
     return (
         <TarjetaContenedor>
@@ -17,7 +22,7 @@ async function Page() {
                 <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Equipo'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
-                    <FormEquipo action={createEquipo} data={null} disabled={false} text="Crear Equipo" />
+                    <FormEquipo id={'equipo-create'} action={createEquipo} data={data} disabled={false} text="Crear Equipo" />
                 </Modal>
 
             </div>

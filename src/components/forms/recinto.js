@@ -4,13 +4,10 @@
 'use client'
 import Boton from "@/components/boton";
 import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
-export default function FormRecinto({ action, data, disabled, text }) {
-
-  const router = useRouter()
+export default function FormRecinto({ id, action, data, disabled, text }) {
 
   const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
 
@@ -47,14 +44,16 @@ export default function FormRecinto({ action, data, disabled, text }) {
   async function wrapper(formData) {
     const errores = await action(formData);
     setErrores(errores)
-    // if (!errores) router.back()
+    if (!errores) {
+      document.getElementById(id).closest('dialog').close()
+    } 
   }
 
 
 
 
   return (
-    <form action={wrapper} >
+    <form id={id} action={wrapper} >
       <input type="hidden" name="id" defaultValue={recinto?.id} />
 
       <div className={`text-red-700 rounded-md bg-red-50  ${errores ? 'block p-4' : 'hidden'}`}>
@@ -75,7 +74,7 @@ export default function FormRecinto({ action, data, disabled, text }) {
           {disabled
             ? <>
               <input type='hidden' name="proyectoId" defaultValue={recinto?.proyectoId} />
-              <span className="font-bold">{proyectos.find(p => p.id === recinto?.proyectoId)?.nombre}  </span>
+              <span className="font-bold">{proyectos?.find(p => p.id === recinto?.proyectoId)?.nombre}  </span>
             </>
             : <select
               name="proyectoId"

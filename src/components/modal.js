@@ -36,7 +36,7 @@ const Modal = ({ children, icon, text, className }) => {
             </div>
 
 
-            <dialog ref={dialogRef} id='modal' onClick={handleClickOutside}
+            <dialog ref={dialogRef} onClick={handleClickOutside}
                 className={`backdrop:bg-black/50 backdrop:backdrop-blur-sm py-12 px-8 rounded-md
                        absolute top-10 mx-auto
                        w-[98%] md:w-[95%] lg:w-[90%] xl:w-[85%] 2xl:w-[80%]`}>

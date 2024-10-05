@@ -2,8 +2,7 @@
 import DropImagen from "@/components/imagen";
 import Boton from "@/components/boton";
 import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
 import {
@@ -36,10 +35,6 @@ import {
 
 
 function calcular(localidad) {
-  // const {
-  //   altitud,
-  //   temp_ext_ver, hum_ext_ver, temp_ext_inv, hum_ext_inv,
-  // } = localidad
 
   const altitud = localidad?.altitud
   const temp_ext_ver = localidad?.temp_ext_ver
@@ -107,9 +102,7 @@ function calcular(localidad) {
 
 
 
-export function FormProyecto({ action, data, disabled, text }) {
-
-  const router = useRouter()
+export function FormProyecto({ id, action, data, disabled, text }) {
 
   const [localidades, setLocalidades] = useState([])
   const [localidad, setLocalidad] = useState({})
@@ -122,23 +115,21 @@ export function FormProyecto({ action, data, disabled, text }) {
     // Datos de Localidades y Proyecto
     setProyecto(data?.proyecto)
     setLocalidades(data?.localidades)
-    setLocalidad(data?.proyecto.localidad)
+    setLocalidad(data?.proyecto?.localidad ?? data.localidades[0])
 
-    const calculo = calcular(data?.proyecto.localidad)
+    const calculo = calcular(data?.proyecto?.localidad ?? data.localidades[0])
     setCalculo(calculo)
 
     // Para poder usar la rueda del ratón dentro de los inputs de tipo number
     const inputs = document.querySelectorAll("input[type='number']")
     inputs.forEach(input => input.addEventListener('wheel', () => { }));
-
-  }, [data?.proyecto, data?.localidades])    
+  }, [data?.proyecto, data?.localidades])
 
 
 
   useEffect(() => {
     setCalculo(calcular(localidad))
   }, [localidad])
-
 
 
   function updateLocalidad(e) {
@@ -151,11 +142,14 @@ export function FormProyecto({ action, data, disabled, text }) {
     const errores = await action(formData);
     // console.log(errores);
     setErrores(errores)
-    if (!errores) router.refresh()
+    if (!errores) {
+      document.getElementById(id).closest('dialog').close()
+    } 
   }
 
+
   return (
-    <form action={wrapper}>
+    <form id={id} action={wrapper}>
       <input type="hidden" name="id" defaultValue={proyecto?.id} />
       <input type="hidden" name="userId" defaultValue={proyecto?.userId} />
 
@@ -209,7 +203,9 @@ export function FormProyecto({ action, data, disabled, text }) {
                   className="border-2 border-gray-300 rounded p-2 w-full"
                   type="date"
                   name="fecha"
-                  defaultValue={proyecto?.fecha?.toISOString().split("T")[0]}
+                  // defaultValue={proyecto?.fecha?.toISOString().split("T")[0]}
+                  value={proyecto?.fecha?.toISOString().split("T")[0] ?? new Date().toISOString().split("T")[0]}
+                  onChange={() => { }}
                 />
               </label>
             </div>
@@ -261,9 +257,9 @@ export function FormProyecto({ action, data, disabled, text }) {
                   step={1}
                   max={1000}
                   min={0}
-                  defaultValue={proyecto?.numero_personas}
-                  // value={proyecto?.numero_personas}
-                  // onChange={(e) => setProyecto({ ...proyecto, numero_personas: e.target.value })}
+                  // defaultValue={proyecto?.numero_personas}
+                  value={proyecto?.numero_personas}
+                  onChange={(e) => setProyecto({ ...proyecto, numero_personas: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
               </label>
