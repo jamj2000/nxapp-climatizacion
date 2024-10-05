@@ -6,15 +6,14 @@ async function Recintos({ proyectoId }) {
     const sesion = await auth();
     const { user } = sesion;
 
-    let proyectos;
+    const proyectos = await readProyectos({userId: user?.id, include: { recintos: { include: { proyecto: true }}}});
     let recintos;
 
     if (proyectoId) {
         const proyecto = await readProyecto({id: proyectoId, include: {recintos:{ include: { proyecto: true }}}})
         recintos = proyecto?.recintos
     }
-    else {
-        proyectos = await readProyectos({userId: user?.id, include: { recintos: { include: { proyecto: true }}}})
+    else {        
         recintos = proyectos?.map(proyecto => proyecto.recintos).flat()
     }
 

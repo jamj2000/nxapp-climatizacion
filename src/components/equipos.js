@@ -7,15 +7,14 @@ async function Equipos({ proyectoId }) {
     const sesion = await auth();
     const { user } = sesion;
 
-    let proyectos;
+    const proyectos = await readProyectos({ id: proyectoId, userId: user?.id, include: { equipos: true } })
     let equipos;
 
     if (proyectoId) {
         const proyecto = await readProyecto({ id: proyectoId, include: { equipos: true } })
         equipos = proyecto?.equipos
     }
-    else {
-        proyectos = await readProyectos({ id: proyectoId, userId: user?.id, include: { equipos: true } })
+    else {       
         equipos = proyectos?.map(proyecto => proyecto.equipos).flat()
     }
 

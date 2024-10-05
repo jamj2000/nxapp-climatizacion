@@ -30,8 +30,9 @@ body {
 }
 
 a {
-  transition: 1s;
+  transition: .8s cubic-bezier(0,2,1,0.5);
 }
+
 
 
 header {
