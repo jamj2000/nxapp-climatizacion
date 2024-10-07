@@ -236,7 +236,7 @@ type Props1 = {
 }
 
 
-export async function readProyecto({ id, include }: Props1) {
+export async function getProyecto({ id, include }: Props1) {
   const proyecto = await prisma.proyecto.findUnique({
     where: { id },
     include
@@ -252,7 +252,7 @@ type Props2 = {
   select?: unknown
 }
 
-export async function readProyectos({ userId, include, select }: Props2 = {}) {
+export async function getProyectos({ userId, include, select }: Props2 = {}) {
   const proyectos = await prisma.proyecto.findMany({
     where: { userId },
     include
@@ -261,7 +261,7 @@ export async function readProyectos({ userId, include, select }: Props2 = {}) {
   return proyectos
 }
 
-export async function readFilteredProyectos({ userId, include, select }: Props2 = {}, query: string) {
+export async function getFilteredProyectos({ userId, include, select }: Props2 = {}, query: string) {
   const proyectos = await prisma.proyecto.findMany({
     where: {
       userId,

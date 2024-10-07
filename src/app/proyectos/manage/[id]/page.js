@@ -10,13 +10,13 @@ import FormRecinto from "@/components/forms/recinto";
 import FormEquipo from "@/components/forms/equipo";
 import { createEquipo } from "@/lib/actions/equipo";
 import { createRecinto } from "@/lib/actions/recinto";
-import { readProyectos } from "@/lib/actions/proyecto";
+import { getProyectos } from "@/lib/actions/proyecto";
 import { auth } from "@/auth";
 
 
 async function Page({ params }) {    
     const { user } = await auth()
-    const proyectos = await readProyectos({ userId: user?.id, include: { equipos: true, recintos: true} })
+    const proyectos = await getProyectos({ userId: user?.id, include: { equipos: true, recintos: true} })
     const data = { proyectos, equipo: { userId: user.id}, recinto: { userId: user.id} }
 
     return (

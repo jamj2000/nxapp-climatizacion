@@ -8,11 +8,11 @@ import FormEquipo from "@/components/forms/equipo";
 import { FaPlus } from "react-icons/fa6";
 import { createEquipo } from "@/lib/actions/equipo";
 import { auth } from "@/auth";
-import { readProyectos } from "@/lib/actions/proyecto";
+import { getProyectos } from "@/lib/actions/proyecto";
 
 async function Page() {
     const { user } = await auth()
-    const proyectos = await readProyectos({ userId: user?.id, include: { equipos: true} })
+    const proyectos = await getProyectos({ userId: user?.id, include: { equipos: true} })
     const data = { proyectos, equipo: { userId: user.id} }
 
     return (

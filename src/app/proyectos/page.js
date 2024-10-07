@@ -7,12 +7,12 @@ import { createProyecto } from "@/lib/actions/proyecto";
 import FormProyecto from "@/components/forms/proyecto";
 import { FaPlus } from "react-icons/fa6";
 import Modal from "@/components/modal";
-import { readLocalidades } from "@/lib/actions/localidad";
+import { getLocalidades } from "@/lib/actions/localidad";
 
 async function Page({searchParams}) {
     const query = searchParams?.query || '';
     const { user } = await auth()
-    const localidades = await readLocalidades()
+    const localidades = await getLocalidades()
     const data = { localidades, proyecto: { userId: user.id} }
 
     let busqueda = ""

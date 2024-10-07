@@ -153,7 +153,7 @@ type Props = {
   include?: { proyectos?: true }
 } 
 
-export async function readRecinto({id, include}: Props) {
+export async function getRecinto({id, include}: Props) {
   const recinto = await prisma.recinto.findUnique({
     where: { id },
     include

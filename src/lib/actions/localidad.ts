@@ -29,7 +29,7 @@ function validate(formData: FormData): ZodReturn {
 
 // READ ACTIONS
 
-export async function readLocalidades() {
+export async function getLocalidades() {
   const localidades = await prisma.localidad.findMany({
     include: {
       zona_climatica: true
@@ -45,7 +45,7 @@ type Props = {
   include?: { zona_climatica?: true }
 }
 
-export async function readLocalidad({id, include}: Props ) {
+export async function getLocalidad({id, include}: Props ) {
   const localidad = await prisma.localidad.findUnique({
     where: { id },
     include

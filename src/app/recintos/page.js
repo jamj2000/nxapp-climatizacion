@@ -7,11 +7,11 @@ import { FaPlus } from "react-icons/fa6";
 import FormRecinto from "@/components/forms/recinto";
 import { createRecinto } from "@/lib/actions/recinto";
 import { auth } from "@/auth";
-import { readProyectos } from "@/lib/actions/proyecto";
+import { getProyectos } from "@/lib/actions/proyecto";
 
 async function Page() {
     const { user } = await auth()
-    const proyectos = await readProyectos({ userId: user?.id, include: { recintos: true} })
+    const proyectos = await getProyectos({ userId: user?.id, include: { recintos: true} })
     const data = { proyectos, recinto: { userId: user.id} }
 
     return (

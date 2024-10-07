@@ -90,7 +90,7 @@ type Props = {
   include?: { proyectos?: true }
 }
 
-export async function readEquipo({ id, include }: Props) {
+export async function getEquipo({ id, include }: Props) {
   const equipo = await prisma.equipo.findUnique({
     where: { id },
     include
