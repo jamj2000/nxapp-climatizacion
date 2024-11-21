@@ -39,7 +39,8 @@ function Page({ searchParams }) {
   const { error, callbackUrl } = searchParams;
   // Usamos globalThis para almacenar variable global
   // La usaremos en los actions de login
-  globalThis.callbackUrl = decodeURIComponent(callbackUrl ?? '%2Fproyectos');
+ 
+  // globalThis.callbackUrl = decodeURIComponent(callbackUrl ?? '%2Fproyectos');
 
   return (
     <div className="flex flex-col items-center justify-center">

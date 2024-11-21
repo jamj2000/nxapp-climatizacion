@@ -53,7 +53,7 @@ export async function login(formData: FormData) {
   if (user && matchPassword) {
     // && user.emailVerified
 
-    await signIn("credentials", { email, password, redirectTo: globalThis.callbackUrl});
+    await signIn("credentials", { email, password }); //redirectTo: globalThis.callbackUrl
     // return { success: "Inicio de sesión correcto" }
   } else {
     return { error: "Credenciales incorrectas." };

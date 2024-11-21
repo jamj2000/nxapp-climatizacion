@@ -108,7 +108,7 @@ async function imgCreate(file: File) {
     // width: 600, aspect-ratio: 600/360
     const result = await cloudinary.uploader.upload(fileUri, {
       invalidate: true,
-      folder: "galeria",
+      folder: "clima",
       public_id: file.name.split(".").slice(0, -1).join("."),
       aspect_ratio: "600:360",
       width: 600,

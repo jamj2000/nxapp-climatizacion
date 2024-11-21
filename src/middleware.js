@@ -3,6 +3,39 @@ import authConfig from "@/auth.config";
 
 const { auth } = NextAuth(authConfig);
 
+// import { NextResponse } from "next/server";
+
+// export default function middleware(request) {
+//   const isAuthenticate = true;
+
+//   if (!isAuthenticate) {
+//     return NextResponse.redirect(new URL('/auth/login', request.url))
+//   }
+
+
+//   return NextResponse.next();
+// }
+
+// export default auth((request) => {
+//   console.log(request.auth);
+//   console.log(request.nextUrl);
+
+//   console.log('MIDDLEWARE ', request.nextUrl.pathname);
+
+//   // Rutas públicas
+//   if (request.nextUrl.pathname.startsWith('/about')) return null
+
+
+//   // Rutas privadas
+//   if (!request.auth) {
+//     return NextResponse.redirect(new URL('/auth/login', request.url))
+//   }
+
+//   return NextResponse.next();
+// });
+
+
+
 
 export default auth((req) => {
   // console.log(req.auth);
