@@ -2,6 +2,8 @@
 import { useActionState, useEffect, useId } from "react";
 import { updateEquipo } from "@/lib/actions/equipo"
 import { toast } from "sonner";
+import Spinner from "../spinner";
+
 
 
 export default function FormEquipo({ id, action, data, disabled, text }) {

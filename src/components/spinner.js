@@ -1,6 +1,6 @@
 
 
-function spinner() {
+function Spinner() {
   return (
     <div role="status" className="flex justify-center">
       <svg
@@ -24,4 +24,4 @@ function spinner() {
   );
 }
 
-export default spinner;
+export default Spinner;

@@ -14,7 +14,7 @@ async function page() {
           <p>{sesion?.user.name}</p>
           <p> {sesion?.user.email} </p>
           <p> {sesion?.user.role} </p>
-          <img src={sesion?.user.image}></img>
+          <img src={sesion?.user.image} alt='image'></img>
         </div>
       </div>
     </>

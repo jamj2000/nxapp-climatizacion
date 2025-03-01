@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 
 function Footer() {
@@ -7,12 +8,11 @@ function Footer() {
         <div className="text-center md:text-left">
           <p className="text-sm text-gray-800 dark:text-blue-500">
             © {new Date().getFullYear()} {""}
-            <a
-              href="/"
+            <Link href="/"
               className="transition duration-500 hover:text-gray-700/70 inline-block"
             >
               FloWeather™
-            </a>
+            </Link>
             . Todos los derechos reservados.
           </p>
         </div>
