@@ -14,7 +14,8 @@ import { getProyectos } from "@/lib/actions/proyecto";
 import { auth } from "@/auth";
 
 
-async function Page({ params }) {    
+async function Page(props) {
+    const params = await props.params;
     const { user } = await auth()
     const proyectos = await getProyectos({ userId: user?.id, include: { equipos: true, recintos: true} })
     const data = { proyectos, equipo: { userId: user.id}, recinto: { userId: user.id} }

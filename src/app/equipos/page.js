@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Link from "next/link";
 import TarjetaContenedor from "@/components/contenedor"
 import Equipos from "@/components/equipos"
 import SkeletonEquipos from "@/components/skeletons/equipos";

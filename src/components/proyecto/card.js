@@ -31,13 +31,13 @@ async function TarjetaProyecto({ proyecto, localidades }) {
         <Image
           width={320} height={192}
           priority={true}          // Permite precargar imágenes responsivas
-          src={proyecto?.imagen || "/project-image-default.jpg"}
+          src={proyecto?.imagen || "/images/project-image-default.jpg"}
           alt="Logo de proyecto"
           className="rounded-t-lg w-full h-auto object-cover"
         />
         {/* Con img: Imágenes externas No requieren configuración en next.config.mjs */}
         {/* <img width={320} height={192}
-          src={proyecto?.imagen || "/project-image-default.jpg"}
+          src={proyecto?.imagen || "/images/project-image-default.jpg"}
           className="rounded-t-lg w-full h-auto object-cover"  /> */}
 
       </Link>

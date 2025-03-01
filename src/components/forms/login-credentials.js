@@ -1,29 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useActionState, useEffect } from "react";
 import { login } from "@/lib/actions/auth";
-import Button from "@/components/button-form";
+import { toast } from "sonner";
 import Link from "next/link";
 
 
 
 function LoginForm() {
-  const [resultado, setResultado] = useState("");
-  const [tipo, setTipo] = useState("");
 
-  async function wrapper(data) {
-    const message = await login(data);
-    if (message?.success) {
-      setTipo("success");
-      setResultado(message.success);
+  const [state, action, pending] = useActionState(login, {})
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success(state.success)
     }
-    if (message?.error) {
-      setTipo("error");
-      setResultado(message.error);
+    if (state?.error) {
+      toast.error(state.error)
     }
-  }
+  }, [state])
+
   return (
     <form
-      action={wrapper}
+      action={action}
       className="credentials flex flex-col items-center text-sky-500"
     >
       <div className="flex flex-col items-center mb-4 ">
@@ -45,10 +43,13 @@ function LoginForm() {
         />
       </div>
       <div className="flex justify-around items-center gap-5 mb-5">
-        <Button texto="Iniciar sesion"
-          className="bg-sky-600  rounded-[10px] px-4 py-2 cursor-pointer text-white"
-
-        />
+        <button
+          type="submit"
+          disabled={pending}
+          className="bg-sky-600 rounded-[10px] px-4 py-2 cursor-pointer text-white disabled:bg-slate-400"
+        >
+          {pending ? 'Iniciando sesión ...' : 'Iniciar sesión'}
+        </button>
         <Link
           href="/auth/register"
           className="bg-sky-600  rounded-[10px] px-4 py-2 cursor-pointer text-white"
@@ -56,9 +57,7 @@ function LoginForm() {
           Crear cuenta
         </Link>
       </div>
-      <div>
-        <p className={`info ${tipo} text-red-700 mb-4`}> {resultado} </p>
-      </div>
+
     </form>
   );
 }

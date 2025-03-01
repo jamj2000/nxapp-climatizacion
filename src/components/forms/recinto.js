@@ -46,7 +46,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
     setErrores(errores)
     if (!errores) {
       document.getElementById(id).closest('dialog').close()
-    } 
+    }
   }
 
 
@@ -229,7 +229,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between" >
                   IDA:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title={`.                    

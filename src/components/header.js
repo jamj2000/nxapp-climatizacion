@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Menu from "@/components/menu"
 import Image from "next/image";
-
+import AuthButton from "@/components/auth-button"
 
 
 export default async function Header({ session }) {
@@ -18,7 +18,7 @@ export default async function Header({ session }) {
       </div>
 
       <div>
-        <Login sesion={session} />
+        <AuthButton />
       </div>
     </header>
   );
@@ -36,7 +36,7 @@ function Logo() {
           >
             <Image
               height={48} width={48}
-              src="/cli-logo.svg"
+              src="/images/cli-logo.svg"
               alt="FloWeather Logo"
             />
             <span className="hidden sm:block self-center text-2xl font-semibold whitespace-nowrap text-gray-900 dark:text-gray-100/80">
@@ -47,32 +47,4 @@ function Logo() {
       </div>
     </nav>
   );
-}
-
-
-function Login({ sesion }) {
-
-  if (sesion) return (
-    <Link href="/auth/logout">
-      <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl ">
-        <img
-          src={sesion.user?.image ? sesion?.user.image : "/user.svg"}
-          className="w-6 rounded-[50%]"
-          alt="FloWeather Logo"
-        /> Logout
-      </button>
-    </Link>)
-
-  return (
-    <Link href="/auth/login">
-      <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl 	">
-        <img
-          src={"/logo-login.png"}
-          className="w-6"
-          alt="FloWeather Logo"
-        /> Login
-      </button>
-    </Link>
-  )
-
 }

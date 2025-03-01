@@ -8,12 +8,12 @@ async function FormLogout() {
     if (!sesion?.user)
         redirect("/auth/login");
 
-    const { user } = sesion;
     console.log(sesion);
+    const { user } = sesion;
 
     return (
         <form className="container flex flex-col items-center gap-4 text-blue-500">
-        {user.image ? (
+            {user.image ? (
                 <img
                     src={user.image}
                     alt={`Imagen de ${user.name}`}
@@ -21,7 +21,7 @@ async function FormLogout() {
                 />
             ) : (
                 <img
-                    src="/user.svg"
+                    src="/images/user.svg"
                     alt={`Imagen de ${user.name}`}
                     className="rounded-full w-20 h-20 flex justify-center items-center bg-white/50 dark:bg-blue-800/80 bg-no bg-center  "
                 />
@@ -47,7 +47,7 @@ async function FormLogout() {
                     className="w-full text-black bg-gray-100 text-center rounded-full"
                 />
             </label>
-    
+
             <button
                 formAction={logout}
                 className="bg-sky-600 bg-center bg-no-repeat rounded-[10px] w-32 h-10 cursor-pointer text-white"

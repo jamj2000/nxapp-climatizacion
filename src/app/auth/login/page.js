@@ -1,6 +1,8 @@
 import FormCredentials from "@/components/forms/login-credentials";
 import FormOAuth from "@/components/forms/login-oauth";
 import Tarjeta from "@/components/contenedor";
+import { auth } from '@/auth'
+import { redirect } from "next/navigation";
 
 const errors = new Map();
 errors.set("OAuthSignin", "Error al construir una URL de autorización.");
@@ -35,12 +37,13 @@ errors.set(
 );
 errors.set("Default", "No se puede iniciar sesión.");
 
-function Page({ searchParams }) {
-  const { error, callbackUrl } = searchParams;
-  // Usamos globalThis para almacenar variable global
-  // La usaremos en los actions de login
- 
-  // globalThis.callbackUrl = decodeURIComponent(callbackUrl ?? '%2Fproyectos');
+async function Page({ searchParams }) {
+  const { error, callbackUrl } = await searchParams;
+  globalThis.callbackUrl = callbackUrl
+
+  const sesion = await auth()
+
+  if (sesion) redirect('/dashboard')
 
   return (
     <div className="flex flex-col items-center justify-center">

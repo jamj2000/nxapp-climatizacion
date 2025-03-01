@@ -24,10 +24,10 @@ function Search() {
             <input
                 type='search'
                 className={`text-black p-2 pl-10 rounded-full my-5 
-                  bg-[url('/lupa.svg')] bg-[length:16px_16px] bg-[center_left_10px] bg-no-repeat focus:outline-blue-300`}
+                  bg-[url('/images/lupa.svg')] bg-[length:16px_16px] bg-[center_left_10px] bg-no-repeat focus:outline-blue-300`}
                 placeholder={'Buscar por nombre...'}
                 onChange={(e) => handleSearch(e.target.value)}
-                defaultValue={ searchParams.get('query') }
+                defaultValue={searchParams.get('query')}
             />
         </div>
 

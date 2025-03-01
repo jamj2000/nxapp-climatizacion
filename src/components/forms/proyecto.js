@@ -144,7 +144,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
     setErrores(errores)
     if (!errores) {
       document.getElementById(id).closest('dialog').close()
-    } 
+    }
   }
 
 
@@ -178,7 +178,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
               type="text"
               name="nombre"
               maxLength={50}
-              value={proyecto?.nombre}
+              value={proyecto?.nombre ?? ''}
               onChange={(e) => setProyecto({ ...proyecto, nombre: e.target.value })}
               className="border-2 border-gray-300 rounded ml-2 p-2 text-left"
             />
@@ -220,7 +220,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
               <div className="flex justify-center">
                 <input type="hidden" name="imagen" defaultValue={proyecto?.imagen} />
                 <DropImagen
-                  imgUrl={proyecto?.imagen || "/project-image-default.jpg"}
+                  imgUrl={proyecto?.imagen || "/images/project-image-default.jpg"}
                   alt="Logo de proyecto"
                   className="w-120 h-72 rounded object-cover"
                 />
@@ -244,7 +244,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Numero personas:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Numero de personas"
@@ -270,7 +270,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Ocupacion de las personas:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Este campo identifica la ocupacion de las personas"
@@ -295,7 +295,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Carga sensible por persona:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="w por persona"
@@ -317,7 +317,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Caudales por IDA:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Caudales por IDA"
@@ -339,7 +339,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Caudales de aire m3:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Caudales de aire m3"
@@ -361,7 +361,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Tipo lámpara:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Permite introducir el tipo de lámpara"
@@ -386,7 +386,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Potencia luminica:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Permite introducir la potencia luminica"
@@ -408,7 +408,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Factor seguridad:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Permite introducir el valor de seguridad"
@@ -429,7 +429,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Carga latente por persona:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="permite introducir el valor de carga latente"
@@ -450,7 +450,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   ODA:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de ODA"
@@ -482,7 +482,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Temperatura (Verano):
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de temperatura verano"
@@ -505,7 +505,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Humedad (Verano):
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de humedad verano"
@@ -528,7 +528,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Temperatura (Invierno):
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de temperatura invierno"
@@ -551,7 +551,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Humedad (Invierno):
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de humedad invierno"
@@ -575,7 +575,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Altitud:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de altitud"
@@ -599,7 +599,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Presion:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de altitud"
@@ -622,7 +622,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   Zona climatica:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de zona climatica"
@@ -648,7 +648,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   us/um:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de us/um"
@@ -671,7 +671,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   uc:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de uc"
@@ -694,7 +694,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   ut/umd:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de ut/umd"
@@ -717,7 +717,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   uh:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de uh"
@@ -740,7 +740,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   up:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de up"
@@ -763,7 +763,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   uph:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de uph"
@@ -786,7 +786,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   upv:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de upv"
@@ -809,7 +809,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   uphv:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de uphv"
@@ -834,7 +834,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   TPH:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de TPH"
@@ -857,7 +857,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   TPV:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de TPV"
@@ -880,7 +880,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <div className="flex justify-between items-center">
                   TPHV:
                   <Image width={20} height={20}
-                    src="/question.svg"
+                    src="/images/question.svg"
                     className="ml-2"
                     alt="info"
                     title="Valor de TPV / TPH"

@@ -1,32 +1,31 @@
 "use client";
-import { useState } from "react";
 import { register } from "@/lib/actions/auth";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Button from "@/components/button-form";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
+
 
 
 function RegisterForm() {
   const router = useRouter()
 
-  const [resultado, setResultado] = useState("");
-  const [tipo, setTipo] = useState("");
 
-  async function wrapper(data) {
-    const message = await register(data);
-    if (message.success) {
-      setTipo("success");
-      // setResultado(message.success);
-      // redirect("/");
+  const [state, action, pending] = useActionState(register, {})
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success(state.success)
       router.push("/auth/login")
-    } else {
-      setTipo("error");
-      setResultado(message.error);
     }
-  }
+    if (state?.error) {
+      toast.error(state.error)
+    }
+  }, [state])
+
+
   return (
     <div className="flex flex-col items-center justify-center ">
-      <form action={wrapper} className="credentials">
+      <form action={action} className="credentials">
         <div className="flex flex-col space-y-4">
           <label className="flex flex-col">
             <span className="mb-1">Nombre</span>
@@ -58,10 +57,15 @@ function RegisterForm() {
             />
           </label>
 
-          <p className={`info ${tipo} text-center`}>{resultado}</p>
         </div>
         <div className="flex justify-around gap-5 mt-5">
-          <Button texto="Crear cuenta" />
+          <button
+            type="submit"
+            disabled={pending}
+            className="bg-sky-600  rounded-[10px] px-4 py-2 cursor-pointer text-white disabled:bg-slate-400"
+          >
+            {pending ? 'Creando cuenta ...' : 'Crear cuenta'}
+          </button>
         </div>
       </form>
     </div>

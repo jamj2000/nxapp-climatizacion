@@ -4,10 +4,8 @@ import { redirect } from "next/navigation";
 async function page() {
   const sesion = await auth();
 
-  if (sesion?.user.role !== "ADMIN") {
-    redirect("/");
-    return null;
-  }
+  if (sesion?.user.role !== "ADMIN") redirect("/dashboard");
+
   return (
     <>
       <div className="flex flex-col items-center justify-center h-[70vh] text-[8vh]">

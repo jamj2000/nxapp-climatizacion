@@ -20,8 +20,8 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* background-image: url(/fondo.jpeg); */
-  background-image: linear-gradient(to bottom right, rgb(255, 207, 104), rgb(188, 188, 245));
+  background-image: url(/images/fondo-claro.jpg);
+  /* background-image: linear-gradient(to bottom right, rgb(255, 207, 104), rgb(188, 188, 245)); */
   background-size: cover;
   background-attachment: fixed;
   overflow-x: hidden;
@@ -30,7 +30,7 @@ body {
 }
 
 a {
-  transition: .8s cubic-bezier(0,2,1,0.5);
+  transition: .8s cubic-bezier(0, 2, 1, 0.5);
 }
 
 
@@ -93,7 +93,7 @@ textarea:disabled {
   }
 
   body {
-    background-image: url(/fondo-oscuro.jpeg);
+    background-image: url(/images/fondo-oscuro.jpg);
     background-size: 50% 50% 50% 50%;
     background-repeat: round;
     background-clip: content-box;

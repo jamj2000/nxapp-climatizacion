@@ -9,7 +9,8 @@ import { FaPlus } from "react-icons/fa6";
 import Modal from "@/components/modal";
 import { getLocalidades } from "@/lib/actions/localidad";
 
-async function Page({searchParams}) {
+async function Page(props) {
+    const searchParams = await props.searchParams;
     const query = searchParams?.query || '';
     const { user } = await auth()
     const localidades = await getLocalidades()

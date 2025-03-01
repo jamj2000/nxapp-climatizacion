@@ -22,7 +22,7 @@ async function Proyectos({ query }) {
 
       <div className="flex flex-wrap gap-5 sm:gap-10 items-center justify-center">
         {proyectos
-          .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
+          ?.sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
           .map((proyecto) => (
             <TarjetaProyecto key={proyecto.id} proyecto={proyecto} localidades={localidades} />
           ))}

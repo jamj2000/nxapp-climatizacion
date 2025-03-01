@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import authConfig from "@/auth.config";
-import { getUserById } from "./lib/actions/auth";
+import { getUserById } from "@/lib/data";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
 export const options = {
   session: { strategy: "jwt" },
@@ -12,26 +12,23 @@ export const options = {
     signOut: "/auth/logout",
     error: "/auth/error",
   },
-  // ORIGINAL. 
 
   callbacks: {
-    async jwt({ token}) {
-    
+    async session({ session, token }) {
+      session.user.id = token?.sub;     // Para recuperar ID de usuario desde el token
+      session.user.role = token?.role   // Para recuperar rol de usuario desde el token
+      return session
+    },
+
+    async jwt({ token }) {
       if (!token.sub) return token;
 
-      const u = await getUserById( token.sub ); 
-      if (!u) return token;
+      const user = await getUserById(token.sub)
+      if (!user) return token;
 
-      token.role = u?.role;
-
-      return token;
-    },
-
-    async session({ session, token }) {
-      session.user.role = token?.role;
-      session.user.id = token?.sub;     // Para incluir ID de usuario
-      return session;
-    },
+      token.role = user?.role
+      return token
+    }
   },
 };
 

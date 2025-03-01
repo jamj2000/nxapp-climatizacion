@@ -6,14 +6,14 @@ async function Recintos({ proyectoId }) {
     const sesion = await auth();
     const { user } = sesion;
 
-    const proyectos = await getProyectos({userId: user?.id, include: { recintos: { include: { proyecto: true }}}});
+    const proyectos = await getProyectos({ userId: user?.id, include: { recintos: { include: { proyecto: true } } } });
     let recintos;
 
     if (proyectoId) {
-        const proyecto = await getProyecto({id: proyectoId, include: {recintos:{ include: { proyecto: true }}}})
+        const proyecto = await getProyecto({ id: proyectoId, include: { recintos: { include: { proyecto: true } } } })
         recintos = proyecto?.recintos
     }
-    else {        
+    else {
         recintos = proyectos?.map(proyecto => proyecto.recintos).flat()
     }
 
@@ -21,9 +21,9 @@ async function Recintos({ proyectoId }) {
 
     return (
         <div className="flex flex-wrap gap-5 sm:gap-10 items-center justify-center mb-10">
-            {recintos &&
+            {
                 recintos
-                    .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
+                    ?.sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
                     .map((recinto) => (
                         <TarjetaRecinto key={recinto.id} recinto={recinto} proyectos={proyectos} />
                     ))}

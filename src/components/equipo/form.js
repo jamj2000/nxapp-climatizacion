@@ -1,52 +1,52 @@
 'use client'
-import Boton from "@/components/boton";
-import { useEffect, useState } from "react";
-
+import { useActionState, useEffect, useId } from "react";
+import { updateEquipo } from "@/lib/actions/equipo"
+import { toast } from "sonner";
 
 
 export default function FormEquipo({ id, action, data, disabled, text }) {
 
-  const [equipo, setEquipo] = useState({})
-  const [proyectos, setProyectos] = useState([])
-  const [errores, setErrores] = useState(null)
+  const formId = useId()
+  const { equipo, proyectos } = data
+  const [state, formAction, pending] = useActionState(updateEquipo, {})
+
 
 
   useEffect(() => {
-    setEquipo(data?.equipo)
-    setProyectos(data?.proyectos)
-  }, [data?.equipo, data?.proyectos])
+    if (state?.success) {
+      toast.success(state.success)
+      document.getElementById(formId)?.closest('dialog')?.close()
+    }
+  }, [state])
 
 
-  async function wrapper(formData) {
-    const errores = await action(formData);
-    setErrores(errores)
-    if (!errores) {
-      document.getElementById(id).closest('dialog').close()
-    } 
-  }
 
   return (
-    <form id={id} action={wrapper}>
+    <form id={formId} action={formAction}>
       <input type="hidden" name="id" defaultValue={equipo?.id} />
 
       <div className="flex flex-col gap-4 justify-between items-center mb-4 md:flex-row">
-        <Boton texto={text} />
+        <button type='submit' disabled={pending}
+          className='bg-sky-600 transition duration-500 hover:bg-sky-600/50 bg-center text-white bg-no-repeat h-10 rounded-xl w-56  cursor-pointer'>
+          {pending ? <Spinner /> : text}
+        </button>
+
         <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
           {disabled
-              ? <>
-                <input type='hidden' name="proyectoId" defaultValue={equipo?.proyectoId} />
-                <span className="font-bold">{proyectos?.find(p => p.id === equipo.proyectoId)?.nombre} </span>
-              </>
-              : <select
-                name="proyectoId"
-                className="border-2 border-gray-300 rounded p-2"
-                value={equipo?.proyectoId}
-                onChange={(e) => setEquipo({ ...equipo, proyectoId: e.target.value })}
-              >
-                { proyectos
-                    ?.map(proyecto => <option key={proyecto.id} value={proyecto.id}>  {proyecto.nombre}  </option>)
-                }
-              </select>
+            ? <>
+              <input type='hidden' name="proyectoId" defaultValue={equipo?.proyectoId} />
+              <span className="font-bold">{proyectos?.find(p => p.id === equipo.proyectoId)?.nombre} </span>
+            </>
+            : <select
+              name="proyectoId"
+              className="border-2 border-gray-300 rounded p-2"
+              key={equipo?.proyectoId}
+              value={equipo?.proyectoId}
+            >
+              {proyectos?.map(proyecto =>
+                <option key={proyecto.id} value={proyecto.id}>  {proyecto.nombre}  </option>
+              )}
+            </select>
           }
         </label>
       </div>
@@ -60,45 +60,53 @@ export default function FormEquipo({ id, action, data, disabled, text }) {
               <input
                 type="text"
                 name="nombre"
-                value={equipo?.nombre}
-                onChange={(e) => setEquipo({ ...equipo, nombre: e.target.value })}
+                defaultValue={equipo?.nombre}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>
-            <div className={`text-red-700 rounded-md bg-red-50  ${errores?.nombre ? 'block p-4' : 'hidden'}`}>
-              <p> {errores?.nombre} </p>
-            </div>
+            {state.issues?.nombre
+              &&
+              <div className={`text-red-700 rounded-md bg-red-50`}>
+                {state.issues.nombre}
+              </div>
+            }
           </div>
 
           <div className="bg-slate-50 rounded-md p-4 grid  items-start">
             <label className="grid grid-cols-[auto_140px] items-start gap-2">Potencia (W)
               <input
-                type="number"
+                // type="number"
                 name="potencia"
-                value={Number(equipo?.potencia)}
-                onChange={(e) => setEquipo({ ...equipo, potencia: e.target.value })}
+                defaultValue={Number(equipo?.potencia)}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>
-            <div className={`text-red-700 rounded-md bg-red-50  ${errores?.potencia ? 'block p-4' : 'hidden'}`}>
-              <p> {errores?.potencia} </p>
-            </div>
+            {state.issues?.potencia
+              &&
+              <div className={`text-red-700 rounded-md bg-red-50}`}>
+                {state.issues.potencia}
+              </div>
+            }
           </div>
 
 
           <div className="bg-slate-50 rounded-md p-4 grid  items-start">
             <label className="grid grid-cols-[auto_140px] items-start gap-2">Factor funcimiento (%):
               <input
-                type="number"
+                // type="number"
                 name="factor_funcionamiento"
-                value={Number(equipo?.factor_funcionamiento)}
-                onChange={(e) => setEquipo({ ...equipo, factor_funcionamiento: e.target.value })}
+                defaultValue={Number(equipo?.factor_funcionamiento)}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
             </label>
-            <div className={`text-red-700 rounded-md bg-red-50  ${errores?.factor_funcionamiento ? 'block p-4' : 'hidden'}`}>
-              <p> {errores?.factor_funcionamiento} </p>
-            </div>
+            {state.issues?.factor_funcionamiento && state.issues.factor_funcionamiento}
+            {state.issues?.factor_funcionamiento
+              &&
+
+              <div className={`text-red-700 rounded-md bg-red-50`}>
+                {state.issues.factor_funcionamiento}
+              </div>
+            }
           </div>
         </div>
       </fieldset>

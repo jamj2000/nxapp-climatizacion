@@ -14,7 +14,7 @@ async function Equipos({ proyectoId }) {
         const proyecto = await getProyecto({ id: proyectoId, include: { equipos: true } })
         equipos = proyecto?.equipos
     }
-    else {       
+    else {
         equipos = proyectos?.map(proyecto => proyecto.equipos).flat()
     }
 
@@ -23,9 +23,9 @@ async function Equipos({ proyectoId }) {
     return (
 
         <div className="flex flex-wrap gap-5 sm:gap-10 items-center justify-center">
-            {equipos &&
+            {
                 equipos
-                    .sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
+                    ?.sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
                     .map((equipo) => (
                         <TarjetaEquipo key={equipo.id} equipo={equipo} proyectos={proyectos} />
                     ))}

@@ -1,16 +1,15 @@
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import Tarjeta from "@/components/contenedor";
 
 async function page() {
   const sesion = await auth();
-  if (sesion?.user.role !== "ADMIN") redirect("/");
+
   return (
     <>
       <Tarjeta>
         <div className="flex flex-col items-center h-full">
           <div>
-            <h1 className="text-2xl">🔐 Admin panel</h1>
+            <h1 className="text-2xl">🔐 Dashboard</h1>
             <p>{sesion?.user.name}</p>
             <p>{sesion?.user.email}</p>
             <p>{sesion?.user.role}</p>
@@ -19,7 +18,7 @@ async function page() {
                 <img src={sesion.user.image} alt={sesion.user.name} />
               ) : (
                 <img
-                  src="/user.svg"
+                  src="/images/user.svg"
                   alt="Imagen por defecto"
                   className="h-10"
                 />

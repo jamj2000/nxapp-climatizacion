@@ -14,7 +14,7 @@ function About() {
           simplificar y enriquecer la experiencia de juego! Cada línea de código
           es un paso en mi aprendizaje, ¡y estoy emocionado por compartir esta
           aventura contigo! 🚀
-          <div className="container bg-contain rounded-[50%] bg-no-repeat bg-center bg-[url('/icono.png')] w-full h-72"></div>
+          <div className="container bg-contain rounded-[50%] bg-no-repeat bg-center bg-[url('/images/icono.png')] w-full h-72"></div>
         </div>
 
 
