@@ -1,4 +1,3 @@
-'use server'
 // GET USER BY ID
 export async function getUserById(id) {
 
