@@ -19,7 +19,7 @@ export default function FormEquipo({ id, action, data, disabled, text }) {
       toast.success(state.success)
       document.getElementById(formId)?.closest('dialog')?.close()
     }
-  }, [state])
+  }, [state, formId])
 
 
 
