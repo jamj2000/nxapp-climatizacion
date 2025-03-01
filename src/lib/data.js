@@ -1,3 +1,5 @@
+import prisma from '@/lib/prisma'
+
 // GET USER BY ID
 export async function getUserById(id) {
 
