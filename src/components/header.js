@@ -5,7 +5,7 @@ import { auth } from "../auth";
 // import AuthButton from "@/components/auth-button"
 
 
-export default async function Header() {
+async function Header() {
   const sesion = await auth()
 
   return (
@@ -21,29 +21,31 @@ export default async function Header() {
 
       <div>
         {sesion
-          ?
-          <Link href="/auth/logout"
+          ? <Link href="/auth/logout"
             className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl ">
-            <img
+            {/* <img
               src={sesion.user?.image ?? "/images/user.svg"}
               className="w-6 rounded-[50%] bg-white outline outline-1 outline-white"
               alt="FloWeather Logo"
-            /> Logout
+            />  */}
+            Logout
           </Link>
-          :
-          <Link href="/auth/login"
+          : <Link href="/auth/login"
             className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl 	">
-            <img
+            {/* <img
               src={"/images/logo-login.png"}
               className="w-6"
               alt="FloWeather Logo"
-            /> Login
+            />  */}
+            Login
           </Link>
         }
       </div>
     </header>
   );
 }
+
+export default Header
 
 
 function Logo() {
