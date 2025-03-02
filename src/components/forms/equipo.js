@@ -22,7 +22,7 @@ export default function FormEquipo({ id, action, data, disabled, text }) {
     setErrores(errores)
     if (!errores) {
       document.getElementById(id).closest('dialog').close()
-    } 
+    }
   }
 
   return (
@@ -33,20 +33,20 @@ export default function FormEquipo({ id, action, data, disabled, text }) {
         <Boton texto={text} />
         <label className="grid grid-cols-[150px_auto] items-center gap-2">Proyecto asociado:
           {disabled
-              ? <>
-                <input type='hidden' name="proyectoId" defaultValue={equipo?.proyectoId} />
-                <span className="font-bold">{proyectos?.find(p => p.id === equipo.proyectoId)?.nombre} </span>
-              </>
-              : <select
-                name="proyectoId"
-                className="border-2 border-gray-300 rounded p-2"
-                value={equipo?.proyectoId}
-                onChange={(e) => setEquipo({ ...equipo, proyectoId: e.target.value })}
-              >
-                { proyectos
-                    ?.map(proyecto => <option key={proyecto.id} value={proyecto.id}>  {proyecto.nombre}  </option>)
-                }
-              </select>
+            ? <>
+              <input type='hidden' name="proyectoId" defaultValue={equipo?.proyectoId} />
+              <span className="font-bold">{proyectos?.find(p => p.id === equipo.proyectoId)?.nombre} </span>
+            </>
+            : <select
+              name="proyectoId"
+              className="border-2 border-gray-300 rounded p-2"
+              value={equipo?.proyectoId}
+              onChange={(e) => setEquipo({ ...equipo, proyectoId: e.target.value })}
+            >
+              {proyectos
+                ?.map(proyecto => <option key={proyecto.id} value={proyecto.id}>  {proyecto.nombre}  </option>)
+              }
+            </select>
           }
         </label>
       </div>
@@ -75,7 +75,7 @@ export default function FormEquipo({ id, action, data, disabled, text }) {
               <input
                 type="number"
                 name="potencia"
-                value={Number(equipo?.potencia)}
+                value={Number(equipo?.potencia) ?? 0}
                 onChange={(e) => setEquipo({ ...equipo, potencia: e.target.value })}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />

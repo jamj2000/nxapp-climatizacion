@@ -100,7 +100,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               type="text"
               name="nombre"
               maxLength={50}
-              value={recinto?.nombre}
+              value={recinto?.nombre ?? ''}
               onChange={(e) => setRecinto({ ...recinto, nombre: e.target.value })}
               className="border-2 border-gray-300 rounded ml-2 p-2 text-left"
             />

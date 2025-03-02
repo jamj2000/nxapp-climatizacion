@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
+import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
 
@@ -14,6 +15,10 @@ export default auth((req) => {
 
     return Response.redirect(req.nextUrl.origin + `/auth/login?callbackUrl=${encodedCallbackUrl}`)
   }
+
+  const response = NextResponse.next();
+  response.headers.set('X-Custom-Header', 'This is a custom header');
+  return response;
 })
 
 
@@ -24,13 +29,12 @@ export const config = {
      * - api (API routes)
      * - images
      * - auth
-     * - about
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      * - $ (home page)
      */
-    '/((?!api|pwa|images|auth|about|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
+    '/((?!api|pwa|images|auth|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
   ],
 }
 
