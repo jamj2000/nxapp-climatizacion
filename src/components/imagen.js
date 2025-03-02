@@ -5,6 +5,8 @@ export default
   return (
     <>
       <img
+        width="100%"
+
         id="imgPreview"
         className={className}
         src={imgUrl}
@@ -42,7 +44,7 @@ function dropHandler(ev) {
   if (fileInput.files[0].type.split("/").slice(0, 1).join() === "image") {
     let reader = new FileReader();
     reader.readAsDataURL(fileInput.files[0]);
-    reader.onloadend = () => { imgPreview.src = reader.result  };
+    reader.onloadend = () => { imgPreview.src = reader.result };
   }
 }
 

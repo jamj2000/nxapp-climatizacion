@@ -222,7 +222,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
                 <DropImagen
                   imgUrl={proyecto?.imagen || "/images/project-image-default.jpg"}
                   alt="Logo de proyecto"
-                  className="w-120 h-72 rounded object-cover"
+                  className="w-120 h-72 rounded object-cover cursor-pointer"
                 />
               </div>
             </div>
