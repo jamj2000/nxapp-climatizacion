@@ -1,6 +1,6 @@
 import Tarjeta from "@/components/contenedor";
 
-export const dynamic = "force-static";
+// export const dynamic = "force-static";
 
 function About() {
   return (
