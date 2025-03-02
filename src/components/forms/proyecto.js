@@ -104,12 +104,14 @@ function calcular(localidad) {
 
 export function FormProyecto({ id, action, data, disabled, text }) {
 
+  const [loading, setLoading] = useState(true)
   const [localidades, setLocalidades] = useState([])
   const [localidad, setLocalidad] = useState({})
   const [proyecto, setProyecto] = useState([])
   const [calculo, setCalculo] = useState({})
   const [errores, setErrores] = useState(null)
 
+  useEffect(() => setLoading(false), [])
 
   useEffect(() => {
     // Datos de Localidades y Proyecto
@@ -147,6 +149,7 @@ export function FormProyecto({ id, action, data, disabled, text }) {
     }
   }
 
+  if (loading) return <p>Iniciando ...</p>
 
   return (
     <form id={id} action={wrapper}>

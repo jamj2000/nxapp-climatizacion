@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 import Modal from '@/components/modal'
 import Form from '@/components/forms/proyecto'
 import { FaPen, FaTrash, FaEye, FaCopy } from "react-icons/fa6";
-import { updateProyecto, deleteProyecto, noAction, createProyecto } from "@/lib/actions/proyecto"
+import { modificarProyecto, eliminarProyecto, noAction, insertarProyecto } from "@/lib/actions/proyecto"
 
 async function TarjetaProyecto({ proyecto, localidades }) {
 
@@ -67,13 +67,13 @@ async function TarjetaProyecto({ proyecto, localidades }) {
           <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
             className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form id={'proyecto-update-' + proyecto.id} action={updateProyecto} data={data} disabled={false} text="Actualizar este equipo" />
+            <Form id={'proyecto-update-' + proyecto.id} action={modificarProyecto} data={data} disabled={false} text="Actualizar este equipo" />
           </Modal>
 
           <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
             className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form id={'proyecto-delete-' + proyecto.id} action={deleteProyecto} data={data} disabled={true} text="Eliminar este equipo" />
+            <Form id={'proyecto-delete-' + proyecto.id} action={eliminarProyecto} data={data} disabled={true} text="Eliminar este equipo" />
           </Modal>
 
 
@@ -81,7 +81,7 @@ async function TarjetaProyecto({ proyecto, localidades }) {
             <Modal icon={<FaCopy size='1rem' color='white' />} text='Copiar'
               className='cursor-pointer flex gap-2 items-center text-white bg-violet-600 p-2 rounded-md self-end hover:shadow-md'>
 
-              <Form id={'proyecto-copy'} action={createProyecto} data={data} disabled={false} text="Copiar este proyecto" />
+              <Form id={'proyecto-copy'} action={insertarProyecto} data={data} disabled={false} text="Copiar este proyecto" />
             </Modal>
           }
         </div>

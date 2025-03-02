@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 
 export default function FormRecinto({ id, action, data, disabled, text }) {
+  const [loading, setLoading] = useState(true)
 
   const ORIENTACION = ['NORTE', 'ESTE', 'SUR', 'OESTE'] // En el sentido de las agujas del reloj
 
@@ -20,6 +21,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
   let alturaXlongitud = recinto?.altura * recinto?.longitud;
   let anchuraXlongitud = recinto?.anchura * recinto?.longitud;
 
+  useEffect(() => setLoading(false), [])
 
   useEffect(() => {
     setRecinto(data?.recinto)
@@ -50,7 +52,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
   }
 
 
-
+  if (loading) return <p>Iniciando ...</p>
 
   return (
     <form id={id} action={wrapper} >

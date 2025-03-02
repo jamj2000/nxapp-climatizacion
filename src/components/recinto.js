@@ -1,7 +1,7 @@
 import Modal from '@/components/modal'
 import Form from '@/components/forms/recinto'
 import { FaPen, FaTrash, FaEye } from "react-icons/fa6";
-import { updateRecinto, deleteRecinto, noAction } from "@/lib/actions/recinto"
+import { modificarRecinto, eliminarRecinto, noAction } from "@/lib/actions/recinto"
 
 export default async function TarjetaRecinto({ recinto, proyectos }) {
 
@@ -41,13 +41,13 @@ export default async function TarjetaRecinto({ recinto, proyectos }) {
           <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
             className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form id={'recinto-update-' + recinto.id} action={updateRecinto} data={data} disabled={false} text="Actualizar este equipo" />
+            <Form id={'recinto-update-' + recinto.id} action={modificarRecinto} data={data} disabled={false} text="Actualizar este equipo" />
           </Modal>
 
           <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
             className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
 
-            <Form id={'recinto-delete-' + recinto.id} action={deleteRecinto} data={data} disabled={true} text="Eliminar este equipo" />
+            <Form id={'recinto-delete-' + recinto.id} action={eliminarRecinto} data={data} disabled={true} text="Eliminar este equipo" />
           </Modal>
 
         </div>

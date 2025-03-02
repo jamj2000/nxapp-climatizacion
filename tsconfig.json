@@ -32,7 +32,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/lib/actions/recinto.js",
+    "src/lib/actions/proyecto.js",
+    "src/lib/actions/auth.js"
   ],
   "exclude": [
     "node_modules"

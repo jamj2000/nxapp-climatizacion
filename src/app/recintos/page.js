@@ -5,14 +5,14 @@ import SkeletonRecintos from "@/components/skeletons/recintos";
 import Modal from "@/components/modal";
 import { FaPlus } from "react-icons/fa6";
 import FormRecinto from "@/components/forms/recinto";
-import { createRecinto } from "@/lib/actions/recinto";
+import { insertarRecinto } from "@/lib/actions/recinto";
 import { auth } from "@/auth";
-import { getProyectos } from "@/lib/actions/proyecto";
+import { obtenerProyectos } from "@/lib/data";
 
 async function Page() {
     const { user } = await auth()
-    const proyectos = await getProyectos({ userId: user?.id, include: { recintos: true} })
-    const data = { proyectos, recinto: { userId: user.id} }
+    const proyectos = await obtenerProyectos({ userId: user?.id, include: { recintos: true } })
+    const data = { proyectos, recinto: { userId: user.id } }
 
     return (
         <TarjetaContenedor>
@@ -21,7 +21,7 @@ async function Page() {
                 <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Recinto'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
-                    <FormRecinto id={'recinto-create'} action={createRecinto} data={data} disabled={false} text="Crear Recinto" />
+                    <FormRecinto id={'recinto-create'} action={insertarRecinto} data={data} disabled={false} text="Crear Recinto" />
                 </Modal>
 
             </div>

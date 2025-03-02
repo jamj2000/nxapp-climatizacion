@@ -1,7 +1,7 @@
-import TarjetaProyecto from "@/components/proyecto";
+import Proyecto from "@/components/proyecto";
 import { auth } from "@/auth";
-import { getProyectos, getFilteredProyectos } from "@/lib/actions/proyecto";
-import { getLocalidades } from "@/lib/actions/localidad";
+import { obtenerProyectos, obtenerProyectosFiltrados } from "@/lib/data";
+import { obtenerLocalidades } from "@/lib/data";
 import Search from "@/components/search";
 
 async function Proyectos({ query }) {
@@ -10,11 +10,11 @@ async function Proyectos({ query }) {
   let proyectos = {}
 
   if (user?.role === "ADMIN")
-    proyectos = await getFilteredProyectos({ include: { localidad: { include: { zona_climatica: true } } } }, query)
+    proyectos = await obtenerProyectosFiltrados({ include: { localidad: { include: { zona_climatica: true } } } }, query)
   else {
-    proyectos = await getFilteredProyectos({ userId: user?.id, include: { localidad: { include: { zona_climatica: true } } } }, query)
+    proyectos = await obtenerProyectosFiltrados({ userId: user?.id, include: { localidad: { include: { zona_climatica: true } } } }, query)
   }
-  const localidades = await getLocalidades()
+  const localidades = await obtenerLocalidades()
 
   return (
     <>
@@ -24,7 +24,7 @@ async function Proyectos({ query }) {
         {proyectos
           ?.sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
           .map((proyecto) => (
-            <TarjetaProyecto key={proyecto.id} proyecto={proyecto} localidades={localidades} />
+            <Proyecto key={proyecto.id} proyecto={proyecto} localidades={localidades} />
           ))}
       </div>
     </>

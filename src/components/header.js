@@ -1,18 +1,20 @@
 import Link from "next/link";
 import Menu from "@/components/menu"
 import Image from "next/image";
-import { auth } from "../auth";
-// import AuthButton from "@/components/auth-button"
+import AuthButton from "@/components/auth-button"
 
 
 async function Header() {
-  const sesion = await auth()
 
   return (
     <header className="flex justify-between px-10 w-screen bg-sky-400 dark:bg-gray-900 items-center font-bold p-2 sticky top-0 z-50 border-b-[3px] border-blue-400/90 dark:border-sky-600">
       <div className="flex items-center gap-2 lg:gap-10">
         <div className="lg:order-last">
           <Menu />
+          {/* <Link href="/proyectos">Proyectos</Link>
+          <Link href="/recintos">Recintos</Link>
+          <Link href="/equipos">Equipos</Link>
+          <Link href="/about">Sobre mí</Link> */}
         </div>
         <div>
           <Logo />
@@ -20,26 +22,7 @@ async function Header() {
       </div>
 
       <div>
-        {sesion
-          ? <Link href="/auth/logout"
-            className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl">
-            <img
-              src={sesion.user?.image ?? "/images/user.svg"}
-              className="w-6 rounded-[50%] bg-white outline outline-1 outline-white"
-              alt="FloWeather Logo"
-            />
-            Logout
-          </Link>
-          : <Link href="/auth/login"
-            className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl">
-            <img
-              src={"/images/logo-login.png"}
-              className="w-6"
-              alt="FloWeather Logo"
-            />
-            Login
-          </Link>
-        }
+        <AuthButton />
       </div>
     </header>
   );

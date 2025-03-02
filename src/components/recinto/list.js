@@ -1,19 +1,19 @@
 import TarjetaRecinto from "@/components/recinto";
 import { auth } from "@/auth";
-import { getProyecto, getProyectos } from "@/lib/actions/proyecto";
+import { obtenerProyecto, obtenerProyectos } from "@/lib/data";
 
 async function Recintos({ proyectoId }) {
     const sesion = await auth();
     const { user } = sesion;
 
-    const proyectos = await getProyectos({userId: user?.id, include: { recintos: { include: { proyecto: true }}}});
+    const proyectos = await obtenerProyectos({ userId: user?.id, include: { recintos: { include: { proyecto: true } } } });
     let recintos;
 
     if (proyectoId) {
-        const proyecto = await getProyecto({id: proyectoId, include: {recintos:{ include: { proyecto: true }}}})
+        const proyecto = await obtenerProyecto({ id: proyectoId, include: { recintos: { include: { proyecto: true } } } })
         recintos = proyecto?.recintos
     }
-    else {        
+    else {
         recintos = proyectos?.map(proyecto => proyecto.recintos).flat()
     }
 

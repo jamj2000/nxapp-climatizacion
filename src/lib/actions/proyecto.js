@@ -2,8 +2,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
-// import { Proyecto, Recinto, Equipo } from "@prisma/client";
-import { z, ZodError } from "@/lib/es-zod";
+import { z } from "@/lib/es-zod";
 
 
 
@@ -81,11 +80,9 @@ const schema = z.object({
 })
 
 
-type ZodReturn = { success: true, data: z.infer<typeof schema> } | { success: false, error: ZodError }
 
 
-
-function validate(formData: FormData): ZodReturn {
+function validate(formData) {
   const datos = Object.fromEntries(formData.entries())
 
   const result = schema.safeParse(datos)
@@ -94,7 +91,7 @@ function validate(formData: FormData): ZodReturn {
 
 
 
-async function imgCreate(file: File) {
+async function imgCreate(file) {
   // console.log(file);
 
   const fileBuffer = await file.arrayBuffer();
@@ -109,7 +106,7 @@ async function imgCreate(file: File) {
     const result = await cloudinary.uploader.upload(fileUri, {
       invalidate: true,
       folder: "clima",
-      public_id: file.name.split(".").slice(0, -1).join("."),
+      file: public_id.name.split(".").slice(0, -1).join("."),
       aspect_ratio: "600:360",
       width: 600,
       crop: "fill",
@@ -125,7 +122,7 @@ async function imgCreate(file: File) {
 
 
 
-export async function createProyecto(formData: FormData) {
+export async function insertarProyecto(formData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -135,7 +132,7 @@ export async function createProyecto(formData: FormData) {
 
   const { id, ...data } = result.data
 
-  const imageFile = formData.get("file") as File;
+  const imageFile = formData.get("file");
 
   if (imageFile && imageFile.size > 0) {
     data.imagen = await imgCreate(imageFile);
@@ -152,7 +149,7 @@ export async function createProyecto(formData: FormData) {
 
 
 
-export async function updateProyecto(formData: FormData) {
+export async function modificarProyecto(formData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -162,7 +159,7 @@ export async function updateProyecto(formData: FormData) {
 
   const { id, ...data } = result.data
 
-  const imageFile = formData.get("file") as File;
+  const imageFile = formData.get("file");
 
   if (imageFile && imageFile.size > 0) {
     data.imagen = await imgCreate(imageFile);
@@ -182,7 +179,7 @@ export async function updateProyecto(formData: FormData) {
 
 
 
-export async function deleteProyecto(formData: FormData) {
+export async function eliminarProyecto(formData) {
   const id = Number(formData.get("id"));
 
   try {
@@ -198,7 +195,7 @@ export async function deleteProyecto(formData: FormData) {
 
 
 
-export async function copyProyecto(formData: FormData) {
+export async function copyProyecto(formData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -208,7 +205,7 @@ export async function copyProyecto(formData: FormData) {
 
   const { id, ...data } = result.data
 
-  const imageFile = formData.get("file") as File;
+  const imageFile = formData.get("file");
 
   if (imageFile && imageFile.size > 0) {
     data.imagen = await imgCreate(imageFile);
@@ -225,56 +222,6 @@ export async function copyProyecto(formData: FormData) {
 
 }
 
-
-
-// READ ACTIONS
-
-
-type Props1 = {
-  id: number | undefined,
-  include?: { equipos?: true, recintos?: true, localidad?: true }
-}
-
-
-export async function getProyecto({ id, include }: Props1) {
-  const proyecto = await prisma.proyecto.findUnique({
-    where: { id },
-    include
-  })
-
-  return proyecto
-}
-
-
-type Props2 = {
-  userId?: string,
-  include?: { equipos?: true, recintos?: true, localidad?: true },
-  select?: unknown
-}
-
-export async function getProyectos({ userId, include, select }: Props2 = {}) {
-  const proyectos = await prisma.proyecto.findMany({
-    where: { userId },
-    include
-  })
-
-  return proyectos
-}
-
-export async function getFilteredProyectos({ userId, include, select }: Props2 = {}, query: string) {
-  const proyectos = await prisma.proyecto.findMany({
-    where: {
-      userId,
-      nombre: {
-        contains: query,
-        mode: 'insensitive',
-      },
-    },
-    include
-  })
-
-  return proyectos
-}
 
 
 export async function noAction() {

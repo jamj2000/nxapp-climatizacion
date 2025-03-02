@@ -8,17 +8,17 @@ import Modal from "@/components/modal";
 import { FaPlus } from "react-icons/fa6";
 import FormRecinto from "@/components/forms/recinto";
 import FormEquipo from "@/components/forms/equipo";
-import { createEquipo } from "@/lib/actions/equipo";
-import { createRecinto } from "@/lib/actions/recinto";
-import { getProyectos } from "@/lib/actions/proyecto";
+import { insertarEquipo } from "@/lib/actions/equipo";
+import { insertarRecinto } from "@/lib/actions/recinto";
+import { obtenerProyectos } from "@/lib/data";
 import { auth } from "@/auth";
 
 
 async function Page(props) {
     const params = await props.params;
     const { user } = await auth()
-    const proyectos = await getProyectos({ userId: user?.id, include: { equipos: true, recintos: true} })
-    const data = { proyectos, equipo: { userId: user.id}, recinto: { userId: user.id} }
+    const proyectos = await obtenerProyectos({ userId: user?.id, include: { equipos: true, recintos: true } })
+    const data = { proyectos, equipo: { userId: user.id }, recinto: { userId: user.id } }
 
     return (
         <TarjetaContenedor>
@@ -38,18 +38,18 @@ async function Page(props) {
                     />
                 } */}
             </div>
-                   
+
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl">Recintos</h1>
                 <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Recinto'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
-                    <FormRecinto id={'recinto-create'} action={createRecinto} data={data} disabled={false} text="Crear Recinto" />
+                    <FormRecinto id={'recinto-create'} action={insertarRecinto} data={data} disabled={false} text="Crear Recinto" />
                 </Modal>
 
             </div>
             <Suspense fallback={<SkeletonRecintos />}>
-                <Recintos proyectoId={Number(params.id)}/>
+                <Recintos proyectoId={Number(params.id)} />
             </Suspense>
 
 
@@ -58,12 +58,12 @@ async function Page(props) {
                 <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Equipo'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
-                    <FormEquipo id={'equipo-create'} action={createEquipo} data={data} disabled={false} text="Crear Equipo" />
+                    <FormEquipo id={'equipo-create'} action={insertarEquipo} data={data} disabled={false} text="Crear Equipo" />
                 </Modal>
 
             </div>
             <Suspense fallback={<SkeletonEquipos />}>
-                <Equipos proyectoId={Number(params.id)}/>
+                <Equipos proyectoId={Number(params.id)} />
             </Suspense>
         </TarjetaContenedor>
     );

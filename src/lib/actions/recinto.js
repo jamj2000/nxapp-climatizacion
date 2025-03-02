@@ -1,7 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { z, ZodError } from "@/lib/es-zod";
-import { Recinto } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 const schema = z.object({
@@ -78,11 +77,9 @@ const schema = z.object({
   superficie_suelo: z.coerce.number(),
 });
 
-// type ZodReturn = { success: true, data: Recinto } | { success: false, error: ZodError }
-type ZodReturn = { success: true, data: z.infer<typeof schema> } | { success: false, error: ZodError }
 
 
-function validate(formData: FormData): ZodReturn {
+function validate(formData) {
   const datos = Object.fromEntries(formData.entries())
 
   const result = schema.safeParse(datos)
@@ -90,7 +87,7 @@ function validate(formData: FormData): ZodReturn {
 }
 
 
-export async function createRecinto(formData: FormData) {
+export async function insertarRecinto(formData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -111,7 +108,7 @@ export async function createRecinto(formData: FormData) {
 
 
 
-export async function updateRecinto(formData: FormData) {
+export async function modificarRecinto(formData) {
   const result = validate(formData)
 
   if (!result.success) {
@@ -122,7 +119,7 @@ export async function updateRecinto(formData: FormData) {
   const { id, ...data } = result.data
 
   try {
-    await prisma.recinto.update({ where: {id}, data });
+    await prisma.recinto.update({ where: { id }, data });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
@@ -133,11 +130,11 @@ export async function updateRecinto(formData: FormData) {
 
 
 
-export async function deleteRecinto(formData: FormData) {
+export async function eliminarRecinto(formData) {
   const id = Number(formData.get("id"));
 
   try {
-    await prisma.recinto.delete({    where: { id }   });
+    await prisma.recinto.delete({ where: { id } });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
   } catch (error) {
@@ -145,22 +142,6 @@ export async function deleteRecinto(formData: FormData) {
   }
 }
 
-
-// READ ACTIONS
-type Props = {
-  id?: number,
-  userId?: string,
-  include?: { proyectos?: true }
-} 
-
-export async function getRecinto({id, include}: Props) {
-  const recinto = await prisma.recinto.findUnique({
-    where: { id },
-    include
-  })
-  
-  return recinto
-}
 
 
 

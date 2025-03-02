@@ -27,14 +27,14 @@ function validate(formData) {
   return result
 }
 
-export async function createEquipo(prevState, formData) {
+export async function insertarEquipo(prevState, formData) {
   const result = validate(formData)
 
   if (!result.success) {
     const simplified = result.error.issues.map(issue => [issue.path[0], issue.message])
     const issues = Object.fromEntries(simplified)
     console.log('issues (cocinados) ', issues);
-    return { issues, payload }
+    return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 
   const { id, ...data } = result.data
@@ -52,7 +52,7 @@ export async function createEquipo(prevState, formData) {
 
 
 
-export async function updateEquipo(formData) {
+export async function modificarEquipo(prevState, formData) {
   console.log('formData', formData)
   const result = validate(formData)
 
@@ -60,7 +60,7 @@ export async function updateEquipo(formData) {
     const simplified = result.error.issues.map(issue => [issue.path[0], issue.message])
     const issues = Object.fromEntries(simplified)
     console.log('issues (cocinados) ', issues);
-    return { issues, payload }
+    return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 
   const { id, ...data } = result.data
@@ -79,7 +79,7 @@ export async function updateEquipo(formData) {
 
 
 
-export async function deleteEquipo(prevState, formData) {
+export async function eliminarEquipo(prevState, formData) {
   const id = Number(formData.get('id'))
 
   try {
@@ -92,21 +92,6 @@ export async function deleteEquipo(prevState, formData) {
   }
 }
 
-// READ ACTIONS
-// type Props = {
-//   id?: number,
-//   userId?: string,
-//   include?: { proyectos?: true }
-// }
-
-export async function getEquipo({ id, include }) {
-  const equipo = await prisma.equipo.findUnique({
-    where: { id },
-    include
-  })
-
-  return equipo
-}
 
 
 export async function noAction() {
