@@ -1,5 +1,6 @@
 import Tarjeta from "@/components/contenedor";
 
+// ERROR: la siguente línea provoca que authButton no se muestre bien
 // export const dynamic = "force-static";
 
 function About() {
