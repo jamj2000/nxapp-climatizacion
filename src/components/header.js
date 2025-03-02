@@ -6,6 +6,7 @@ import { auth } from "../auth";
 
 
 export default async function Header() {
+  const sesion = await auth()
 
   return (
     <header className="flex justify-between px-10 w-screen bg-sky-400 dark:bg-gray-900 items-center font-bold p-2 sticky top-0 z-50 border-b-[3px] border-blue-400/90 dark:border-sky-600">
@@ -19,7 +20,28 @@ export default async function Header() {
       </div>
 
       <div>
-        <AuthButton />
+        {sesion
+          ?
+          <Link href="/auth/logout">
+            <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl ">
+              <img
+                src={sesion.user?.image ?? "/images/user.svg"}
+                className="w-6 rounded-[50%] bg-white outline outline-1 outline-white"
+                alt="FloWeather Logo"
+              /> Logout
+            </button>
+          </Link>
+          :
+          <Link href="/auth/login">
+            <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl 	">
+              <img
+                src={"/images/logo-login.png"}
+                className="w-6"
+                alt="FloWeather Logo"
+              /> Login
+            </button>
+          </Link>
+        }
       </div>
     </header>
   );
@@ -48,33 +70,4 @@ function Logo() {
       </div>
     </nav>
   );
-}
-
-
-
-async function AuthButton() {
-  const sesion = await auth()
-
-  if (sesion) return (
-    <Link href="/auth/logout">
-      <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl ">
-        <img
-          src={sesion.user?.image ?? "/images/user.svg"}
-          className="w-6 rounded-[50%] bg-white outline outline-1 outline-white"
-          alt="FloWeather Logo"
-        /> Logout
-      </button>
-    </Link>)
-
-  return (
-    <Link href="/auth/login">
-      <button className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl 	">
-        <img
-          src={"/images/logo-login.png"}
-          className="w-6"
-          alt="FloWeather Logo"
-        /> Login
-      </button>
-    </Link>
-  )
 }

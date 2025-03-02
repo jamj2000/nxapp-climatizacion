@@ -34,7 +34,7 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      * - $ (home page)
      */
-    '/((?!api|pwa|images|auth|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
+    '/((?!api|pwa|images|auth|about|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|$).*)',
   ],
 }
 
