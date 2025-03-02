@@ -7,39 +7,37 @@ import { useRef } from 'react'
 const Modal = ({ children, icon, text, className }) => {
     const dialogRef = useRef(null);
 
+    const openDialog = () => dialogRef.current?.showModal()
 
-    const openDialog = () => {
-        if (dialogRef.current) dialogRef.current.showModal();
-    };
+    const closeDialog = () => dialogRef.current?.close()
 
-    const closeDialog = () => {
-        if (dialogRef.current) dialogRef.current.close();
-    };
-
-
-    const handleClickOutside = () => {
-        if (dialogRef.current)
-            dialogRef.current.addEventListener('click', function (event) {
-                var rect = dialogRef.current.getBoundingClientRect();
-                var isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
-                    rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
-                if (!isInDialog) {
-                    dialogRef.current.close();
-                }
-            })
+    const handleClickOutside = (e) => {
+        if (dialogRef.current) {
+            const rect = dialogRef.current.getBoundingClientRect();
+            const isInDialog = (rect.top <= e.clientY
+                && e.clientY <= rect.top + rect.height
+                && rect.left <= e.clientX
+                && e.clientX <= rect.left + rect.width);
+            if (!isInDialog) {
+                dialogRef.current.close();
+            }
+        }
     }
-    //  fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] 
+
+
     return (
         <>
-            <div onClick={openDialog} className={className}>
+            <div
+                onClick={openDialog}
+                className={className}>
                 {icon} {text}
             </div>
 
 
-            <dialog ref={dialogRef} onClick={handleClickOutside}
-                className={`backdrop:bg-black/50 backdrop:backdrop-blur-sm py-12 px-8 rounded-md
-                       absolute top-10 mx-auto
-                       w-[98%] md:w-[95%] lg:w-[90%] xl:w-[85%] 2xl:w-[80%]`}>
+            <dialog
+                ref={dialogRef}
+                onMouseDown={handleClickOutside}
+                className="backdrop:bg-black/50 backdrop:backdrop-blur-none w-[90%] lg:w-[60%] py-12 px-2 md:px-8 rounded-md outline-none">
 
                 {children}
 

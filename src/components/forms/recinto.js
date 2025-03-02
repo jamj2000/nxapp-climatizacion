@@ -137,7 +137,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   name="hum_ver_relativa"
                   // min={30}
                   // max={70}
-                  value={recinto?.hum_ver_relativa}
+                  value={recinto?.hum_ver_relativa ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, hum_ver_relativa: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -153,7 +153,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={-100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temp_inv_relativa}
+                  value={recinto?.temp_inv_relativa ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temp_inv_relativa: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -168,7 +168,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   name="hum_inv_relativa"
                   // min={30}
                   // max={70}
-                  value={recinto?.hum_inv_relativa}
+                  value={recinto?.hum_inv_relativa ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, hum_inv_relativa: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -180,7 +180,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                 <input
                   type="number"
                   name="longitud"
-                  value={recinto?.longitud}
+                  value={recinto?.longitud ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, longitud: e.target.value })}
                   step={0.01}
                   className="border-2 border-gray-300 rounded p-2 w-full"
@@ -192,7 +192,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                 <input
                   type="number"
                   name="anchura"
-                  value={recinto?.anchura}
+                  value={recinto?.anchura ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, anchura: e.target.value })}
                   step={0.01}
                   className="border-2 border-gray-300 rounded p-2 w-full"
@@ -204,7 +204,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                 <input
                   type="number"
                   name="altura"
-                  value={recinto?.altura}
+                  value={recinto?.altura ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, altura: e.target.value })}
                   // onChange={(e) => setAltura(e.target.value)}
                   step={0.01}
@@ -244,7 +244,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
 
                 <select
                   name="ida"
-                  value={recinto?.ida}
+                  value={recinto?.ida ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, ida: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -267,7 +267,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Ubicacion:
                 <select
                   name="ubicacion_c_1"
-                  value={recinto?.ubicacion_c_1}
+                  value={recinto?.ubicacion_c_1 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, ubicacion_c_1: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -280,7 +280,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Color:
                 <select
                   name="color_c_1"
-                  value={recinto?.color_c_1}
+                  value={recinto?.color_c_1 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, color_c_1: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -300,7 +300,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={- 100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temperatura_ver_c_1}
+                  value={recinto?.temperatura_ver_c_1 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_ver_c_1: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -317,7 +317,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={- 100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temperatura_inv_c_1}
+                  value={recinto?.temperatura_inv_c_1 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_inv_c_1: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -342,7 +342,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Tipo de vidrio:
                 <select
                   name="tipo_vidrio_c_1"
-                  value={recinto?.tipo_vidrio_c_1}
+                  value={recinto?.tipo_vidrio_c_1 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, tipo_vidrio_c_1: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -360,7 +360,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   type="number"
                   name="superficie_vidrio_c_1"
                   step={0.01}
-                  value={recinto?.superficie_vidrio_c_1}
+                  value={recinto?.superficie_vidrio_c_1 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_vidrio_c_1: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -375,7 +375,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={0}
                   max={100}
                   step={0.01}
-                  value={recinto?.superficie_puertas_c_1}
+                  value={recinto?.superficie_puertas_c_1 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_puertas_c_1: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -408,7 +408,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Ubicacion:
                 <select
                   name="ubicacion_c_2"
-                  value={recinto?.ubicacion_c_2}
+                  value={recinto?.ubicacion_c_2 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, ubicacion_c_2: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -421,7 +421,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Color:
                 <select
                   name="color_c_2"
-                  value={recinto?.color_c_2}
+                  value={recinto?.color_c_2 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, color_c_2: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -441,7 +441,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={- 100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temperatura_ver_c_2}
+                  value={recinto?.temperatura_ver_c_2 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_ver_c_2: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -458,7 +458,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={- 100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temperatura_ver_c_2}
+                  value={recinto?.temperatura_ver_c_2 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_ver_c_2: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -483,7 +483,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Tipo de vidrio:
                 <select
                   name="tipo_vidrio_c_2"
-                  value={recinto?.tipo_vidrio_c_2}
+                  value={recinto?.tipo_vidrio_c_2 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, tipo_vidrio_c_2: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -501,7 +501,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   type="number"
                   name="superficie_vidrio_c_2"
                   step={0.01}
-                  value={recinto?.superficie_vidrio_c_2}
+                  value={recinto?.superficie_vidrio_c_2 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_vidrio_c_2: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -516,7 +516,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={0}
                   max={100}
                   step={0.01}
-                  value={recinto?.superficie_puertas_c_2}
+                  value={recinto?.superficie_puertas_c_2 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_puertas_c_2: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -528,7 +528,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                 <input
                   readOnly
                   name="orientacion_c_2"
-                  value={recinto?.orientacion_c_2}
+                  value={recinto?.orientacion_c_2 ?? ''}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -545,7 +545,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Ubicacion:
                 <select
                   name="ubicacion_c_3"
-                  value={recinto?.ubicacion_c_3}
+                  value={recinto?.ubicacion_c_3 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, ubicacion_c_3: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -559,7 +559,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Color:
                 <select
                   name="color_c_3"
-                  value={recinto?.color_c_3}
+                  value={recinto?.color_c_3 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, color_c_3: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -579,7 +579,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={- 100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temperatura_ver_c_3}
+                  value={recinto?.temperatura_ver_c_3 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_ver_c_3: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -596,7 +596,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={- 100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temperatura_inv_c_3}
+                  value={recinto?.temperatura_inv_c_3 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_inv_c_3: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -621,7 +621,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Tipo de vidrio:
                 <select
                   name="tipo_vidrio_c_3"
-                  value={recinto?.tipo_vidrio_c_3}
+                  value={recinto?.tipo_vidrio_c_3 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, tipo_vidrio_c_3: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -639,7 +639,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   type="number"
                   name="superficie_vidrio_c_3"
                   step={0.01}
-                  value={recinto?.superficie_vidrio_c_3}
+                  value={recinto?.superficie_vidrio_c_3 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_vidrio_c_3: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -654,7 +654,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={0}
                   max={100}
                   step={0.01}
-                  value={recinto?.superficie_puertas_c_3}
+                  value={recinto?.superficie_puertas_c_3 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_puertas_c_3: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -666,7 +666,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                 <input
                   readOnly
                   name="orientacion_c_3"
-                  value={recinto?.orientacion_c_3}
+                  value={recinto?.orientacion_c_3 ?? ''}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -683,7 +683,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Ubicacion:
                 <select
                   name="ubicacion_c_4"
-                  value={recinto?.ubicacion_c_4}
+                  value={recinto?.ubicacion_c_4 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, ubicacion_c_4: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -697,7 +697,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Color:
                 <select
                   name="color_c_4"
-                  value={recinto?.color_c_4}
+                  value={recinto?.color_c_4 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, color_c_4: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -717,7 +717,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   max={100}
                   step={0.01}
                   name="temperatura_ver_c_4"
-                  value={recinto?.temperatura_ver_c_4}
+                  value={recinto?.temperatura_ver_c_4 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_ver_c_4: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -734,7 +734,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   max={100}
                   step={0.01}
                   name="temperatura_inv_c_4"
-                  value={recinto?.temperatura_inv_c_4}
+                  value={recinto?.temperatura_inv_c_4 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_inv_c_4: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -759,7 +759,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Tipo de vidrio:
                 <select
                   name="tipo_vidrio_c_4"
-                  value={recinto?.tipo_vidrio_c_4}
+                  value={recinto?.tipo_vidrio_c_4 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, tipo_vidrio_c_4: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -777,7 +777,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   type="number"
                   name="superficie_vidrio_c_4"
                   step={0.01}
-                  value={recinto?.superficie_vidrio_c_4}
+                  value={recinto?.superficie_vidrio_c_4 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_vidrio_c_4: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -792,7 +792,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={0}
                   max={100}
                   step={0.01}
-                  value={recinto?.superficie_puertas_c_4}
+                  value={recinto?.superficie_puertas_c_4 ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, superficie_puertas_c_4: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -804,7 +804,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                 <input
                   readOnly
                   name="orientacion_c_4"
-                  value={recinto?.orientacion_c_4}
+                  value={recinto?.orientacion_c_4 ?? ''}
                   onChange={() => { }}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -822,7 +822,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Ubicacion:
                 <select
                   name="ubicacion_suelo"
-                  value={recinto?.ubicacion_suelo}
+                  value={recinto?.ubicacion_suelo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, ubicacion_suelo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -841,7 +841,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   max={100}
                   step={0.01}
                   name="temperatura_ver_suelo"
-                  value={recinto?.temperatura_ver_suelo}
+                  value={recinto?.temperatura_ver_suelo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_ver_suelo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -858,7 +858,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   max={100}
                   step={0.01}
                   name="temperatura_inv_suelo"
-                  value={recinto?.temperatura_inv_suelo}
+                  value={recinto?.temperatura_inv_suelo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_inv_suelo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -889,7 +889,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Ubicacion:
                 <select
                   name="ubicacion_techo"
-                  value={recinto?.ubicacion_techo}
+                  value={recinto?.ubicacion_techo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, ubicacion_techo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -908,7 +908,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   max={100}
                   step={0.01}
                   name="temperatura_ver_techo"
-                  value={recinto?.temperatura_ver_techo}
+                  value={recinto?.temperatura_ver_techo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_ver_techo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -925,7 +925,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   max={100}
                   step={0.01}
                   name="temperatura_inv_techo"
-                  value={recinto?.temperatura_inv_techo}
+                  value={recinto?.temperatura_inv_techo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temperatura_inv_techo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
@@ -952,7 +952,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
 
                 <select
                   name="orientacion_techo"
-                  value={recinto?.orientacion_techo}
+                  value={recinto?.orientacion_techo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, orientacion_techo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >
@@ -968,7 +968,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
               <label className="grid grid-cols-[auto_140px] items-center gap-2" > Tipo de vidrio:
                 <select
                   name="tipo_vidrio_techo"
-                  value={recinto?.tipo_vidrio_techo}
+                  value={recinto?.tipo_vidrio_techo ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, tipo_vidrio_techo: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 >

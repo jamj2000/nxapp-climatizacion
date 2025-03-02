@@ -29,6 +29,7 @@ export const config = {
      * - api (API routes)
      * - images
      * - auth
+     * - about
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
