@@ -60,7 +60,7 @@ export default function FormEquipo({ id, action, data, disabled, text }) {
               <input
                 type="text"
                 name="nombre"
-                value={equipo?.nombre}
+                value={equipo?.nombre ?? ''}
                 onChange={(e) => setEquipo({ ...equipo, nombre: e.target.value })}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
@@ -91,7 +91,7 @@ export default function FormEquipo({ id, action, data, disabled, text }) {
               <input
                 type="number"
                 name="factor_funcionamiento"
-                value={Number(equipo?.factor_funcionamiento) ?? ''}
+                value={Number(equipo?.factor_funcionamiento) || ''}
                 onChange={(e) => setEquipo({ ...equipo, factor_funcionamiento: e.target.value })}
                 className="border-2 border-gray-300 rounded p-2 w-full"
               />
