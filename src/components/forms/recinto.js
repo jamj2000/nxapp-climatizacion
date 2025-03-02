@@ -122,7 +122,7 @@ export default function FormRecinto({ id, action, data, disabled, text }) {
                   min={-100}
                   max={100}
                   step={0.01}
-                  value={recinto?.temp_ver_relativa}
+                  value={recinto?.temp_ver_relativa ?? ''}
                   onChange={(e) => setRecinto({ ...recinto, temp_ver_relativa: e.target.value })}
                   className="border-2 border-gray-300 rounded p-2 w-full"
                 />
