@@ -92,103 +92,112 @@ function validate(formData) {
 
 
 async function imgCreate(file) {
-  // console.log(file);
+  // console.log(file)
 
-  const fileBuffer = await file.arrayBuffer();
+  const fileBuffer = await file.arrayBuffer()
 
-  let mime = file.type;
-  let encoding = "base64";
-  let base64Data = Buffer.from(fileBuffer).toString("base64");
-  let fileUri = "data:" + mime + ";" + encoding + "," + base64Data;
+  let mime = file.type
+  let encoding = "base64"
+  let base64Data = Buffer.from(fileBuffer).toString("base64")
+  let fileUri = "data:" + mime + ";" + encoding + "," + base64Data
 
   try {
     // width: 600, aspect-ratio: 600/360
     const result = await cloudinary.uploader.upload(fileUri, {
       invalidate: true,
       folder: "clima",
-      file: public_id.name.split(".").slice(0, -1).join("."),
+      public_id: file.name.split(".").slice(0, -1).join("."),
       aspect_ratio: "600:360",
       width: 600,
       crop: "fill",
       gravity: "center",
-    });
-    // console.log(result);
-    return result.secure_url;
+    })
+    // console.log(result)
+    return result.secure_url
   } catch (error) {
-    console.log(error);
-    return null;
+    console.log(error)
+    return null
   }
 }
 
 
 
-export async function insertarProyecto(formData) {
+export async function insertarProyecto(prevState, formData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const issues = result.error.issues.map(issue => ({ campo: issue.path[0], mensaje: issue.message }))
-    return issues;
+    const simplified = result.error.issues.map(issue => [issue.path[0], issue.message])
+    const issues = Object.fromEntries(simplified)
+    console.log('issues (cocinados) ', issues)
+    return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 
   const { id, ...data } = result.data
 
-  const imageFile = formData.get("file");
+  const imageFile = formData.get("file")
 
   if (imageFile && imageFile.size > 0) {
-    data.imagen = await imgCreate(imageFile);
+    data.imagen = await imgCreate(imageFile)
   }
 
   try {
-    await prisma.proyecto.create({ data });
-    revalidatePath("/proyectos");
+    await prisma.proyecto.create({ data })
+    revalidatePath("/proyectos")
+    return { success: "Proyecto creado con éxito." }
   } catch (error) {
-    console.log("Error al crear el proyecto:", error);
+    console.log("Error al crear el proyecto:", error)
   }
 
 }
 
 
 
-export async function modificarProyecto(formData) {
+export async function modificarProyecto(prevState, formData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const issues = result.error.issues.map(issue => ({ campo: issue.path[0], mensaje: issue.message }))
-    return issues;
+    const simplified = result.error.issues.map(issue => [issue.path[0], issue.message])
+    const issues = Object.fromEntries(simplified)
+    console.log('issues (cocinados) ', issues)
+    return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 
   const { id, ...data } = result.data
 
-  const imageFile = formData.get("file");
+  const imageFile = formData.get("file")
 
   if (imageFile && imageFile.size > 0) {
-    data.imagen = await imgCreate(imageFile);
+    data.imagen = await imgCreate(imageFile)
   }
 
   try {
     await prisma.proyecto.update({
       where: { id },
       data
-    });
-    revalidatePath("/proyectos");
+    })
+
+    revalidatePath("/proyectos")
+    return { success: "Proyecto modificado con éxito." }
   } catch (error) {
-    console.log("Error al actualizar el proyecto:", error);
+    console.log("Error al actualizar el proyecto:", error)
   }
 
 }
 
 
 
-export async function eliminarProyecto(formData) {
-  const id = Number(formData.get("id"));
+export async function eliminarProyecto(prevState, formData) {
+  const id = Number(formData.get("id"))
 
   try {
     await prisma.proyecto.delete({
       where: { id }
-    });
-    revalidatePath("/proyectos");
+    })
+
+    revalidatePath("/proyectos")
+    return { success: "Proyecto eliminado." }
   } catch (error) {
-    console.log("Error al eliminar el proyecto: ", error);
+    console.log("Error al eliminar el proyecto: ", error)
   }
 
 }
@@ -205,21 +214,19 @@ export async function copyProyecto(formData) {
 
   const { id, ...data } = result.data
 
-  const imageFile = formData.get("file");
+  const imageFile = formData.get("file")
 
   if (imageFile && imageFile.size > 0) {
-    data.imagen = await imgCreate(imageFile);
+    data.imagen = await imgCreate(imageFile)
   }
 
 
   try {
-    await prisma.proyecto.create({ data });
-    revalidatePath("/proyectos");
+    await prisma.proyecto.create({ data })
+    revalidatePath("/proyectos")
   } catch (error) {
-    console.log("Error al copiar el proyecto:", error);
+    console.log("Error al copiar el proyecto:", error)
   }
-
-
 }
 
 

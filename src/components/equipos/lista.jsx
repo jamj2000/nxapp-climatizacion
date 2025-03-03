@@ -26,14 +26,6 @@ async function Equipos({ proyectoId }) {
             }
         })
         equipos = proyecto.equipos
-        // equipos = await obtenerEquipos({
-        //     where: { proyectoId },
-        //     include: {
-        //         proyecto: {
-        //             include: { user: true }
-        //         }
-        //     }
-        // })
     }
     else {
         proyectos = await obtenerProyectos({
@@ -49,14 +41,6 @@ async function Equipos({ proyectoId }) {
         })
 
         equipos = proyectos.map(proyecto => proyecto.equipos).flat()
-        // console.log(`equipos`, equipos);
-        // equipos = await obtenerEquipos({
-        //     include: {
-        //         proyecto: {
-        //             include: { user: true }
-        //         }
-        //     }
-        // })
     }
 
 

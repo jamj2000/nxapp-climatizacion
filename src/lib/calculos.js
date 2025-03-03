@@ -1,7 +1,7 @@
 
 // TODAS LAS FUNCIONES
 
-const funciones = {
+export const funciones = {
   // PROYECTO
   presion,
 
@@ -30,7 +30,79 @@ const funciones = {
   // RECINTO
 }
 
-export default funciones;
+
+export default function calcular(localidad) {
+
+  const altitud = localidad?.altitud
+  const temp_ext_ver = localidad?.temp_ext_ver
+  const hum_ext_ver = localidad?.hum_ext_ver
+  const temp_ext_inv = localidad?.temp_ext_inv
+  const hum_ext_inv = localidad?.hum_ext_inv
+
+
+  const temp_int_ver = 25;
+  const temp_int_inv = 21;
+  const hum_int_ver = 50;
+  const hum_int_inv = 50;
+
+  const _presion = presion(altitud)
+
+  const _p_sat_agua_ext_ver = p_sat_agua_ext_ver(temp_ext_ver)
+  const _hum_absol_ext_ver = hum_absol_ext_ver(hum_ext_ver, _p_sat_agua_ext_ver, _presion)
+  const _entalpia_ext_ver_sens = entalpia_ext_ver_sens(temp_ext_ver, _hum_absol_ext_ver)
+  const _entalpia_ext_ver_lat = entalpia_ext_ver_lat(_hum_absol_ext_ver)
+  const _volum_espe_ext_ver = volum_espe_ext_ver(temp_ext_ver, _hum_absol_ext_ver, _presion)
+  const _p_sat_agua_int_ver = p_sat_agua_int_ver(temp_int_ver)
+  const _hum_absol_int_ver = hum_absol_int_ver(hum_int_ver, _p_sat_agua_int_ver, _presion)
+  const _entalpia_int_ver_sens = entalpia_int_ver_sens(temp_int_ver, _hum_absol_int_ver)
+  const _entalpia_int_ver_lat = entalpia_int_ver_lat(_hum_absol_int_ver)
+  const _volum_espe_int_ver = volum_espe_int_ver(temp_int_ver, _hum_absol_int_ver, _presion)
+
+  const _p_sat_agua_ext_inv = p_sat_agua_ext_inv(temp_ext_inv)
+  const _hum_absol_ext_inv = hum_absol_ext_inv(hum_ext_inv, _p_sat_agua_ext_inv, _presion)
+  const _entalpia_ext_inv_sens = entalpia_ext_inv_sens(temp_ext_inv, _hum_absol_ext_inv)
+  const _entalpia_ext_inv_lat = entalpia_ext_inv_lat(_hum_absol_ext_inv)
+  const _volum_espe_ext_inv = volum_espe_ext_inv(temp_ext_inv, _hum_absol_ext_inv, _presion)
+  const _p_sat_agua_int_inv = p_sat_agua_int_inv(temp_int_inv)
+  const _hum_absol_int_inv = hum_absol_int_inv(hum_int_inv, _p_sat_agua_int_inv, _presion)
+  const _entalpia_int_inv_sens = entalpia_int_inv_sens(temp_int_inv, _hum_absol_int_inv)
+  const _entalpia_int_inv_lat = entalpia_int_inv_lat(_hum_absol_int_inv)
+  const _volum_espe_int_inv = volum_espe_int_inv(temp_int_inv, _hum_absol_int_inv, _presion)
+
+  return {
+    _presion,
+
+    _p_sat_agua_ext_ver,
+    _hum_absol_ext_ver,
+    _entalpia_ext_ver_sens,
+    _entalpia_ext_ver_lat,
+    _volum_espe_ext_ver,
+    _p_sat_agua_int_ver,
+    _hum_absol_int_ver,
+    _entalpia_int_ver_sens,
+    _entalpia_int_ver_lat,
+    _volum_espe_int_ver,
+
+    _p_sat_agua_ext_inv,
+    _hum_absol_ext_inv,
+    _entalpia_ext_inv_sens,
+    _entalpia_ext_inv_lat,
+    _volum_espe_ext_inv,
+    _p_sat_agua_int_inv,
+    _hum_absol_int_inv,
+    _entalpia_int_inv_sens,
+    _entalpia_int_inv_lat,
+    _volum_espe_int_inv,
+  }
+
+}
+
+
+
+
+
+
+
 
 
 

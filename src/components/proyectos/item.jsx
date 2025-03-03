@@ -1,50 +1,95 @@
-import { FaEye, FaPen, FaTrash } from "react-icons/fa6";
-import Modal from "../modal";
-import EquipoVer from "./ver";
-import EquipoEliminar from "./eliminar";
-import EquipoModificar from "./modificar";
-import { auth } from '@/auth'
+import Link from "next/link";
+import { auth } from "@/auth";
+import Image from "next/image";
+import prisma from "@/lib/prisma";
+import Modal from '@/components/modal'
+import Form from '@/components/forms/proyecto'
+import { FaPen, FaTrash, FaEye, FaCopy } from "react-icons/fa6";
+import { modificarProyecto, eliminarProyecto, noAction, insertarProyecto } from "@/lib/actions/proyecto"
+import ProyectoVer from "./ver";
+import ProyectoEliminar from "./eliminar";
+import ProyectoModificar from "./modificar";
 
-async function Equipo({ equipo, proyectos }) {
-    const { user } = await auth()
+async function Proyecto({ proyecto, localidades }) {
+
+    const data = { proyecto, localidades }
+
+    const sesion = await auth();
+    let nombre = "Desconocido";
+
+    if (proyecto?.userId) {
+        const { name } = await prisma.user.findUnique({
+            select: { name: true },
+            where: { id: proyecto.userId }
+        });
+        nombre = name;
+    }
 
     return (
-        <div className=" w-full max-w-xs rounded-lg bg-gradient-to-tr dark:from-sky-100 dark:to-sky-400 from-gray-300 to-blue-500 dark:bg-gray-800 p-0.5 shadow-lg">
+        <div className="w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Link href={`/proyectos/manage/${proyecto?.id}`}>
+                {/* Con Image:  Imagenes externas requieren configuración en next.config.mjs */}
+                <Image
+                    width={320} height={192}
+                    priority={true}          // Permite precargar imágenes responsivas
+                    src={proyecto?.imagen || "/images/project-image-default.jpg"}
+                    alt="Logo de proyecto"
+                    className="rounded-t-lg w-full h-auto object-cover"
+                />
+                {/* Con img: Imágenes externas No requieren configuración en next.config.mjs */}
+                {/* <img width={320} height={192}
+          src={proyecto?.imagen || "/images/project-image-default.jpg"}
+          className="rounded-t-lg w-full h-auto object-cover"  /> */}
 
-            <div className=" bg-gray-100 dark:bg-gray-900/90 p-7 rounded-md">
-                <h1 className="font-bold text-xl mb-2">  {equipo?.nombre ?? "Sin definir"}  </h1>
+            </Link>
+            <div className="p-5 bg-slate-100 rounded-b-lg ">
+                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {proyecto?.nombre}
+                </h5>
+                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-2 h-12">
+                    {proyecto?.comentarios
+                        ? proyecto.comentarios
+                        : "Sin comentarios..."}
+                </p>
 
-                <div className="flex justify-around flex-col">
-                    <p>{"Potencias (W): " + equipo?.potencia ?? "Sin definir"}</p>
-                    <p>{"Factor funcionamiento: " + equipo?.factor_funcionamiento ?? "Sin definir"} </p>
+                {sesion?.user.role === "ADMIN" &&
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                        Creado por: {nombre}
+                    </p>
+                }
+
+                <div className="flex flex-wrap justify-around gap-2 py-4">
+                    <Modal icon={<FaEye size='1rem' color='white' />} text='Ver'
+                        className='cursor-pointer flex gap-2 items-center text-white bg-blue-600 p-2 rounded-md self-end hover:shadow-md'>
+
+                        <ProyectoVer proyecto={proyecto} localidades={localidades} />
+                    </Modal>
+
+                    <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
+                        className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
+
+                        <ProyectoModificar proyecto={proyecto} localidades={localidades} />
+                    </Modal>
+
+                    <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
+                        className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
+
+                        <ProyectoEliminar proyecto={proyecto} />
+                    </Modal>
+
+
+                    {/* {sesion?.user.role === "ADMIN" &&
+                        <Modal icon={<FaCopy size='1rem' color='white' />} text='Copiar'
+                            className='cursor-pointer flex gap-2 items-center text-white bg-violet-600 p-2 rounded-md self-end hover:shadow-md'>
+
+                            <Form id={'proyecto-copy'} action={insertarProyecto} data={data} disabled={false} text="Copiar este proyecto" />
+                        </Modal>
+                    } */}
                 </div>
-            </div>
-
-
-            <div className="flex justify-around gap-1 py-4">
-
-                <Modal icon={<FaEye size='1rem' color='white' />} text='Ver'
-                    className='cursor-pointer flex gap-2 items-center text-white bg-blue-600 p-2 rounded-md self-end hover:shadow-md'>
-
-                    <EquipoVer equipo={equipo} />
-                </Modal>
-
-                <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
-                    className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
-
-                    <EquipoModificar equipo={equipo} proyectos={proyectos} />
-                </Modal>
-
-
-                <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
-                    className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
-
-                    <EquipoEliminar equipo={equipo} />
-                </Modal>
-
             </div>
         </div>
     );
+
 }
 
-export default Equipo;
+export default Proyecto;
