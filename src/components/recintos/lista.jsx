@@ -2,15 +2,15 @@ import { auth } from "@/auth";
 import { obtenerProyecto, obtenerProyectos } from "@/lib/data";
 import { FaPlus } from "react-icons/fa6";
 import Modal from "@/components/modal";
-import Equipo from "@/components/equipos/item";
-import EquipoInsertar from "@/components/equipos/insertar";
+import Recinto from "@/components/recintos/item";
+import RecintoInsertar from "@/components/recintos/insertar";
 
 
-async function Equipos({ proyectoId }) {
+async function Recintos({ proyectoId }) {
     const { user } = await auth();
 
     let proyectos;
-    let equipos;
+    let recintos;
 
     if (proyectoId) {
         const proyecto = await obtenerProyecto({
@@ -18,21 +18,21 @@ async function Equipos({ proyectoId }) {
             userId: user.id,
             include: {
                 user: true,
-                equipos: {
+                recintos: {
                     include: {
                         proyecto: true
                     },
                 }
             }
         })
-        equipos = proyecto.equipos
+        recintos = proyecto.recintos
     }
     else {
         proyectos = await obtenerProyectos({
             userId: user.id,
             include: {
                 user: true,
-                equipos: {
+                recintos: {
                     include: {
                         proyecto: true
                     },
@@ -40,22 +40,22 @@ async function Equipos({ proyectoId }) {
             }
         })
 
-        equipos = proyectos.map(proyecto => proyecto.equipos).flat()
+        recintos = proyectos.map(proyecto => proyecto.recintos).flat()
     }
 
 
     return (
         <div className="flex flex-col gap-8">
-            <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Equipo'
+            <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Recinto'
                 className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
-                <EquipoInsertar proyectos={proyectos} />
+                <RecintoInsertar proyectos={proyectos} />
             </Modal>
 
             <div className="flex flex-wrap gap-5 sm:gap-10 items-center justify-center">
-                {equipos
+                {recintos
                     ?.sort((a, b) => a.nombre.localeCompare(b.nombre.toLowerCase()))     // Ordenamos por nombre
-                    .map((equipo) => (
-                        <Equipo key={equipo.id} equipo={equipo} proyectos={proyectos} />
+                    .map((recinto) => (
+                        <Recinto key={recinto.id} recinto={recinto} proyectos={proyectos} />
                     ))}
             </div>
         </div>
@@ -63,4 +63,4 @@ async function Equipos({ proyectoId }) {
     )
 }
 
-export default Equipos
+export default Recintos

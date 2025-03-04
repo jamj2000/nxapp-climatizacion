@@ -3,16 +3,14 @@ import { auth } from "@/auth";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
 import Modal from '@/components/modal'
-import Form from '@/components/forms/proyecto'
 import { FaPen, FaTrash, FaEye, FaCopy } from "react-icons/fa6";
-import { modificarProyecto, eliminarProyecto, noAction, insertarProyecto } from "@/lib/actions/proyecto"
 import ProyectoVer from "./ver";
 import ProyectoEliminar from "./eliminar";
 import ProyectoModificar from "./modificar";
 
 async function Proyecto({ proyecto, localidades }) {
 
-    const data = { proyecto, localidades }
+    // const data = { proyecto, localidades }
 
     const sesion = await auth();
     let nombre = "Desconocido";

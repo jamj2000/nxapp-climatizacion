@@ -99,7 +99,7 @@ export function ProyectoModificar({ proyecto, localidades }) {
                 <div className="mt-4 grid gap-1 items-stretch sm:grid-cols-1 md:grid-cols-[300px_auto] xl:grid-cols-[500px_auto]">
                     <div className="mb-2">
                         <div className="flex justify-center">
-                            <input type="hidden" name="imagen" />
+                            <input type="hidden" name="imagen" defaultValue={proyecto?.imagen} />
                             <DropImagen
                                 imgUrl={"/images/project-image-default.jpg"}
                                 alt="Logo de proyecto"

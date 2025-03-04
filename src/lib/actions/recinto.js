@@ -1,6 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { z, ZodError } from "@/lib/es-zod";
+import { z } from "@/lib/es-zod";
 import { revalidatePath } from "next/cache";
 
 const schema = z.object({
@@ -87,12 +87,14 @@ function validate(formData) {
 }
 
 
-export async function insertarRecinto(formData) {
+export async function insertarRecinto(prevState, formData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const issues = result.error.issues.map(issue => ({ campo: issue.path[0], mensaje: issue.message }))
-    return issues;
+    const issues = result.error.issues.map(issue => [issue.path[0], issue.message])
+    // const issues = Object.fromEntries(simplified)
+    console.log('issues (cocinados) ', issues) // [[campo, mensaje], [campo, mensaje]], ...]
+    return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 
   const { id, ...data } = result.data
@@ -101,6 +103,7 @@ export async function insertarRecinto(formData) {
     await prisma.recinto.create({ data });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
+    return { success: "Recinto creado con éxito." }
   } catch (error) {
     console.log("Error al crear el cerramiento: ", error);
   }
@@ -108,12 +111,14 @@ export async function insertarRecinto(formData) {
 
 
 
-export async function modificarRecinto(formData) {
+export async function modificarRecinto(prevState, formData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const issues = result.error.issues.map(issue => ({ campo: issue.path[0], mensaje: issue.message }))
-    return issues;
+    const issues = result.error.issues.map(issue => [issue.path[0], issue.message])
+    // const issues = Object.fromEntries(simplified)
+    console.log('issues (cocinados) ', issues) // [[campo, mensaje], [campo, mensaje]], ...]
+    return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 
   const { id, ...data } = result.data
@@ -122,6 +127,7 @@ export async function modificarRecinto(formData) {
     await prisma.recinto.update({ where: { id }, data });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
+    return { success: "Recinto modificado con éxito." }
   } catch (error) {
     console.log("Error al actualizar el cerramiento: ", error);
   }
@@ -130,13 +136,14 @@ export async function modificarRecinto(formData) {
 
 
 
-export async function eliminarRecinto(formData) {
+export async function eliminarRecinto(prevState, formData) {
   const id = Number(formData.get("id"));
 
   try {
     await prisma.recinto.delete({ where: { id } });
     revalidatePath("/proyectos");
     revalidatePath("/recintos");
+    return { success: "Recinto eliminado con éxito." }
   } catch (error) {
     console.log("Error al eliminar el cerramiento: ", error);
   }

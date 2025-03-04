@@ -1,27 +1,24 @@
-import { Suspense } from "react";
-import TarjetaContenedor from "@/components/contenedor";
-import Recintos from "@/components/recintos"
-import SkeletonRecintos from "@/components/skeletons/recintos";
-import Equipos from "@/components/equipos"
-import SkeletonEquipos from "@/components/skeletons/equipos";
+import Contenedor from "@/components/contenedor";
 import Modal from "@/components/modal";
-import { FaPlus } from "react-icons/fa6";
-import FormRecinto from "@/components/forms/recinto";
-import FormEquipo from "@/components/forms/equipo";
-import { insertarEquipo } from "@/lib/actions/equipo";
-import { insertarRecinto } from "@/lib/actions/recinto";
+import Recintos from "@/components/recintos/lista"
+import Equipos from "@/components/equipos/lista"
+import SkeletonRecintos from "@/components/skeletons/recintos";
+import SkeletonEquipos from "@/components/skeletons/equipos";
+import RecintoInsertar from "@/components/recintos/insertar";
+import EquipoInsertar from "@/components/equipos/insertar";
+import { Suspense } from "react";
 import { obtenerProyectos } from "@/lib/data";
 import { auth } from "@/auth";
-
+import { FaPlus } from "react-icons/fa6";
 
 async function Page(props) {
     const params = await props.params;
     const { user } = await auth()
     const proyectos = await obtenerProyectos({ userId: user?.id, include: { equipos: true, recintos: true } })
-    const data = { proyectos, equipo: { userId: user.id }, recinto: { userId: user.id } }
+    // const data = { proyectos, equipo: { userId: user.id }, recinto: { userId: user.id } }
 
     return (
-        <TarjetaContenedor>
+        <Contenedor>
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl font-semibold">Recintos y Equipos</h1>
                 {/* <Link
@@ -44,7 +41,7 @@ async function Page(props) {
                 <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Recinto'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
-                    <FormRecinto id={'recinto-create'} action={insertarRecinto} data={data} disabled={false} text="Crear Recinto" />
+                    <RecintoInsertar proyectos={proyectos} />
                 </Modal>
 
             </div>
@@ -58,14 +55,14 @@ async function Page(props) {
                 <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Equipo'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
-                    <FormEquipo id={'equipo-create'} action={insertarEquipo} data={data} disabled={false} text="Crear Equipo" />
+                    <EquipoInsertar proyectos={proyectos} />
                 </Modal>
 
             </div>
             <Suspense fallback={<SkeletonEquipos />}>
                 <Equipos proyectoId={Number(params.id)} />
             </Suspense>
-        </TarjetaContenedor>
+        </Contenedor>
     );
 }
 

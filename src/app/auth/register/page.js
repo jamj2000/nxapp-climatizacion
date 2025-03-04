@@ -1,4 +1,4 @@
-import RegisterForm from '@/components/forms/register-credentials'
+import RegisterForm from '@/components/auth-forms/register-credentials'
 import Tarjeta from '@/components/contenedor'
 
 

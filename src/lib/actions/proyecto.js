@@ -126,9 +126,9 @@ export async function insertarProyecto(prevState, formData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const simplified = result.error.issues.map(issue => [issue.path[0], issue.message])
-    const issues = Object.fromEntries(simplified)
-    console.log('issues (cocinados) ', issues)
+    const issues = result.error.issues.map(issue => [issue.path[0], issue.message])
+    // const issues = Object.fromEntries(simplified)
+    console.log('issues (cocinados) ', issues) // [[campo, mensaje], [campo, mensaje]], ...]
     return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 
@@ -156,9 +156,9 @@ export async function modificarProyecto(prevState, formData) {
   const result = validate(formData)
 
   if (!result.success) {
-    const simplified = result.error.issues.map(issue => [issue.path[0], issue.message])
-    const issues = Object.fromEntries(simplified)
-    console.log('issues (cocinados) ', issues)
+    const issues = result.error.issues.map(issue => [issue.path[0], issue.message])
+    // const issues = Object.fromEntries(simplified)
+    console.log('issues (cocinados) ', issues) // [[campo, mensaje], [campo, mensaje]], ...]
     return { issues, fields: Object.fromEntries(formData.entries()) }
   }
 

@@ -1,5 +1,5 @@
-import FormCredentials from "@/components/forms/login-credentials";
-import FormOAuth from "@/components/forms/login-oauth";
+import FormCredentials from "@/components/auth-forms/login-credentials";
+import FormOAuth from "@/components/auth-forms/login-oauth";
 import Tarjeta from "@/components/contenedor";
 import { auth } from '@/auth'
 import { redirect } from "next/navigation";
