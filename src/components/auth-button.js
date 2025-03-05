@@ -8,15 +8,6 @@ async function AuthButton() {
 
 
   if (sesion) return (
-    // <Link href="/auth/logout"
-    //   className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80 transition duration-500 hover:bg-white hover:shadow-xl">
-    //   <img
-    //     src={sesion.user?.image ?? "/images/user.svg"}
-    //     className="w-6 rounded-[50%] bg-white outline outline-1 outline-white"
-    //     alt="auth icon"
-    //   />
-    //   Logout
-    // </Link>
     <div className="dropdown dropdown-bottom dropdown-end z-100">
       <div tabIndex={0} role="button" >
         <img
@@ -32,15 +23,6 @@ async function AuthButton() {
   )
 
   return (
-    // <Link href="/auth/login"
-    //   className="px-4 py-2 flex gap-2 items-center rounded-lg bg-white/80 dark:bg-blue-400/80  transition duration-500 hover:bg-white hover:shadow-xl">
-    //   <img
-    //     src={"/images/logo-login.png"}
-    //     className="w-6"
-    //     alt="auth icon"
-    //   />
-    //   Login
-    // </Link>
     <div className="dropdown dropdown-bottom dropdown-end h-full">
       <div tabIndex={0} role="button" >
         {/* <img
