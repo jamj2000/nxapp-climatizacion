@@ -15,7 +15,9 @@ async function AuthButton() {
           className="w-8 rounded-[50%] bg-white outline outline-1 outline-white"
           alt="auth icon" />
       </div>
-      <ul tabIndex={0} className="mt-2 dropdown-content bg-base-100 rounded-md  w-fit p-4 pl-10 text-right shadow-sm">
+      <ul tabIndex={0} className="mt-2 dropdown-content bg-base-100 rounded-md w-max p-4 pl-10 text-right shadow-sm">
+        {sesion.user.role === 'ADMIN' &&
+          <li><Link href="/admin">Admin Panel</Link></li>}
         <li><Link href="/dashboard">Dashboard</Link></li>
         <li><Link href="/auth/logout">Logout</Link></li>
       </ul>

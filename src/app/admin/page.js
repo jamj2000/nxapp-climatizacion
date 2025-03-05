@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import Contenedor from "@/components/contenedor";
 import { redirect } from "next/navigation";
 
 async function page() {
@@ -7,17 +8,22 @@ async function page() {
   if (sesion?.user.role !== "ADMIN") redirect("/dashboard");
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center h-[70vh] text-[8vh]">
-        <div className="text-center  text-stone-500 container  items-center border-2 border-red-700 p-8 rounded-md bg-amber-50/80">
-          <h1>🔐 Admin panel</h1>
-          <p>{sesion?.user.name}</p>
-          <p> {sesion?.user.email} </p>
-          <p> {sesion?.user.role} </p>
-          <img src={sesion?.user.image} alt='image'></img>
+    <Contenedor>
+      <div className="flex flex-col gap-4 self-left h-full text-xl">
+        <div className="flex items-center gap-4">
+          {sesion?.user.image
+            ? <img src={sesion.user.image} alt={sesion.user.name} className="size-20 rounded-full bg-white p-2" />
+            : <img src="/images/user.svg" alt="Imagen por defecto" className="size-20 rounded-full bg-white p-2" />
+          }
+
+          <h1 className="text-4xl font-bold">🔐 Admin Panel</h1>
         </div>
+        <p>Nombre: {sesion?.user.name}</p>
+        <p>Email: {sesion?.user.email}</p>
+        <p>Rol: {sesion?.user.role}</p>
+
       </div>
-    </>
+    </Contenedor>
   );
 }
 
