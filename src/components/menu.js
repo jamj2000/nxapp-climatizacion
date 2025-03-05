@@ -10,7 +10,7 @@ export default function Menu() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen)
- 
+
 
   return (
     <div>
@@ -55,9 +55,8 @@ export default function Menu() {
         </button>
       </div>
       <div
-        onClick={toggleMenu}       
-        className={`${menuOpen ? "" : "hidden"
-          } z-10 absolute right-0 w-screen lg:relative lg:block lg:w-auto`}
+        onClick={toggleMenu}
+        className={`${menuOpen ? "" : "hidden"} absolute right-0 w-screen lg:relative lg:block lg:w-auto`}
         id="navbar-default"
       >
         <ul

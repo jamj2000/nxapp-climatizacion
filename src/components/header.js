@@ -2,9 +2,11 @@ import Link from "next/link";
 import Menu from "@/components/menu"
 import Image from "next/image";
 import AuthButton from "@/components/auth-button"
-
+import { auth } from '@/auth'
 
 async function Header() {
+  const sesion = await auth()
+  console.log(`sesion header`, sesion);
 
   return (
     <header className="flex justify-between px-10 w-screen bg-sky-400 dark:bg-gray-900 items-center font-bold p-2 sticky top-0 z-50 border-b-[3px] border-blue-400/90 dark:border-sky-600">
@@ -21,9 +23,9 @@ async function Header() {
         </div>
       </div>
 
-      <div>
-        <AuthButton />
-      </div>
+
+      <AuthButton />
+
     </header>
   );
 }
