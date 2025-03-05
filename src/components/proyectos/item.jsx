@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
 import Modal from '@/components/modal'
-import { FaPen, FaTrash, FaEye, FaCopy } from "react-icons/fa6";
+import { Pen, Trash, Eye, Copy } from "lucide-react";
 import ProyectoVer from "./ver";
 import ProyectoEliminar from "./eliminar";
 import ProyectoModificar from "./modificar";
@@ -57,19 +57,19 @@ async function Proyecto({ proyecto, localidades }) {
                 }
 
                 <div className="flex flex-wrap justify-around gap-2 py-4">
-                    <Modal icon={<FaEye size='1rem' color='white' />} text='Ver'
+                    <Modal icon={<Eye className='size-4 color-white' />} text='Ver'
                         className='cursor-pointer flex gap-2 items-center text-white bg-blue-600 p-2 rounded-md self-end hover:shadow-md'>
 
                         <ProyectoVer proyecto={proyecto} localidades={localidades} />
                     </Modal>
 
-                    <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
+                    <Modal icon={<Pen className='size-4 color-white' />} text='Editar'
                         className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
 
                         <ProyectoModificar proyecto={proyecto} localidades={localidades} />
                     </Modal>
 
-                    <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
+                    <Modal icon={<Trash className='size-4 color-white' />} text='Eliminar'
                         className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
 
                         <ProyectoEliminar proyecto={proyecto} />
@@ -77,7 +77,7 @@ async function Proyecto({ proyecto, localidades }) {
 
 
                     {/* {sesion?.user.role === "ADMIN" &&
-                        <Modal icon={<FaCopy size='1rem' color='white' />} text='Copiar'
+                        <Modal icon={<Copy className='size-4 color-white' />} text='Copiar'
                             className='cursor-pointer flex gap-2 items-center text-white bg-violet-600 p-2 rounded-md self-end hover:shadow-md'>
 
                             <Form id={'proyecto-copy'} action={insertarProyecto} data={data} disabled={false} text="Copiar este proyecto" />

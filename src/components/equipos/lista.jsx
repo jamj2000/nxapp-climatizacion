@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { obtenerProyecto, obtenerProyectos } from "@/lib/data";
-import { FaPlus } from "react-icons/fa6";
+import { Plus } from "lucide-react";
 import Modal from "@/components/modal";
 import Equipo from "@/components/equipos/item";
 import EquipoInsertar from "@/components/equipos/insertar";
@@ -46,7 +46,7 @@ async function Equipos({ proyectoId }) {
 
     return (
         <div className="flex flex-col gap-8">
-            <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Equipo'
+            <Modal icon={<Plus className='size-4 color-white' />} text='Crear Equipo'
                 className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
                 <EquipoInsertar proyectos={proyectos} />
             </Modal>

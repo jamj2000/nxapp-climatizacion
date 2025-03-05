@@ -3,13 +3,13 @@ import { auth } from "@/auth";
 import { obtenerProyectosFiltrados } from "@/lib/data";
 import { obtenerLocalidades } from "@/lib/data";
 import Modal from "../modal";
-import { FaPlus } from "react-icons/fa6";
+import { Plus } from "lucide-react";
 import ProyectoInsertar from "./insertar";
 
 async function Proyectos({ query }) {
     const { user } = await auth();
     const localidades = await obtenerLocalidades()
-    const data = { localidades, proyecto: { userId: user.id } }
+    // const data = { localidades, proyecto: { userId: user.id } }
 
     let proyectos = {}
 
@@ -39,7 +39,7 @@ async function Proyectos({ query }) {
         <div className="flex flex-col gap-8">
             {/* <Search /> */}
 
-            <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Proyecto '
+            <Modal icon={<Plus className='size-4 color-white' />} text='Crear Proyecto '
                 className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
                 <ProyectoInsertar localidades={localidades} user={user} />
             </Modal>

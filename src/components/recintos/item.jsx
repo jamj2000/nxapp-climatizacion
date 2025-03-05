@@ -1,4 +1,4 @@
-import { FaEye, FaPen, FaTrash } from "react-icons/fa6";
+import { Eye, Pen, Trash } from "lucide-react";
 import Modal from "../modal";
 import RecintoVer from "./ver";
 import RecintoEliminar from "./eliminar";
@@ -32,19 +32,19 @@ async function Recinto({ recinto, proyectos }) {
 
             <div className="flex justify-around gap-1 py-4">
 
-                <Modal icon={<FaEye size='1rem' color='white' />} text='Ver'
+                <Modal icon={<Eye className='size-4 color-white' />} text='Ver'
                     className='cursor-pointer flex gap-2 items-center text-white bg-blue-600 p-2 rounded-md self-end hover:shadow-md'>
 
                     <RecintoVer recinto={recinto} />
                 </Modal>
 
-                <Modal icon={<FaPen size='1rem' color='white' />} text='Editar'
+                <Modal icon={<Pen className='size-4 color-white' />} text='Editar'
                     className='cursor-pointer flex gap-2 items-center text-white bg-yellow-600 p-2 rounded-md self-end hover:shadow-md'>
 
                     <RecintoModificar recinto={recinto} proyectos={proyectos} />
                 </Modal>
 
-                <Modal icon={<FaTrash size='1rem' color='white' />} text='Eliminar'
+                <Modal icon={<Trash className='size-4 color-white' />} text='Eliminar'
                     className='cursor-pointer flex gap-2 items-center text-white bg-red-600 p-2 rounded-md self-end hover:shadow-md'>
 
                     <RecintoEliminar recinto={recinto} />

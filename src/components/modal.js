@@ -37,7 +37,7 @@ const Modal = ({ children, icon, text, className }) => {
             <dialog
                 ref={dialogRef}
                 onMouseDown={handleClickOutside}
-                className="backdrop:bg-black/50 backdrop:backdrop-blur-none w-[90%] lg:w-[60%] py-12 px-2 md:px-8 rounded-md outline-none">
+                className="mx-auto backdrop:bg-black/50 backdrop:backdrop-blur-none w-[90%] lg:w-[60%] py-12 px-2 md:px-8 rounded-md outline-none">
 
                 {children}
 

@@ -9,7 +9,7 @@ import EquipoInsertar from "@/components/equipos/insertar";
 import { Suspense } from "react";
 import { obtenerProyectos } from "@/lib/data";
 import { auth } from "@/auth";
-import { FaPlus } from "react-icons/fa6";
+import { Plus } from "lucide-react";
 
 async function Page(props) {
     const params = await props.params;
@@ -38,7 +38,7 @@ async function Page(props) {
 
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl">Recintos</h1>
-                <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Recinto'
+                <Modal icon={<Plus className='size-4 color-white' />} text='Crear Recinto'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
                     <RecintoInsertar proyectos={proyectos} />
@@ -52,7 +52,7 @@ async function Page(props) {
 
             <div className="flex justify-between mb-6">
                 <h1 className="text-4xl">Equipos</h1>
-                <Modal icon={<FaPlus size='1rem' color='white' />} text='Crear Equipo'
+                <Modal icon={<Plus className='size-4 color-white' />} text='Crear Equipo'
                     className='cursor-pointer flex gap-2 items-center text-white bg-green-600 p-2 rounded-md self-end hover:shadow-md'>
 
                     <EquipoInsertar proyectos={proyectos} />
