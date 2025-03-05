@@ -43,7 +43,7 @@ async function Recintos({ proyectoId }) {
         recintos = proyectos.map(proyecto => proyecto.recintos).flat()
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 4000))
+    // await new Promise((resolve) => setTimeout(resolve, 4000))
 
 
 

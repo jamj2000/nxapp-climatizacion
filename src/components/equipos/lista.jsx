@@ -42,7 +42,7 @@ async function Equipos({ proyectoId }) {
 
         equipos = proyectos.map(proyecto => proyecto.equipos).flat()
     }
-    await new Promise((resolve) => setTimeout(resolve, 4000))
+    // await new Promise((resolve) => setTimeout(resolve, 4000))
 
     return (
         <div className="flex flex-col gap-8">
